@@ -312,10 +312,19 @@ export abstract class BaseView<T extends Element> extends EventEmitter {
 
 }
 
+
+export interface TriggerOptions {
+    event: string;
+    preventDefault?: boolean;
+    stopPropagation?: boolean;
+}
+
+export type TriggerMap = {[key:string]: string | TriggerOptions };
+
 export interface AttributesOptions {
     events?: EventsMap;
     ui?: StringMap;
-    triggers?: StringMap;
+    triggers?: TriggerMap;
 }
 
 

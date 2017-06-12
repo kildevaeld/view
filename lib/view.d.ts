@@ -41,10 +41,18 @@ export declare abstract class BaseView<T extends Element> extends EventEmitter {
     private _buildViewTrigger(triggerDef);
     protected triggerMethod(eventName: string, ...args: any[]): void;
 }
+export interface TriggerOptions {
+    event: string;
+    preventDefault?: boolean;
+    stopPropagation?: boolean;
+}
+export declare type TriggerMap = {
+    [key: string]: string | TriggerOptions;
+};
 export interface AttributesOptions {
     events?: EventsMap;
     ui?: StringMap;
-    triggers?: StringMap;
+    triggers?: TriggerMap;
 }
 export declare function attributes(attrs: AttributesOptions): ClassDecorator;
 export declare function events(events: {
