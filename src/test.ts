@@ -1,4 +1,4 @@
-import { Controller, view } from './controller';
+/*import { Controller, view } from './controller';
 import { View } from './template-view'
 import { autoinject } from 'slick-di'
 
@@ -27,4 +27,4 @@ export class TestController extends Controller<Element> {
     @view('.view1')
     view1: TestView;
 
-}
+}*/

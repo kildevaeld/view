@@ -13,7 +13,7 @@ interface ViewMap {
     [key: string]: ViewOptions<any, any>;
 }
 
-export function ViewMountable<T extends Constructor<IView>>(Base: T) {
+export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
     return class extends Base {
         private _views: ViewMap
         constructor(...args: any[]) {

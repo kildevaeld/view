@@ -2,7 +2,7 @@ export * from './controller';
 export * from './view';
 export * from './event-emitter';
 export * from './container';
-export * from './test';
+//export * from './test';
 export * from './types';
 
 import { container } from './container'
