@@ -1,13 +1,19 @@
-/*import { Controller, view } from './controller';
-import { View } from './template-view'
+import { ViewController } from './controller';
+import { view } from './mixins';
+import { View } from './view';
 import { autoinject } from 'slick-di'
-
-class Rapper {
+import {attributes} from './decorators'
+export class Rapper {
 
 }
 
 @autoinject
-export class TestView extends View<HTMLDivElement> {
+@attributes({
+
+})
+export class TestView extends View {
+
+
     template(data: any = {}) {
         return `<h1>Hello, ${data.what}!</h1>`
     }
@@ -20,11 +26,26 @@ export class TestView extends View<HTMLDivElement> {
         super();
         console.log(rapper)
     }
+
 }
 
-export class TestController extends Controller<Element> {
+export class TestController extends ViewController {
 
     @view('.view1')
-    view1: TestView;
+    protected view1: TestView;
+
+    constructor() {
+        super();
+    }
+
+}
+
+/*
+import { View } from './view';
+import { ViewMountable, view } from './mixins'
+class TestView extends ViewMountable(View) {
+
+    @view('.view1')
+    view1: View
 
 }*/

@@ -1,7 +1,8 @@
-import { BaseView, BaseViewConstructor } from './view';
-import { IView } from './types';
-import { container } from './container';
-export type Constructor<T> = new (...args: any[]) => T;
+import { BaseView, BaseViewConstructor } from './base-view';
+import { IView, Constructor } from './types';
+//import { transient } from 'slick-di';
+
+//import { container } from './container';
 
 export interface ViewOptions<T extends BaseView<U>, U extends Element> {
     selector: string;
@@ -9,13 +10,17 @@ export interface ViewOptions<T extends BaseView<U>, U extends Element> {
     [key: string]: any;
 }
 
-interface ViewMap {
+export interface ViewMap {
     [key: string]: ViewOptions<any, any>;
 }
 
-export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
+export interface IViewMountable {
+    _views: ViewMap;
+}
+
+export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructor<IViewMountable> & T {
     return class extends Base {
-        private _views: ViewMap
+        _views: ViewMap
         constructor(...args: any[]) {
             super(...args);
         }
@@ -41,11 +46,10 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
             let el: Element | null, o: ViewOptions<any, any>;
             for (const key in views) {
                 o = views[key];
-                el = this.el.querySelector(o.selector);
+                el = this.el!.querySelector(o.selector);
                 if (!el) throw new Error(`No selector ${o.selector} in dom`);
 
-                //let view = new o.view();
-                let view = container().get<BaseView<Element>>(o.view);
+                let view = ViewMountable.Invoker.get<BaseView<Element>>(o.view);
                 view.setElement(el, false);
                 (<any>this)[key] = view.render();
             }
@@ -60,5 +64,32 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
                 }
             }
         }
+    }
+}
+
+export namespace ViewMountable {
+
+    export interface IInvoker {
+        get<T>(key: any): T
+    }
+
+    export var Invoker = {
+        get<T extends IView>(V: Constructor<T>): T {
+            return new V();
+        }
+    }
+}
+
+
+export function view(selector: string) {
+    return function <T extends IViewMountable>(target: T, prop: PropertyKey) {
+        let View = Reflect.getOwnMetadata("design:type", target, prop as string);
+        if (!View) throw new Error('design:type does not exists');
+        if (!target._views) target._views = {};
+        //transient(View);
+        target._views[prop as string] = {
+            selector: selector,
+            view: View
+        };
     }
 }

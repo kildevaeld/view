@@ -1,1 +1,1060 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.view=t():e.view=t()}(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=12)}([function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function u(){return l||(l=new c),l}var a=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}();Object.defineProperty(t,"__esModule",{value:!0});var s=n(6),c=function(e){function t(){return r(this,t),o(this,(t.__proto__||Object.getPrototypeOf(t)).apply(this,arguments))}return i(t,e),a(t,[{key:"mount",value:function(e,t){var n=this.get(t);return n.el=e,n}}]),t}(s.Container);t.ViewContainer=c;var l;t.container=u},function(e,t,n){"use strict";function r(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[],n=e.length,r=-1,o=t[0],i=t[1],u=t[2],a=t[3];switch(t.length){case 0:for(;++r<n;)e[r].handler.call(e[r].ctx);return;case 1:for(;++r<n;)e[r].handler.call(e[r].ctx,o);return;case 2:for(;++r<n;)e[r].handler.call(e[r].ctx,o,i);return;case 3:for(;++r<n;)e[r].handler.call(e[r].ctx,o,i,u);return;case 4:for(;++r<n;)e[r].handler.call(e[r].ctx,o,i,u,a);return;default:for(;++r<n;)e[r].handler.apply(e[r].ctx,t);return}}function o(e,t){for(var n=arguments.length,r=Array(n>2?n-2:0),o=2;o<n;o++)r[o-2]=arguments[o];return h(e[t])?e[t].apply(e,r):e[t]}function i(e,t){for(var n=arguments.length,o=Array(n>2?n-2:0),i=2;i<n;i++)o[i-2]=arguments[i];var u=l("on-"+t.replace(":","-"));e[u]&&"function"==typeof e[u]&&r([{handler:e[u],ctx:e}],o),o=[t].concat(o),r([{handler:e.trigger,ctx:e}],o)}function u(e,t,n){return Array.prototype.slice.call(e,t,n)}function a(e){return e===Object(e)}function s(e){if(!a(e))return e;for(var t=arguments.length,n=Array(t>1?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];var o=!0,i=!1,u=void 0;try{for(var s,l=n[Symbol.iterator]();!(o=(s=l.next()).done);o=!0){var f=s.value;if(a(f))for(var h in f)c(f,h)&&(e[h]=f[h])}}catch(e){i=!0,u=e}finally{try{!o&&l.return&&l.return()}finally{if(i)throw u}}return e}function c(e,t){return g.call(e,t)}function l(e){return e.toLowerCase().replace(/-(.)/g,function(e,t){return t.toUpperCase()})}function f(e,t,n){var r=n.value;if(!h(r))throw new TypeError("Can only bind functions");var o=!1;return{configurable:!0,get:function(){if(o||this===e.prototype||this.hasOwnProperty(t))return r;var n=r.bind(this);return o=!0,Object.defineProperty(this,t,{value:n,configurable:!0,writable:!0}),o=!1,n}}}function h(e){return"function"==typeof e}function y(e){return"string"==typeof e}function p(e,t){return v(e,t,[],[])}function v(e,t,n,r){if(e===t)return 0!==e||1/e==1/t;if(null==e||null==t)return e===t;var o=toString.call(e);if(o!=toString.call(t))return!1;switch(o){case"[object String]":return e==String(t);case"[object Number]":return e!==+e?t!==+t:0===e?1/e==1/t:e===+t;case"[object Date]":case"[object Boolean]":return+e==+t;case"[object RegExp]":return e.source==t.source&&e.global==t.global&&e.multiline==t.multiline&&e.ignoreCase==t.ignoreCase}if("object"!=(void 0===e?"undefined":b(e))||"object"!=(void 0===t?"undefined":b(t)))return!1;for(var i=n.length;i--;)if(n[i]==e)return r[i]==t;var u=e.constructor,a=t.constructor;if(u!==a&&!("function"==typeof u&&u instanceof u&&"function"==typeof a&&a instanceof a))return!1;n.push(e),r.push(t);var s=0,c=!0;if("[object Array]"===o){if(s=e.length,c=s===t.length)for(;s--&&(c=v(e[s],t[s],n,r)););}else{for(var l in e)if(g.call(e,l)&&(s++,!(c=g.call(t,l)&&v(e[l],t[l],n,r))))break;if(c){for(l in t)if(g.call(t,l)&&!s--)break;c=!s}}return n.pop(),r.pop(),c}var d="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};Object.defineProperty(t,"__esModule",{value:!0}),t.callFunc=r,t.result=o,t.triggerMethodOn=i,t.slice=u,t.isObject=a,t.extend=s;var g=Object.prototype.hasOwnProperty;t.has=c,t.camelcase=l,t.Bind=f,t.isFunction=h,t.isString=y,t.equal=p;var b=function(e){return void 0===e?"undefined":d(e)}},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t,n){for(var r=0;r<e.length;r++){var o=e[r];(null==t&&null!=n&&o.ctx===n||null!=t&&null==n&&o.handler===t||null!=t&&null!=n&&o.handler===t&&o.ctx===n)&&e.splice(r,1)}return e}function i(e){return e&&(e instanceof s||a.isFunction(e.on)&&a.isFunction(e.once)&&a.isFunction(e.off)&&a.isFunction(e.trigger))}var u=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}();Object.defineProperty(t,"__esModule",{value:!0});var a=n(1);t.isEventEmitter=i;var s=function(){function e(){r(this,e)}return u(e,[{key:"on",value:function(e,t,n){var r=arguments.length>3&&void 0!==arguments[3]&&arguments[3],o=(this._listeners||(this._listeners=new Map)).get(e)||[];return o.push({name:e,once:r,handler:t,ctx:n||this}),this._listeners.has(e)||this._listeners.set(e,o),this}},{key:"once",value:function(e,t,n){return this.on(e,t,n,!0)}},{key:"off",value:function(e,t,n){if(this._listeners=this._listeners||new Map,null==e&&null==n)this._listeners=new Map;else if(this._listeners.has(e)){var r=this._listeners.get(e);null==t&&null==n?this._listeners.set(e,[]):o(r,t,n)}else{var i=!0,u=!1,a=void 0;try{for(var s,c=this._listeners.values()[Symbol.iterator]();!(i=(s=c.next()).done);i=!0){var l=s.value;o(l,t,n)}}catch(e){u=!0,a=e}finally{try{!i&&c.return&&c.return()}finally{if(u)throw a}}}return this}},{key:"trigger",value:function(e){this._listeners=this._listeners||new Map;for(var t=(this._listeners.get(e)||[]).concat(this._listeners.get("*")||[]),n=void 0,r=[],o=[],i=arguments.length,u=Array(i>1?i-1:0),a=1;a<i;a++)u[a-1]=arguments[a];for(var s=0,c=t.length;s<c;s++)t[s],u,"*"===t[s].name?o.push(t[s]):r.push(t[s]),!0===t[s].once&&(n=this._listeners.get(t[s].name).indexOf(t[s]),this._listeners.get(t[s].name).splice(n,1));if(o.length){var l=[e].concat(u);this._executeListener(o,l)}return r.length&&this._executeListener(r,u),this}},{key:"_executeListener",value:function(t,n){e.executeListenerFunction(t,n)}}]),e}();s.executeListenerFunction=function(e,t){a.callFunc(e,t)},t.EventEmitter=s},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function u(e,t){var n={},r=void 0,o=void 0,i=void 0,u=void 0,a=void 0;for(r in e)o=e[r],null!==(i=v.exec(r))&&(a=i[1],u=t[a],null!=u&&(r=r.replace(i[0],u))),n[r]=o;return n}function a(e){return function(t){y.extend(t.prototype,e)}}function s(e){return function(t){t.prototype.events=e}}function c(e){return function(t){t.prototype.triggers=e}}function l(e){return function(t){t.prototype.ui=e}}var f=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}();Object.defineProperty(t,"__esModule",{value:!0});var h=n(2),y=n(1),p=n(11),v=/@ui.([a-zA-Z_\-\$#]+)/i,d="focus blur change".split(" ");t.normalizeUIKeys=u;var g=function(e){function t(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};r(this,t);var n=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this));return n._el=e.el,n._domEvents=[],n}return i(t,e),f(t,[{key:"delegateEvents",value:function(e){var t=this;if(this.el){this._bindUIElements(),e=e||this.events||{},e=u(e,this._ui);var n=this._configureTriggers();if(!(e=y.extend({},e,n)))return this;this.undelegateEvents();var r=[];for(var o in e){var i=e[o];"function"!=typeof i&&(i=this[i]);var a=o.match(/^(\S+)\s*(.*)$/),s=i.bind(this);a[2]?this.delegate(a[1],a[2],s):r.push([a[1],s])}return r.forEach(function(e){t.delegate(e[0],e[1])}),this}}},{key:"undelegateEvents",value:function(){if(!this.el)return this;if(this._unbindUIElements(),this.el){for(var e=0,t=this._domEvents.length;e<t;e++){var n=this._domEvents[e];p.removeEventListener(this.el,n.eventName,n.handler)}this._domEvents.length=0}return this}},{key:"delegate",value:function(e,t,n){if(!this.el)return this;"function"==typeof t&&(n=t,t=void 0);var r=this.el,o=t?function(e){var o=e.target||e.srcElement;if(!e.delegateTarget)for(;o&&o!=r;o=o.parentNode)o&&p.matches(o,t)&&(e.delegateTarget=o,n(e))}:function(e){e.delegateTarget||n(e)},i=!!~d.indexOf(e)&&null!=t;return p.addEventListener(this.el,e,o,i),this._domEvents.push({eventName:e,handler:o,listener:n,selector:t}),o}},{key:"undelegate",value:function(e,t,n){if(!this.el)return this;if("function"==typeof t&&(n=t,t=void 0),this.el)for(var r=this._domEvents.slice(),o=0,i=r.length;o<i;o++){var u=r[o],a=!(u.eventName!==e||n&&u.listener!==n||t&&u.selector!==t);a&&(p.removeEventListener(this.el,u.eventName,u.handler),this._domEvents.splice(p.indexOf(r,u),1))}return this}},{key:"render",value:function(){return this.undelegateEvents(),this.delegateEvents(),this}},{key:"setElement",value:function(e){var t=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];return this.triggerMethod("before:set:element"),t&&this.undelegateEvents(),this._el=e,t&&this.delegateEvents(),this.triggerMethod("set:element"),this}},{key:"destroy",value:function(){return this.undelegateEvents(),this.off(),this}},{key:"_bindUIElements",value:function(){var e=this,t=this.ui;t&&(this._ui||(this._ui=t),t=this._ui,this.ui={},Object.keys(t).forEach(function(n){var r=e.el.querySelectorAll(t[n]);r&&r.length?(r instanceof NodeList&&(r=r[0]),t[n],e.ui[n]=r):t[n]}))}},{key:"_unbindUIElements",value:function(){}},{key:"_configureTriggers",value:function(){var e=this.triggers||{};e=u(e,this._ui);var t={},n=void 0,r=void 0;for(r in e)n=e[r],t[r]=this._buildViewTrigger(n);return t}},{key:"_buildViewTrigger",value:function(e){var t=this;"string"==typeof e&&(e={event:e});var n=y.extend({preventDefault:!0,stopPropagation:!0},e);return function(e){e&&(e.preventDefault&&n.preventDefault&&e.preventDefault(),e.stopPropagation&&n.stopPropagation&&e.stopPropagation()),t.triggerMethod(n.event,{view:t})}}},{key:"triggerMethod",value:function(e){for(var t=arguments.length,n=Array(t>1?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];var o=this,i=y.camelcase("on-"+e.replace(":","-"));o[i]&&"function"==typeof o[i]&&y.callFunc([{handler:o[i],ctx:this}],n),n=[e].concat(n),y.callFunc([{handler:this.trigger,ctx:this}],n)}},{key:"el",get:function(){return this._el},set:function(e){this.setElement(e,!1)}}],[{key:"find",value:function(e,t){return t.querySelectorAll(e)}}]),t}(h.EventEmitter);t.BaseView=g,t.attributes=a,t.events=s,t.triggers=c,t.ui=l},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),i=function(){function e(){r(this,e)}return o(e,[{key:"invoke",value:function(e,t){return Reflect.construct(e,t)}}]),e}();i.instance=new i,t.ClassActivator=i;var u=function(){function e(){r(this,e)}return o(e,[{key:"invoke",value:function(e,t){return e.apply(void 0,t)}}]),e}();u.instance=new u,t.FactoryActivator=u;var a=function(){function e(){r(this,e)}return o(e,[{key:"invoke",value:function(e,t){return Promise.all(t).then(function(t){return Reflect.construct(e,t)})}}]),e}();a.instance=new a,t.AsyncClassActivator=a},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function u(e){return function(t,n){var r=Reflect.getOwnMetadata("design:type",t,n);if(!r)throw new Error("design:type does not exists");t._views||(t._views={}),t._views[n]={selector:e,view:r}}}var a=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}();Object.defineProperty(t,"__esModule",{value:!0});var s=n(3),c=n(2),l=n(1),f=n(0);t.Views=Symbol.for("Views");var h;!function(e){e.BeforeSetElement="before:set:element",e.SetElement="set:element",e.BeforeRender="before:render",e.Render="render"}(h=t.Events||(t.Events={}));var y=function(e){function t(){return r(this,t),o(this,(t.__proto__||Object.getPrototypeOf(t)).apply(this,arguments))}return i(t,e),a(t,[{key:"render",value:function(){if(this.el&&this._views)return l.triggerMethodOn(this,h.BeforeRender),this._unbindViews(this._views),this._bindViews(this._views),l.triggerMethodOn(this,h.Render),this}},{key:"destroy",value:function(){this._views&&this._unbindViews(this._views),this.off()}},{key:"setElement",value:function(e){arguments.length>1&&void 0!==arguments[1]&&arguments[1];if(this._el==e)return this;this._el&&this._views&&this._unbindViews(this._views),l.triggerMethodOn(this,h.BeforeSetElement,this._el,e),this._el=e,l.triggerMethodOn(this,h.SetElement,this._el,e)}},{key:"_bindViews",value:function(e){var t=void 0,n=void 0;for(var r in e){if(n=e[r],!(t=this.el.querySelector(n.selector)))throw new Error("No selector "+n.selector+" in dom");var o=f.container().get(n.view);o.setElement(t,!1),this[r]=o.render()}}},{key:"_unbindViews",value:function(e){var t=this;for(var n in e)t[n]&&t[n]instanceof s.BaseView&&(t[n].destroy(),t[n]=void 0)}},{key:"el",get:function(){return this._el},set:function(e){this.setElement(e)}}]),t}(c.EventEmitter);t.Controller=y,t.view=u},function(e,t,n){e.exports=n(16)},function(e,t,n){"use strict";function r(e){var n=!(arguments.length>1&&void 0!==arguments[1])||arguments[1],r=Reflect.getOwnMetadata(t.MetaKeys.paramTypes,e);if(!r){var i=e.toString().match(o);i&&(r=i[1].replace(/\W+/," ").split(" ").map(function(e){return e.replace(",","").trim()}).filter(function(e){return""!==e}),n&&Reflect.defineMetadata(t.MetaKeys.paramTypes,r,e))}return r||[]}t.MetaKeys={registration:Symbol.for("di:registration"),instanceActivator:Symbol.for("di:instance-activator"),dependencyResolver:Symbol.for("di:dependency-resolver"),paramTypes:"design:paramtypes",properties:"design:properties"},t.emptyParameters=Object.freeze([]);var o=/function[^(]*\(([^)]*)\)/i;t.getFunctionParameters=r},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!==(void 0===t?"undefined":a(t))&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+(void 0===t?"undefined":a(t)));e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function u(e,t,n){var r=void 0;return r=n?new l(t,n):new c(t),r.name=e,r}var a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},s=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),c=function(e){function t(e){r(this,t);var n=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e));return n.message=e,n}return i(t,e),s(t,[{key:"toString",value:function(){return"["+this.name+": "+this.message+"]"}}]),t}(Error);t.DIError=c;var l=function(e){function t(e,n){r(this,t);var i=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e));return i.error=n,i}return i(t,e),s(t,[{key:"toString",value:function(){return null==this.error?"["+this.name+": "+this.message+"]":String.prototype.toString.call(this.error)}}]),t}(c);t.DIAggregateError=l,t.createError=u},function(e,t,n){"use strict";function r(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!==(void 0===t?"undefined":u(t))&&"function"!=typeof t?e:t}function o(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+(void 0===t?"undefined":u(t)));e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var u="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},a=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),s=function e(){i(this,e)};t.Resolver=s;var c=function(e){function t(e){i(this,t);var n=r(this,(t.__proto__||Object.getPrototypeOf(t)).call(this));return n.key=e,n}return o(t,e),a(t,[{key:"get",value:function(e){var t=this;return function(){return e.get(t.key)}}}],[{key:"of",value:function(e){return new t(e)}}]),t}(s);t.Lazy=c;var l=function(e){function t(e){i(this,t);var n=r(this,(t.__proto__||Object.getPrototypeOf(t)).call(this));return n.key=e,n}return o(t,e),a(t,[{key:"get",value:function(e){return e.getAll(this.key)}}],[{key:"of",value:function(e){return new t(e)}}]),t}(s);t.All=l;var f=function(e){function t(e){var n=arguments.length>1&&void 0!==arguments[1]&&arguments[1];i(this,t);var o=r(this,(t.__proto__||Object.getPrototypeOf(t)).call(this));return o.key=e,o.checkParent=n,o}return o(t,e),a(t,[{key:"get",value:function(e){return e.hasHandler(this.key,this.checkParent)?e.get(this.key):null}}],[{key:"of",value:function(e){return new t(e,arguments.length>1&&void 0!==arguments[1]&&arguments[1])}}]),t}(s);t.Optional=f;var h=function(e){function t(e){i(this,t);var n=r(this,(t.__proto__||Object.getPrototypeOf(t)).call(this));return n.key=e,n}return o(t,e),a(t,[{key:"get",value:function(e){return e.parent?e.parent.get(this.key):null}}],[{key:"of",value:function(e){return new t(e)}}]),t}(s);t.Parent=h},function(e,t,n){"use strict";function r(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function o(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var u=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},s=this&&this.__decorate||function(e,t,n,r){var o,i=arguments.length,u=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"===("undefined"==typeof Reflect?"undefined":a(Reflect))&&"function"==typeof Reflect.decorate)u=Reflect.decorate(e,t,n,r);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(u=(i<3?o(u):i>3?o(t,n,u):o(t,n))||u);return i>3&&u&&Object.defineProperty(t,n,u),u},c=this&&this.__metadata||function(e,t){if("object"===("undefined"==typeof Reflect?"undefined":a(Reflect))&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};Object.defineProperty(t,"__esModule",{value:!0});var l=n(5),f=n(13),h=n(6),y=function e(){i(this,e)},p=function(e){function t(e){i(this,t);var n=r(this,(t.__proto__||Object.getPrototypeOf(t)).call(this));return console.log(e),n}return o(t,e),u(t,[{key:"template",value:function(){return"<h1>Hello, "+(arguments.length>0&&void 0!==arguments[0]?arguments[0]:{}).what+"!</h1>"}},{key:"data",value:function(){return{what:"World"}}}]),t}(f.View);p=s([h.autoinject,c("design:paramtypes",[y])],p),t.TestView=p;var v=function(e){function t(){return i(this,t),r(this,(t.__proto__||Object.getPrototypeOf(t)).apply(this,arguments))}return o(t,e),t}(l.Controller);s([l.view(".view1"),c("design:type",p)],v.prototype,"view1",void 0),t.TestController=v},function(e,t,n){"use strict";function r(e,t){for(var n=0,r=e.length;n<r;n++)if(e[n]===t)return n;return-1}function o(e,t){return s.call(e,t)}function i(e,t,n){var r=arguments.length>3&&void 0!==arguments[3]&&arguments[3];c.call(e,t,n,r)}function u(e,t,n){l.call(e,t,n)}Object.defineProperty(t,"__esModule",{value:!0}),t.indexOf=r;var a="undefined"!=typeof Element&&Element.prototype||{},s=a.matches||a.webkitMatchesSelector||a.mozMatchesSelector||a.msMatchesSelector||a.oMatchesSelector||function(e){return!!~r((this.parentNode||document).querySelectorAll(e)||[],this)},c=a.addEventListener||function(e,t){return this.attachEvent("on"+e,t)},l=a.removeEventListener||function(e,t){return this.detachEvent("on"+e,t)};t.matches=o,t.addEventListener=i,t.removeEventListener=u},function(e,t,n){"use strict";function r(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}function o(e,t){return i.container().mount(e,t)}Object.defineProperty(t,"__esModule",{value:!0}),r(n(5)),r(n(3)),r(n(2)),r(n(0)),r(n(10));var i=n(0);t.mount=o},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}var u=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}();Object.defineProperty(t,"__esModule",{value:!0});var a=n(3),s=n(1),c=function(e){function t(){return r(this,t),o(this,(t.__proto__||Object.getPrototypeOf(t)).apply(this,arguments))}return i(t,e),u(t,[{key:"render",value:function(){return console.log(this),this.el?(s.triggerMethodOn(this,"before:render",this),this.undelegateEvents(),this.renderTemplate(),this.delegateEvents(),s.triggerMethodOn(this,"render",this),this):this}},{key:"renderTemplate",value:function(){if(this.el){var e=s.result(this,"data"),t=s.result(this,"template",e);t&&(this.el.innerHTML=t)}}}]),t}(a.BaseView);t.View=c},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!==(void 0===t?"undefined":a(t))&&"function"!=typeof t?e:t}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+(void 0===t?"undefined":a(t)));e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function u(){return++p+""}var a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},s="function"==typeof Symbol&&"symbol"===a(Symbol.iterator)?function(e){return void 0===e?"undefined":a(e)}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":void 0===e?"undefined":a(e)},c=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),l=n(7),f=n(8),h=n(4),y=n(9),p=0,v=function(e){function t(e){r(this,t);var n=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e));return n.name="BadKeyError",n.message="key not registered with container",n}return i(t,e),t}(f.DIError);t.DIBadKeyError=v;var d=function(){function e(t){r(this,e),this.entries=new Map,this.constructionInfo=t||new Map,this.id=u()}return c(e,[{key:"hasHandler",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if(null===e||void 0===e)throw new v;return this.entries.has(e)||t&&this.parent&&this.parent.hasHandler(e,t)}},{key:"autoRegister",value:function(e,t,n,r){var o,i=r||this;if(null===e||void 0===e)throw new v("no key");"function"==typeof e?(o=Reflect.get(e,l.MetaKeys.registration,n),void 0!==o?o.register(i,t||e,e):i.registerSingleton(t||e,e,n)):i.registerInstance(e,e)}},{key:"unregister",value:function(e){this.entries.delete(e)}},{key:"get",value:function(t,n,r){var o;if(null===t||void 0===t)throw new v;if(t===e)return this;if(t instanceof y.Resolver)return t.get(this);if(void 0!==(o=this.entries.get(t)))return o[0](this);if(this.parent&&this.parent.hasHandler(t,!0))return this.parent.get(t,n,r);if("string"==typeof t||"symbol"===(void 0===t?"undefined":s(t))||"number"==typeof t)throw f.createError("DIResolveError","no component registered for key: "+String(t));return this.autoRegister(t,null,n,r),o=this.entries.get(t),o[0](this)}},{key:"getAll",value:function(e){var t,n=this;if(null===e||void 0===e)throw new v;return t=this.entries.get(e),void 0!==t?t.map(function(e){return e(n)}):this.parent?this.parent.getAll(e):[]}},{key:"createChild",value:function(){var t=new e(this.constructionInfo);return t.parent=this,t}},{key:"resolveDependencies",value:function(e,t){var n,r,o=this._getOrCreateConstructionSet(e,t),i=o.keys,u=new Array(i.length);try{for(n=0,r=i.length;n<r;++n)u[n]=this.get(i[n])}catch(e){var a="Error";throw n<r&&(a+=" The argument at index "+n+" (key:"+i[n]+") could not be satisfied."),f.createError("DependencyError",a,e)}return u}},{key:"invoke",value:function(e,t,n){var r=this._getOrCreateConstructionSet(e,n);try{var o;return o=r.dependencyResolver?r.dependencyResolver.resolveDependencies(e):this.resolveDependencies(e,n),void 0!==t&&Array.isArray(t)&&(o=o.concat(t)),r.activator.invoke(e,o,n,void 0)}catch(t){var i=r.activator instanceof h.ClassActivator?"instantiating":"invoking",u="Error "+i+" "+e.name+".";throw u+=" Check the inner error for details.",f.createError("DIInvokeError",u,t)}}},{key:"registerInstance",value:function(e,t){this.registerHandler(e,function(e){return t})}},{key:"registerTransient",value:function(e,t,n){this.registerHandler(e,function(e){return e.invoke(t,null,n)})}},{key:"registerSingleton",value:function(e,t,n){var r;this.registerHandler(e,function(e){return r||(r=e.invoke(t,null,n))})}},{key:"registerHandler",value:function(e,t){this._getOrCreateEntry(e).push(t)}},{key:"_getOrCreateEntry",value:function(e){var t;if(null===e||void 0===e)throw new f.DIError("key cannot be null or undefined.  (Are you trying to inject something that doesn't exist with DI?)");return t=this.entries.get(e),void 0===t&&(t=[],this.entries.set(e,t)),t}},{key:"_getOrCreateConstructionSet",value:function(e,t){var n=this.constructionInfo.get(e);return void 0===n&&(n=this._createConstructionSet(e,t),this.constructionInfo.set(e,n)),n}},{key:"_createConstructionSet",value:function(e,t){var n={activator:Reflect.getOwnMetadata(l.MetaKeys.instanceActivator,e,t)||h.ClassActivator.instance,dependencyResolver:Reflect.getOwnMetadata(l.MetaKeys.dependencyResolver,e,t)||this};return void 0!==e.inject?("function"==typeof e.inject?n.keys=e.inject():n.keys=e.inject,n):(n.keys=Reflect.getOwnMetadata(l.MetaKeys.paramTypes,e,t)||l.getFunctionParameters(e,!0)||l.emptyParameters,n)}},{key:"root",get:function(){for(var e=this,t=e;t;)(t=e.parent)&&(e=t);return e}}]),e}();t.Container=d},function(e,t,n){"use strict";function r(e){e.inject=Reflect.getOwnMetadata(f.MetaKeys.paramTypes,e)||f.emptyParameters}function o(){for(var e=arguments.length,t=Array(e),n=0;n<e;n++)t[n]=arguments[n];return function(e){e.inject=t}}function i(e,t){return function(n){Reflect.defineMetadata(f.MetaKeys.registration,e,n,t)}}function u(e,t){return i(new h.TransientRegistration(e),t)}function a(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1],n=arguments[2];return i(new h.SingletonRegistration(e,t),n)}function s(e,t){return function(n){Reflect.defineMetadata(f.MetaKeys.instanceActivator,e,n,t)}}function c(){return s(y.FactoryActivator.instance)}function l(e,t){return function(n){Reflect.defineMetadata(f.MetaKeys.dependencyResolver,e,n,t)}}var f=n(7),h=n(17),y=n(4);t.autoinject=r,t.inject=o,t.registration=i,t.transient=u,t.singleton=a,t.instanceActivator=s,t.factory=c,t.dependencyResolve=l},function(e,t,n){"use strict";function r(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}var o=n(14);t.Container=o.Container,t.DIBadKeyError=o.DIBadKeyError;var i=n(8);t.DIAggregateError=i.DIAggregateError,t.DIError=i.DIError,r(n(15)),r(n(4)),r(n(9))},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),i=function(){function e(t){r(this,e),this.key=t}return o(e,[{key:"register",value:function(e,t,n){e.registerTransient(this.key||t,n)}}]),e}();t.TransientRegistration=i;var u=function(){function e(t){var n=arguments.length>1&&void 0!==arguments[1]&&arguments[1];r(this,e),"boolean"==typeof t?this.registerInChild=t:(this.key=t,this.registerInChild=n)}return o(e,[{key:"register",value:function(e,t,n){(this.registerInChild?e:e.root).registerSingleton(this.key||t,n)}}]),e}();t.SingletonRegistration=u}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["view"] = factory();
+	else
+		root["view"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function callFunc(fn) {
+    var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    var l = fn.length,
+        i = -1,
+        a1 = args[0],
+        a2 = args[1],
+        a3 = args[2],
+        a4 = args[3];
+    switch (args.length) {
+        case 0:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx);
+            }return;
+        case 1:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1);
+            }return;
+        case 2:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1, a2);
+            }return;
+        case 3:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1, a2, a3);
+            }return;
+        case 4:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1, a2, a3, a4);
+            }return;
+        default:
+            while (++i < l) {
+                fn[i].handler.apply(fn[i].ctx, args);
+            }return;
+    }
+}
+exports.callFunc = callFunc;
+function result(obj, prop) {
+    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        args[_key - 2] = arguments[_key];
+    }
+
+    if (isFunction(obj[prop])) return obj[prop].apply(obj, args);
+    return obj[prop];
+}
+exports.result = result;
+function triggerMethodOn(self, eventName) {
+    for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+    }
+
+    //var self: any = this;
+    var ev = camelcase("on-" + eventName.replace(':', '-'));
+    if (self[ev] && typeof self[ev] === 'function') {
+        callFunc([{
+            handler: self[ev],
+            ctx: self
+        }], args);
+    }
+    args = [eventName].concat(args);
+    callFunc([{
+        handler: self.trigger,
+        ctx: self
+    }], args);
+}
+exports.triggerMethodOn = triggerMethodOn;
+function isObject(obj) {
+    return obj === Object(obj);
+}
+exports.isObject = isObject;
+function isFunction(a) {
+    return typeof a === 'function';
+}
+exports.isFunction = isFunction;
+function isString(a) {
+    return typeof a === 'string';
+}
+exports.isString = isString;
+function extend(obj) {
+    if (!isObject(obj)) return obj;
+    //let o, k
+
+    for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+        args[_key3 - 1] = arguments[_key3];
+    }
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var o = _step.value;
+
+            if (!isObject(o)) continue;
+            for (var k in o) {
+                if (has(o, k)) obj[k] = o[k];
+            }
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    return obj;
+}
+exports.extend = extend;
+var _has = Object.prototype.hasOwnProperty;
+function has(obj, prop) {
+    return _has.call(obj, prop);
+}
+exports.has = has;
+function camelcase(input) {
+    return input.toLowerCase().replace(/-(.)/g, function (_, group1) {
+        return group1.toUpperCase();
+    });
+}
+exports.camelcase = camelcase;
+;
+// Bind a function to an object for ever and ever....
+function bind(target, property, descriptor) {
+    var fn = descriptor.value;
+    if (!isFunction(fn)) {
+        throw new TypeError("Can only bind functions");
+    }
+    var definingProperty = false;
+    return {
+        configurable: true,
+        get: function get() {
+            if (definingProperty || this === target.prototype || this.hasOwnProperty(property)) {
+                return fn;
+            }
+            var boundFn = fn.bind(this);
+            definingProperty = true;
+            Object.defineProperty(this, property, {
+                value: boundFn,
+                configurable: true,
+                writable: true
+            });
+            definingProperty = false;
+            return boundFn;
+        }
+    };
+}
+exports.bind = bind;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var base_view_1 = __webpack_require__(2);
+function ViewMountable(Base) {
+    return function (_Base) {
+        _inherits(_class, _Base);
+
+        function _class() {
+            var _ref;
+
+            _classCallCheck(this, _class);
+
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
+
+            return _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
+        }
+
+        _createClass(_class, [{
+            key: "render",
+            value: function render() {
+                if (!this.el || !this._views) return this;
+                this._unbindViews(this._views);
+                _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "render", this).call(this);
+                this._bindViews(this._views);
+                return this;
+            }
+        }, {
+            key: "destroy",
+            value: function destroy() {
+                if (this._views) {
+                    this._unbindViews(this._views);
+                }
+                _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "destroy", this).call(this);
+            }
+        }, {
+            key: "_bindViews",
+            value: function _bindViews(views) {
+                var el = void 0,
+                    o = void 0;
+                for (var key in views) {
+                    o = views[key];
+                    el = this.el.querySelector(o.selector);
+                    if (!el) throw new Error("No selector " + o.selector + " in dom");
+                    var _view = ViewMountable.Invoker.get(o.view);
+                    _view.setElement(el, false);
+                    this[key] = _view.render();
+                }
+            }
+        }, {
+            key: "_unbindViews",
+            value: function _unbindViews(views) {
+                var self = this;
+                for (var key in views) {
+                    if (self[key] && self[key] instanceof base_view_1.BaseView) {
+                        self[key].destroy();
+                        self[key] = void 0;
+                    }
+                }
+            }
+        }]);
+
+        return _class;
+    }(Base);
+}
+exports.ViewMountable = ViewMountable;
+(function (ViewMountable) {
+    ViewMountable.Invoker = {
+        get: function get(V) {
+            return new V();
+        }
+    };
+})(ViewMountable = exports.ViewMountable || (exports.ViewMountable = {}));
+function view(selector) {
+    return function (target, prop) {
+        var View = Reflect.getOwnMetadata("design:type", target, prop);
+        if (!View) throw new Error('design:type does not exists');
+        if (!target._views) target._views = {};
+        //transient(View);
+        target._views[prop] = {
+            selector: selector,
+            view: View
+        };
+    };
+}
+exports.view = view;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(0);
+var abstract_view_1 = __webpack_require__(4);
+//import * as Debug from 'debug';
+var dom = __webpack_require__(8);
+var debug = function debug() {}; //Debug("views");
+var kUIRegExp = /@ui.([a-zA-Z_\-\$#]+)/i;
+var unbubblebles = 'focus blur change'.split(' ');
+function normalizeUIKeys(obj, uimap) {
+    var o = {},
+        k = void 0,
+        v = void 0,
+        ms = void 0,
+        sel = void 0,
+        ui = void 0;
+    for (k in obj) {
+        v = obj[k];
+        if ((ms = kUIRegExp.exec(k)) !== null) {
+            ui = ms[1], sel = uimap[ui];
+            if (sel != null) {
+                k = k.replace(ms[0], sel);
+            }
+        }
+        o[k] = v;
+    }
+    return o;
+}
+exports.normalizeUIKeys = normalizeUIKeys;
+var Events;
+(function (Events) {
+    Events.BeforeRender = "before:render";
+    Events.Render = "render";
+    Events.BeforeSetElement = "before:set:element";
+    Events.SetElement = "set:element";
+    Events.BeforeDelegateEvents = "before:delegate:events";
+    Events.DelegateEvents = "delegate:events";
+    Events.UndelegateEvents = "undelegate:events";
+})(Events = exports.Events || (exports.Events = {}));
+
+var BaseView = function (_abstract_view_1$Abst) {
+    _inherits(BaseView, _abstract_view_1$Abst);
+
+    function BaseView() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+        _classCallCheck(this, BaseView);
+
+        //this._el = options.el;
+        var _this = _possibleConstructorReturn(this, (BaseView.__proto__ || Object.getPrototypeOf(BaseView)).call(this));
+
+        _this.setElement(options.el, false);
+        _this._domEvents = [];
+        return _this;
+    }
+
+    _createClass(BaseView, [{
+        key: "delegateEvents",
+        value: function delegateEvents(events) {
+            var _this2 = this;
+
+            if (!this.el) return;
+            this._bindUIElements();
+            events = events || this.events || {}; //result(this, 'events');
+            events = normalizeUIKeys(events, this._ui);
+            var triggers = this._configureTriggers();
+            events = utils_1.extend({}, events, triggers);
+            debug('%s delegate events %j', this, events);
+            if (!events) return this;
+            //if (!(events || (events = result(this, 'events')))) return this;
+            this.undelegateEvents();
+            var dels = [];
+            for (var key in events) {
+                var method = events[key];
+                if (typeof method !== 'function') method = this[method];
+                var match = key.match(/^(\S+)\s*(.*)$/);
+                // Set delegates immediately and defer event on this.el
+                var boundFn = method.bind(this); // bind(<Function>method, this);
+                if (match[2]) {
+                    this.delegate(match[1], match[2], boundFn);
+                } else {
+                    dels.push([match[1], boundFn]);
+                }
+            }
+            dels.forEach(function (d) {
+                _this2.delegate(d[0], d[1]);
+            });
+            return this;
+        }
+    }, {
+        key: "undelegateEvents",
+        value: function undelegateEvents() {
+            if (!this.el) return this;
+            this._unbindUIElements();
+            debug('%s undelegate events', this);
+            if (this.el) {
+                for (var i = 0, len = this._domEvents.length; i < len; i++) {
+                    var item = this._domEvents[i];
+                    dom.removeEventListener(this.el, item.eventName, item.handler);
+                }
+                this._domEvents.length = 0;
+            }
+            return this;
+        }
+    }, {
+        key: "delegate",
+        value: function delegate(eventName, selector, listener) {
+            if (!this.el) return this;
+            if (typeof selector === 'function') {
+                listener = selector;
+                selector = undefined;
+            }
+            var root = this.el;
+            var handler = selector ? function (e) {
+                var node = e.target || e.srcElement;
+                // Already handled
+                if (e.delegateTarget) return;
+                for (; node && node != root; node = node.parentNode) {
+                    if (node && dom.matches(node, selector)) {
+                        e.delegateTarget = node;
+                        listener(e);
+                    }
+                }
+            } : function (e) {
+                if (e.delegateTarget) return;
+                listener(e);
+            };
+            var useCap = !!~unbubblebles.indexOf(eventName) && selector != null;
+            debug('%s delegate event %s ', this, eventName);
+            dom.addEventListener(this.el, eventName, handler, useCap);
+            this._domEvents.push({ eventName: eventName, handler: handler, listener: listener, selector: selector });
+            return handler;
+        }
+    }, {
+        key: "undelegate",
+        value: function undelegate(eventName, selector, listener) {
+            if (!this.el) return this;
+            if (typeof selector === 'function') {
+                listener = selector;
+                selector = undefined;
+            }
+            if (this.el) {
+                var handlers = this._domEvents.slice();
+                for (var i = 0, len = handlers.length; i < len; i++) {
+                    var item = handlers[i];
+                    var match = item.eventName === eventName && (listener ? item.listener === listener : true) && (selector ? item.selector === selector : true);
+                    if (!match) continue;
+                    dom.removeEventListener(this.el, item.eventName, item.handler);
+                    this._domEvents.splice(dom.indexOf(handlers, item), 1);
+                }
+            }
+            return this;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            utils_1.triggerMethodOn(this, Events.BeforeRender);
+            this.undelegateEvents();
+            this.delegateEvents();
+            utils_1.triggerMethodOn(this, Events.Render);
+            return this;
+        }
+    }, {
+        key: "setElement",
+        value: function setElement(el) {
+            var trigger = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+            utils_1.triggerMethodOn(this, Events.BeforeSetElement);
+            if (trigger) this.undelegateEvents();
+            this._el = el;
+            if (trigger) this.delegateEvents();
+            utils_1.triggerMethodOn(this, Events.SetElement);
+            return this;
+        }
+    }, {
+        key: "destroy",
+        value: function destroy() {
+            this.undelegateEvents();
+            this.off();
+            return this;
+        }
+    }, {
+        key: "_bindUIElements",
+        value: function _bindUIElements() {
+            var _this3 = this;
+
+            var ui = this.ui;
+            if (!ui) return;
+            if (!this._ui) {
+                this._ui = ui;
+            }
+            ui = this._ui;
+            this.ui = {};
+            Object.keys(ui).forEach(function (k) {
+                var elm = _this3.el.querySelectorAll(ui[k]);
+                if (elm && elm.length) {
+                    // unwrap if it's a nodelist.
+                    if (elm instanceof NodeList) {
+                        elm = elm[0];
+                    }
+                    debug('%s added ui element %s %s', _this3, k, ui[k]);
+                    _this3.ui[k] = elm;
+                } else {
+                    debug('%s ui element not found ', _this3, k, ui[k]);
+                }
+            });
+        }
+    }, {
+        key: "_unbindUIElements",
+        value: function _unbindUIElements() {}
+    }, {
+        key: "_configureTriggers",
+        value: function _configureTriggers() {
+            var triggers = this.triggers || {};
+            triggers = normalizeUIKeys(triggers, this._ui);
+            // Configure the triggers, prevent default
+            // action and stop propagation of DOM events
+            var events = {},
+                val = void 0,
+                key = void 0;
+            for (key in triggers) {
+                val = triggers[key];
+                debug('%s added trigger %s %s', this, key, val);
+                events[key] = this._buildViewTrigger(val);
+            }
+            return events;
+        }
+    }, {
+        key: "_buildViewTrigger",
+        value: function _buildViewTrigger(triggerDef) {
+            var _this4 = this;
+
+            if (typeof triggerDef === 'string') triggerDef = { event: triggerDef };
+            var options = utils_1.extend({
+                preventDefault: true,
+                stopPropagation: true
+            }, triggerDef);
+            return function (e) {
+                if (e) {
+                    if (e.preventDefault && options.preventDefault) {
+                        e.preventDefault();
+                    }
+                    if (e.stopPropagation && options.stopPropagation) {
+                        e.stopPropagation();
+                    }
+                }
+                utils_1.triggerMethodOn(_this4, options.event, {
+                    view: _this4
+                }, e);
+            };
+        }
+    }], [{
+        key: "find",
+        value: function find(selector, context) {
+            return context.querySelectorAll(selector);
+        }
+    }]);
+
+    return BaseView;
+}(abstract_view_1.AbstractView);
+
+exports.BaseView = BaseView;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(0);
+function removeFromListener(listeners, fn, ctx) {
+    for (var i = 0; i < listeners.length; i++) {
+        var e = listeners[i];
+        if (fn == null && ctx != null && e.ctx === ctx || fn != null && ctx == null && e.handler === fn || fn != null && ctx != null && e.handler === fn && e.ctx === ctx) {
+            listeners.splice(i, 1);
+        }
+    }
+    return listeners;
+}
+function isEventEmitter(a) {
+    return a && (a instanceof EventEmitter || utils_1.isFunction(a.on) && utils_1.isFunction(a.once) && utils_1.isFunction(a.off) && utils_1.isFunction(a.trigger));
+}
+exports.isEventEmitter = isEventEmitter;
+
+var EventEmitter = function () {
+    function EventEmitter() {
+        _classCallCheck(this, EventEmitter);
+    }
+
+    _createClass(EventEmitter, [{
+        key: "on",
+        value: function on(event, fn, ctx) {
+            var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+            var events = (this._listeners || (this._listeners = new Map())).get(event) || [];
+            events.push({
+                name: event,
+                once: once,
+                handler: fn,
+                ctx: ctx || this
+            });
+            if (!this._listeners.has(event)) this._listeners.set(event, events);
+            return this;
+        }
+    }, {
+        key: "once",
+        value: function once(event, fn, ctx) {
+            return this.on(event, fn, ctx, true);
+        }
+    }, {
+        key: "off",
+        value: function off(eventName, fn, ctx) {
+            this._listeners = this._listeners || new Map();
+            if (eventName == null && ctx == null) {
+                this._listeners = new Map();
+            } else if (this._listeners.has(eventName)) {
+                var events = this._listeners.get(eventName);
+                if (fn == null && ctx == null) {
+                    this._listeners.set(eventName, []);
+                } else {
+                    removeFromListener(events, fn, ctx);
+                }
+            } else {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = this._listeners.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var en = _step.value;
+
+                        removeFromListener(en, fn, ctx);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+            return this;
+        }
+    }, {
+        key: "trigger",
+        value: function trigger(eventName) {
+            this._listeners = this._listeners || new Map();
+            var events = (this._listeners.get(eventName) || []).concat(this._listeners.get("*") || []);
+            var event = void 0,
+                a = void 0,
+                index = void 0;
+            var calls = [];
+            var alls = [];
+
+            for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                args[_key - 1] = arguments[_key];
+            }
+
+            for (var i = 0, ii = events.length; i < ii; i++) {
+                event = events[i];
+                a = args;
+                if (events[i].name === '*') {
+                    alls.push(events[i]);
+                } else {
+                    calls.push(events[i]);
+                }
+                if (events[i].once === true) {
+                    index = this._listeners.get(events[i].name).indexOf(events[i]);
+                    this._listeners.get(events[i].name).splice(index, 1);
+                }
+            }
+            if (alls.length) {
+                var _a = [eventName].concat(args);
+                this._executeListener(alls, _a);
+            }
+            if (calls.length) this._executeListener(calls, args);
+            return this;
+        }
+    }, {
+        key: "_executeListener",
+        value: function _executeListener(func, args) {
+            EventEmitter.executeListenerFunction(func, args);
+        }
+    }]);
+
+    return EventEmitter;
+}();
+
+EventEmitter.executeListenerFunction = function (func, args) {
+    utils_1.callFunc(func, args);
+};
+exports.EventEmitter = EventEmitter;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var event_emitter_1 = __webpack_require__(3);
+
+var AbstractView = function (_event_emitter_1$Even) {
+    _inherits(AbstractView, _event_emitter_1$Even);
+
+    function AbstractView() {
+        _classCallCheck(this, AbstractView);
+
+        return _possibleConstructorReturn(this, (AbstractView.__proto__ || Object.getPrototypeOf(AbstractView)).apply(this, arguments));
+    }
+
+    _createClass(AbstractView, [{
+        key: "render",
+        value: function render() {
+            return this;
+        }
+    }, {
+        key: "destroy",
+        value: function destroy() {
+            this.off();
+        }
+    }, {
+        key: "el",
+        get: function get() {
+            return this._el;
+        },
+        set: function set(el) {
+            this.setElement(el);
+        }
+    }]);
+
+    return AbstractView;
+}(event_emitter_1.EventEmitter);
+
+exports.AbstractView = AbstractView;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(0);
+var abstract_view_1 = __webpack_require__(4);
+var mixins_1 = __webpack_require__(1);
+var Events;
+(function (Events) {
+    Events.BeforeSetElement = "before:set:element";
+    Events.SetElement = "set:element";
+})(Events || (Events = {}));
+
+var Controller = function (_abstract_view_1$Abst) {
+    _inherits(Controller, _abstract_view_1$Abst);
+
+    function Controller() {
+        _classCallCheck(this, Controller);
+
+        return _possibleConstructorReturn(this, (Controller.__proto__ || Object.getPrototypeOf(Controller)).apply(this, arguments));
+    }
+
+    _createClass(Controller, [{
+        key: "setElement",
+        value: function setElement(el) {
+            var trigger = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+            if (this._el == el) {
+                return;
+            }
+            if (trigger) utils_1.triggerMethodOn(this, Events.BeforeSetElement, this._el, el);
+            this._el = el;
+            if (trigger) utils_1.triggerMethodOn(this, Events.SetElement, this._el, el);
+        }
+    }]);
+
+    return Controller;
+}(abstract_view_1.AbstractView);
+
+exports.Controller = Controller;
+
+var ViewController = function (_mixins_1$ViewMountab) {
+    _inherits(ViewController, _mixins_1$ViewMountab);
+
+    function ViewController() {
+        _classCallCheck(this, ViewController);
+
+        return _possibleConstructorReturn(this, (ViewController.__proto__ || Object.getPrototypeOf(ViewController)).apply(this, arguments));
+    }
+
+    return ViewController;
+}(mixins_1.ViewMountable(Controller));
+
+exports.ViewController = ViewController;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(0);
+function attributes(attrs) {
+    return function (target) {
+        utils_1.extend(target.prototype, attrs);
+    };
+}
+exports.attributes = attributes;
+function events(events) {
+    return function (target) {
+        target.prototype.events = events;
+    };
+}
+exports.events = events;
+function triggers(triggers) {
+    return function (target) {
+        target.prototype.triggers = triggers;
+    };
+}
+exports.triggers = triggers;
+/*
+export function ui<U extends Object>(m: U) {
+    return function <T extends Constructor<BaseView<U>>, U extends Element>(target: T) {
+        target.prototype.ui = ui;
+        return class extends target {
+            ui: {
+                [K in keyof U]?: Element;
+            }
+        }
+    }
+}*/
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var base_view_1 = __webpack_require__(2);
+var utils_1 = __webpack_require__(0);
+
+var View = function (_base_view_1$BaseView) {
+    _inherits(View, _base_view_1$BaseView);
+
+    function View() {
+        _classCallCheck(this, View);
+
+        return _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).apply(this, arguments));
+    }
+
+    _createClass(View, [{
+        key: "render",
+        value: function render() {
+            if (!this.el) return this;
+            utils_1.triggerMethodOn(this, base_view_1.Events.BeforeRender);
+            this.undelegateEvents();
+            this.renderTemplate();
+            this.delegateEvents();
+            utils_1.triggerMethodOn(this, base_view_1.Events.Render);
+            return this;
+        }
+    }, {
+        key: "destroy",
+        value: function destroy() {
+            var data = utils_1.result(this, 'data');
+            var template = utils_1.result(this, 'template', data);
+            if (template) this.el.innerHTML = '';
+            _get(View.prototype.__proto__ || Object.getPrototypeOf(View.prototype), "destroy", this).call(this);
+        }
+    }, {
+        key: "renderTemplate",
+        value: function renderTemplate() {
+            if (!this.el) return;
+            var data = utils_1.result(this, 'data');
+            var template = utils_1.result(this, 'template', data);
+            if (!template) return;
+            this.el.innerHTML = template;
+        }
+    }]);
+
+    return View;
+}(base_view_1.BaseView);
+
+exports.View = View;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function indexOf(array, item) {
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (array[i] === item) return i;
+    }return -1;
+}
+exports.indexOf = indexOf;
+var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
+var matchesSelector = ElementProto.matches || ElementProto.webkitMatchesSelector || ElementProto.mozMatchesSelector || ElementProto.msMatchesSelector || ElementProto.oMatchesSelector || function (selector) {
+    var nodeList = (this.parentNode || document).querySelectorAll(selector) || [];
+    return !!~indexOf(nodeList, this);
+};
+var elementAddEventListener = ElementProto.addEventListener || function (eventName, listener) {
+    return this.attachEvent('on' + eventName, listener);
+};
+var elementRemoveEventListener = ElementProto.removeEventListener || function (eventName, listener) {
+    return this.detachEvent('on' + eventName, listener);
+};
+function matches(elm, selector) {
+    return matchesSelector.call(elm, selector);
+}
+exports.matches = matches;
+function addEventListener(elm, eventName, listener) {
+    var useCap = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+    elementAddEventListener.call(elm, eventName, listener, useCap);
+}
+exports.addEventListener = addEventListener;
+function removeEventListener(elm, eventName, listener) {
+    elementRemoveEventListener.call(elm, eventName, listener);
+}
+exports.removeEventListener = removeEventListener;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function __export(m) {
+    for (var p in m) {
+        if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(5));
+__export(__webpack_require__(7));
+__export(__webpack_require__(3));
+__export(__webpack_require__(1));
+__export(__webpack_require__(6));
+__export(__webpack_require__(2));
+var mixins_1 = __webpack_require__(1);
+function mount(el, mountable) {
+    var view = mixins_1.ViewMountable.Invoker.get(mountable);
+    if (view) view.el = el;
+    return view;
+}
+exports.mount = mount;
+//export * from './test';
+
+/***/ })
+/******/ ]);
+});

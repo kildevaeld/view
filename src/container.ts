@@ -3,7 +3,6 @@ import { IView } from './types';
 
 export class ViewContainer extends Container {
 
-
     mount<T extends IView>(el: Element, mountable: new (...args: any[]) => T): T {
         let v = this.get<T>(mountable);
         v.el = el;

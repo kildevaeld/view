@@ -1,13 +1,17 @@
 export * from './controller';
 export * from './view';
 export * from './event-emitter';
-export * from './container';
-export * from './template-view';
-//export * from './test';
 export * from './types';
+export * from './mixins';
+export * from './decorators';
+export * from './base-view';
 
-import { container } from './container'
+import { ViewMountable } from './mixins'
 import { IView } from './types';
 export function mount<T extends IView>(el: Element, mountable: new (...args: any[]) => T): T {
-    return container().mount(el, mountable);
+    let view = ViewMountable.Invoker.get<T>(mountable);
+    if (view) view.el = el;
+    return view;
 }
+
+//export * from './test';
