@@ -1,11 +1,12 @@
 {
     "name": "view",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "dependencies": {
         "debug": "^2.6.8",
         "reflect-metadata": "^0.1.10",
         "slick-di": "github:slickjs/slick-di"
     },
+    "main": "lib/index.js",
     "devDependencies": {
         "@types/debug": "0.0.29",
         "babel-core": "^6.25.0",
