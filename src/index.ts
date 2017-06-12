@@ -2,6 +2,7 @@ export * from './controller';
 export * from './view';
 export * from './event-emitter';
 export * from './container';
+export * from './template-view';
 //export * from './test';
 export * from './types';
 
