@@ -14,27 +14,24 @@ export interface DelegateEvent extends Event {
 export declare function normalizeUIKeys(obj: any, uimap: StringMap): StringMap;
 export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
     new (...args: any[]): T;
+    readonly prototype: T;
 }
 export interface BaseViewOptions<T extends Element> {
     el?: T;
-}
-export declare namespace Events {
-    const BeforeRender = "before:render";
-    const Render = "render";
-    const BeforeSetElement = "before:set:element";
-    const SetElement = "set:element";
-    const BeforeDelegateEvents = "before:delegate:events";
-    const DelegateEvents = "delegate:events";
-    const UndelegateEvents = "undelegate:events";
+    attachId?: boolean;
 }
 export declare class BaseView<T extends Element> extends AbstractView<T> {
+    private _options;
     static find(selector: string, context: HTMLElement): NodeList;
     events: EventsMap;
     ui: UIMap;
     triggers: StringMap;
     private _ui;
     private _domEvents;
-    constructor(options?: BaseViewOptions<T>);
+    private _vid;
+    readonly vid: string;
+    readonly options: BaseViewOptions<T>;
+    constructor(_options?: BaseViewOptions<T>);
     delegateEvents(events?: EventsMap): any;
     undelegateEvents(): this;
     delegate(eventName: string, selector?: string | Function, listener?: Function): this | ((e: DelegateEvent) => void);

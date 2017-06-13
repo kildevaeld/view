@@ -1,4 +1,3 @@
-
 export interface Call {
     ctx?: any
     handler: (...args: any[]) => void;
@@ -24,9 +23,7 @@ export function result(obj: any, prop: string, ...args: any[]) {
 }
 
 export function triggerMethodOn<T extends any>(self: T, eventName: string, ...args: any[]) {
-    //var self: any = this;
-    let ev = camelcase("on-" + eventName.replace(':', '-'))
-
+    const ev = camelcase("on-" + eventName.replace(':', '-'))
 
     if (self[ev] && typeof self[ev] === 'function') {
         callFunc([{
@@ -35,11 +32,14 @@ export function triggerMethodOn<T extends any>(self: T, eventName: string, ...ar
         } as any], args);
     }
 
-    args = [eventName].concat(args)
-    callFunc([{
-        handler: self.trigger,
-        ctx: self
-    } as any], args);
+    if (isFunction(self.trigger)) {
+        args = [eventName].concat(args)
+        callFunc([{
+            handler: self.trigger,
+            ctx: self
+        } as any], args);
+    }
+
 }
 
 
@@ -58,9 +58,9 @@ export function isString(a: any): a is string {
 export function extend<T extends Object, U extends Object>(obj: T, ...args: U[]): T & U {
     if (!isObject(obj)) return obj
     //let o, k
-    for (let o of args) {
+    for (const o of args) {
         if (!isObject(o)) continue
-        for (let k in o) {
+        for (const k in o) {
             if (has(o, k)) (<any>obj)[k] = o[k] as any
         }
     }
@@ -105,4 +105,14 @@ export function bind(target: any, property: PropertyKey, descriptor: PropertyDes
             return boundFn;
         }
     };
+}
+
+var idCounter = 0;
+export function uniqueId(prefix: string = "") {
+    return prefix + (++idCounter)
+}
+
+export function indexOf<T>(array: ArrayLike<T>, item: T): number {
+    for (var i = 0, len = array.length; i < len; i++) if (array[i] === item) return i;
+    return -1;
 }

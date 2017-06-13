@@ -1,5 +1,5 @@
 import { EventsMap, StringMap, BaseView } from './base-view';
-import { Constructor } from './types';
+import { Constructor, IView } from './types';
 export interface TriggerOptions {
     event: string;
     preventDefault?: boolean;
@@ -14,9 +14,9 @@ export interface AttributesOptions {
     triggers?: TriggerMap;
 }
 export declare function attributes(attrs: AttributesOptions): <T extends Constructor<BaseView<U>>, U extends Element>(target: T) => void;
-export declare function events(events: {
-    [key: string]: string | Function;
-}): <T extends Constructor<BaseView<U>>, U extends Element>(target: T) => void;
-export declare function triggers(triggers: {
-    [key: string]: string;
-}): <T extends Constructor<BaseView<U>>, U extends Element>(target: T) => void;
+export declare function event(eventName: string, selector: string): <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: PropertyDescriptor) => void;
+export declare namespace event {
+    function click(selector: string): <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: PropertyDescriptor) => void;
+    function change(selector: string): <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: PropertyDescriptor) => void;
+}
+export declare function view(selector: string): <T extends IView>(target: T, prop: PropertyKey) => void;

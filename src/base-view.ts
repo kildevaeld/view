@@ -1,7 +1,7 @@
-import { extend, triggerMethodOn } from './utils';
+import { extend, triggerMethodOn, uniqueId, indexOf } from './utils';
 import { AbstractView } from './abstract-view'
 //import * as Debug from 'debug';
-import * as dom from './dom';
+
 
 const debug = (..._: any[]) => { }  //Debug("views");
 
@@ -9,8 +9,8 @@ export type EventsMap = { [key: string]: Function | string }
 export type StringMap = { [key: string]: string }
 export type UIMap = { [key: string]: HTMLElement };
 
-const kUIRegExp = /@ui.([a-zA-Z_\-\$#]+)/i;
-const unbubblebles = 'focus blur change'.split(' ');
+const kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#]+)/i,
+    unbubblebles = 'focus blur change'.split(' ');
 
 export interface DelegateEvent extends Event {
     delegateTarget?: Element;
@@ -33,14 +33,16 @@ export function normalizeUIKeys(obj: any, uimap: StringMap): StringMap {
 
 export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
     new (...args: any[]): T;
+    readonly prototype: T;
 }
 
 
 export interface BaseViewOptions<T extends Element> {
     el?: T;
+    attachId?: boolean;
 }
 
-
+/*
 export namespace Events {
     export const BeforeRender = "before:render";
     export const Render = "render";
@@ -49,7 +51,7 @@ export namespace Events {
     export const BeforeDelegateEvents = "before:delegate:events";
     export const DelegateEvents = "delegate:events";
     export const UndelegateEvents = "undelegate:events";
-}
+}*/
 
 export class BaseView<T extends Element> extends AbstractView<T> {
 
@@ -57,30 +59,31 @@ export class BaseView<T extends Element> extends AbstractView<T> {
         return context.querySelectorAll(selector);
     }
 
-    /*public get el(): T | undefined {
-        return this._el;
-    }
-
-    public set el(el: T | undefined) {
-        this.setElement(el, false);
-    }*/
-
     public events: EventsMap;
     public ui: UIMap;
     public triggers: StringMap;
 
-    //private _el?: T;
     private _ui: { [key: string]: string };
     private _domEvents: any[];
+    private _vid: string;
 
 
-    constructor(options: BaseViewOptions<T> = {}) {
+    get vid() {
+        return this._vid;
+    }
+
+    get options() {
+        return this._options;
+    }
+
+    constructor(private _options: BaseViewOptions<T> = {}) {
 
         super();
 
         //this._el = options.el;
-        this.setElement(options.el, false);
+        this.setElement(_options.el, false);
         this._domEvents = []
+        this._vid = uniqueId('vid');
 
     }
 
@@ -133,7 +136,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
         if (this.el) {
             for (var i = 0, len = this._domEvents.length; i < len; i++) {
                 var item = this._domEvents[i];
-                dom.removeEventListener(this.el, item.eventName, item.handler);
+                this.el.removeEventListener(item.eventName, item.handler);
             }
             this._domEvents.length = 0;
         }
@@ -155,7 +158,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
             if (e.delegateTarget) return;
 
             for (; node && node != root; node = node!.parentNode) {
-                if (node && dom.matches(node as Element, selector as string)) {
+                if (node && (node as Element).matches(selector as string)) {
 
                     e.delegateTarget = node as Element;
                     listener!(e);
@@ -168,7 +171,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
         let useCap = !!~unbubblebles.indexOf(eventName) && selector != null;
         debug('%s delegate event %s ', this, eventName);
-        dom.addEventListener(this.el!, eventName, handler, useCap);
+        this.el!.addEventListener(eventName, handler, useCap);
         this._domEvents.push({ eventName: eventName, handler: handler, listener: listener, selector: selector });
         return handler;
     }
@@ -192,30 +195,38 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
                 if (!match) continue;
 
-                dom.removeEventListener(this.el!, item.eventName, item.handler);
-                this._domEvents.splice(dom.indexOf(handlers, item), 1);
+                this.el!.removeEventListener(item.eventName, item.handler);
+                this._domEvents.splice(indexOf(handlers, item), 1);
             }
         }
         return this;
     }
 
     render() {
-        triggerMethodOn(this, Events.BeforeRender)
+
         this.undelegateEvents();
         this.delegateEvents();
-        triggerMethodOn(this, Events.Render)
+
         return this;
     }
 
     setElement(el?: T, trigger: boolean = true) {
-        triggerMethodOn(this, Events.BeforeSetElement);
+
         if (trigger)
             this.undelegateEvents();
+
+        if (this.el && this.options.attachId) {
+            this.el!.removeAttribute('data-vid');
+        }
 
         this._el = el;
         if (trigger)
             this.delegateEvents();
-        triggerMethodOn(this, Events.SetElement)
+
+
+        if (this.el && this.options.attachId) {
+            this.el!.setAttribute('data-vid', this.vid);
+        }
 
         return this;
     }
@@ -223,6 +234,9 @@ export class BaseView<T extends Element> extends AbstractView<T> {
     destroy(): any {
         this.undelegateEvents()
         this.off();
+        if (this.el && this.options.attachId) {
+            this.el!.removeAttribute('data-vid');
+        }
         return this;
     }
 

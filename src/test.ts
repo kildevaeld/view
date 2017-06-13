@@ -1,17 +1,37 @@
 import { ViewController } from './controller';
-import { view } from './mixins';
 import { View } from './view';
-import { autoinject } from 'slick-di'
-import {attributes} from './decorators'
+import { autoinject, Container } from 'slick-di'
+import { attributes, event, view } from './decorators'
+import { ViewObservable, ViewMountable } from './mixins';
+import { ArrayCollection, CollectionView, ICollection } from './collection-view';
 export class Rapper {
 
 }
 
+var container = new Container();
+
+ViewMountable.Invoker = container;
+
+interface Model {
+    name: string;
+}
+
+class List extends CollectionView<Model, View> {
+    childView = class ChildView extends View {
+        template = (data: Model) => `${data.name}`
+    };
+    collection = ArrayCollection<Model>([
+        { name: 'Test 1' }, { name: 'Test 2' }
+    ]);
+}
+
 @autoinject
 @attributes({
-
+    ui: {
+        header: 'h1'
+    }
 })
-export class TestView extends View {
+export class TestView extends ViewObservable(View) {
 
 
     template(data: any = {}) {
@@ -20,6 +40,11 @@ export class TestView extends View {
 
     data() {
         return { what: 'World' }
+    }
+
+    @event.click('@header')
+    onHeaderClicked(e: MouseEvent) {
+        console.log('Clicked', e);
     }
 
     constructor(rapper: Rapper) {
@@ -34,8 +59,19 @@ export class TestController extends ViewController {
     @view('.view1')
     protected view1: TestView;
 
+    @view('.view2')
+    private view2: List;
+
     constructor() {
         super();
+    }
+
+    render() {
+        super.render()
+        this.view1.on('*', (event) => {
+            console.log(event)
+        })
+        return this;
     }
 
 }

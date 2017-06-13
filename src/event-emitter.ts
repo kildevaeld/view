@@ -24,7 +24,6 @@ function removeFromListener(listeners: Event[], fn?: EventHandler, ctx?: any) {
     return listeners;
 }
 
-
 export function isEventEmitter(a: any): a is EventEmitter {
     return a && (a instanceof EventEmitter || (isFunction(a.on) && isFunction(a.once) && isFunction(a.off) && isFunction(a.trigger)));
 }
@@ -52,11 +51,9 @@ export class EventEmitter implements IEventEmitter {
         return this
     }
 
-
     once(event: any, fn: EventHandler, ctx?: any): any {
         return this.on(event, fn, ctx, true);
     }
-
 
     off(eventName?: any, fn?: EventHandler, ctx?: any): any {
         this._listeners = this._listeners || new Map();
@@ -78,7 +75,6 @@ export class EventEmitter implements IEventEmitter {
 
         return this;
     }
-
 
     trigger(eventName: any, ...args: any[]): any {
 
@@ -115,7 +111,6 @@ export class EventEmitter implements IEventEmitter {
         return this;
 
     }
-
 
     private _executeListener(func: Event[], args?: any[]) {
         EventEmitter.executeListenerFunction(func, args);

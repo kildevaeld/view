@@ -15,3 +15,5 @@ export declare function bind(target: any, property: PropertyKey, descriptor: Pro
     configurable: boolean;
     get(): any;
 };
+export declare function uniqueId(prefix?: string): string;
+export declare function indexOf<T>(array: ArrayLike<T>, item: T): number;

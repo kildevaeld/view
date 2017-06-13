@@ -1,4 +1,4 @@
-export * from './controller';
+//export * from './controller';
 export * from './view';
 export * from './event-emitter';
 export * from './types';

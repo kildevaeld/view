@@ -1,24 +1,25 @@
-import { BaseView, BaseViewConstructor } from './base-view';
+import { BaseView, BaseViewConstructor, EventsMap } from './base-view';
 import { IView, Constructor } from './types';
+import { triggerMethodOn } from './utils';
 //import { transient } from 'slick-di';
 
 //import { container } from './container';
 
-export interface ViewOptions<T extends BaseView<U>, U extends Element> {
+export interface ViewMapOptions<T extends BaseView<U>, U extends Element> {
     selector: string;
     view: BaseViewConstructor<T, U>
     [key: string]: any;
 }
 
 export interface ViewMap {
-    [key: string]: ViewOptions<any, any>;
+    [key: string]: ViewMapOptions<any, any>;
 }
 
 export interface IViewMountable {
     _views: ViewMap;
 }
 
-export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructor<IViewMountable> & T {
+export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
     return class extends Base {
         _views: ViewMap
         constructor(...args: any[]) {
@@ -28,6 +29,7 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructo
         render() {
             if (this.el && this._views)
                 this._unbindViews(this._views);
+
             super.render();
 
             if (this.el && this._views)
@@ -44,7 +46,7 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructo
         }
 
         private _bindViews(views: ViewMap) {
-            let el: Element | null, o: ViewOptions<any, any>;
+            let el: Element | null, o: ViewMapOptions<any, any>;
             for (const key in views) {
                 o = views[key];
                 el = this.el!.querySelector(o.selector);
@@ -81,16 +83,60 @@ export namespace ViewMountable {
     }
 }
 
+export namespace Events {
+    export const BeforeRender = "before:render";
+    export const Render = "render";
+    export const BeforeSetElement = "before:set:element";
+    export const SetElement = "set:element";
+    export const BeforeDelegateEvents = "before:delegate:events";
+    export const DelegateEvents = "delegate:events";
+    export const BeforeUndelegateEvents = "before:undelegate:events";
+    export const UndelegateEvents = "undelegate:events";
+    export const BeforeDestroy = "before:destroy";
+    export const Destroy = "destroy";
 
-export function view(selector: string) {
-    return function <T extends IViewMountable>(target: T, prop: PropertyKey) {
-        let View = Reflect.getOwnMetadata("design:type", target, prop as string);
-        if (!View) throw new Error('design:type does not exists');
-        if (!target._views) target._views = {};
-        //transient(View);
-        target._views[prop as string] = {
-            selector: selector,
-            view: View
-        };
+}
+
+export function ViewObservable<T extends Constructor<BaseView<U>>, U extends Element>(Base: T): T {
+    return class extends Base {
+
+        render() {
+            triggerMethodOn(this, Events.BeforeRender);
+            super.render();
+            triggerMethodOn(this, Events.Render);
+            return this;
+        }
+
+        setElement(el: U | undefined, trigger?: boolean) {
+            triggerMethodOn(this, Events.BeforeSetElement);
+            super.setElement(el, trigger);
+            triggerMethodOn(this, Events.SetElement);
+            return this;
+        }
+
+        delegateEvents(events?: EventsMap) {
+            triggerMethodOn(this, Events.BeforeDelegateEvents);
+            super.delegateEvents(events)
+            triggerMethodOn(this, Events.DelegateEvents);
+            return this;
+        }
+
+        undelegateEvents() {
+            triggerMethodOn(this, Events.BeforeUndelegateEvents);
+            super.undelegateEvents();
+            triggerMethodOn(this, Events.UndelegateEvents);
+            return this;
+        }
+
+        destroy() {
+            triggerMethodOn(this, Events.BeforeDestroy);
+            const off = this.off;
+            this.off = () => { }
+            super.destroy();
+            this.off = off;
+            triggerMethodOn(this, Events.Destroy);
+            this.off();
+        }
+
     }
 }
