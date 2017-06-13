@@ -26,11 +26,12 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructo
         }
 
         render() {
-            if (!this.el || !this._views) return this;
-
-            this._unbindViews(this._views);
+            if (this.el && this._views)
+                this._unbindViews(this._views);
             super.render();
-            this._bindViews(this._views)
+
+            if (this.el && this._views)
+                this._bindViews(this._views)
 
             return this;
         }
