@@ -20,6 +20,3 @@ export declare function events(events: {
 export declare function triggers(triggers: {
     [key: string]: string;
 }): <T extends Constructor<BaseView<U>>, U extends Element>(target: T) => void;
-export declare function ui(ui: {
-    [key: string]: string;
-}): <T extends Constructor<BaseView<U>>, U extends Element>(target: T) => void;

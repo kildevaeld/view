@@ -1,5 +1,4 @@
-import { Controller } from './controller';
-import { IViewMountable } from './mixins';
+import { ViewController } from './controller';
 import { View } from './view';
 export declare class Rapper {
 }
@@ -10,8 +9,7 @@ export declare class TestView extends View {
     };
     constructor(rapper: Rapper);
 }
-declare const TestController_base: (new (...args: any[]) => IViewMountable) & typeof Controller;
-export declare class TestController extends TestController_base implements IViewMountable {
+export declare class TestController extends ViewController {
     protected view1: TestView;
     constructor();
 }

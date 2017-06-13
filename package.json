@@ -1,6 +1,6 @@
 {
     "name": "view",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "dependencies": {
         "debug": "^2.6.8",
         "reflect-metadata": "^0.1.10",

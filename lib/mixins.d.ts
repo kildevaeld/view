@@ -17,7 +17,7 @@ export declare namespace ViewMountable {
         get<T>(key: any): T;
     }
     var Invoker: {
-        get<T extends IView>(View: Constructor<T>): T;
+        get<T extends IView>(V: Constructor<T>): T;
     };
 }
 export declare function view(selector: string): <T extends IViewMountable>(target: T, prop: PropertyKey) => void;
