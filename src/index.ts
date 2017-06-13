@@ -5,6 +5,7 @@ export * from './types';
 export * from './mixins';
 export * from './decorators';
 export * from './base-view';
+export * from './utils';
 
 import { ViewMountable } from './mixins'
 import { IView } from './types';
