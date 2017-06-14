@@ -9,7 +9,9 @@ export abstract class AbstractView<T extends Element> extends EventEmitter imple
 
     render() { return this; }
 
-    destroy() { this.off(); }
+    destroy() {
+        this.off();
+    }
 
     abstract setElement(el?: Element, trigger?: boolean): void;
 

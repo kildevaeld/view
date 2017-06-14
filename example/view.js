@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,6 +261,8 @@ exports.indexOf = indexOf;
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -274,6 +276,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_view_1 = __webpack_require__(2);
 var utils_1 = __webpack_require__(0);
+var event_emitter_1 = __webpack_require__(3);
 function ViewMountable(Base) {
     return function (_Base) {
         _inherits(_class, _Base);
@@ -430,6 +433,73 @@ function ViewObservable(Base) {
     }(Base);
 }
 exports.ViewObservable = ViewObservable;
+function EventListener(Base) {
+    return function (_Base3) {
+        _inherits(_class3, _Base3);
+
+        function _class3() {
+            _classCallCheck(this, _class3);
+
+            return _possibleConstructorReturn(this, (_class3.__proto__ || Object.getPrototypeOf(_class3)).apply(this, arguments));
+        }
+
+        _createClass(_class3, [{
+            key: "listenTo",
+            value: function listenTo(obj, event, fn, ctx) {
+                var once = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+
+                if (!event_emitter_1.isEventEmitter(obj)) {
+                    //if (EventEmitter.throwOnError)
+                    //    throw new EventEmitterError("obj is not an EventEmitter", once ? "listenToOnce" : "listenTo", this, obj);
+                    return this;
+                }
+                var listeningTo = void 0,
+                    id = void 0,
+                    meth = void 0;
+                listeningTo = this._listeningTo || (this._listeningTo = {});
+                id = obj.listenId || (obj.listenId = utils_1.uniqueId());
+                listeningTo[id] = obj;
+                meth = once ? 'once' : 'on';
+                obj[meth](event, fn, ctx || this);
+                return this;
+            }
+        }, {
+            key: "listenToOnce",
+            value: function listenToOnce(obj, event, fn, ctx) {
+                return this.listenTo(obj, event, fn, ctx, true);
+            }
+        }, {
+            key: "stopListening",
+            value: function stopListening(obj, event, callback) {
+                if (obj && !event_emitter_1.isEventEmitter(obj)) {
+                    //if (EventEmitter.throwOnError)
+                    //    throw new EventEmitterError("obj is not an EventEmitter", "stopListening", this, obj);
+                    return this;
+                }
+                var listeningTo = this._listeningTo;
+                if (!listeningTo) return this;
+                var remove = !event && !callback;
+                if (!callback && (typeof event === "undefined" ? "undefined" : _typeof(event)) === 'object') callback = this;
+                if (obj) (listeningTo = {})[obj.listenId] = obj;
+                for (var id in listeningTo) {
+                    obj = listeningTo[id];
+                    obj.off(event, callback, this);
+                    if (remove || !Object.keys(obj.listeners).length) delete this._listeningTo[id];
+                }
+                return this;
+            }
+        }, {
+            key: "destroy",
+            value: function destroy() {
+                if (typeof Base.prototype.destroy === 'function') Base.prototype.destroy.call(this);
+                this.stopListening();
+            }
+        }]);
+
+        return _class3;
+    }(Base);
+}
+exports.EventListener = EventListener;
 
 /***/ }),
 /* 2 */
@@ -440,6 +510,8 @@ exports.ViewObservable = ViewObservable;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -448,7 +520,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(0);
-var abstract_view_1 = __webpack_require__(8);
+var abstract_view_1 = __webpack_require__(7);
 //import * as Debug from 'debug';
 var debug = function debug() {}; //Debug("views");
 var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#]+)/i,
@@ -619,10 +691,10 @@ var BaseView = function (_abstract_view_1$Abst) {
         key: "destroy",
         value: function destroy() {
             this.undelegateEvents();
-            this.off();
             if (this.el && this.options.attachId) {
                 this.el.removeAttribute('data-vid');
             }
+            _get(BaseView.prototype.__proto__ || Object.getPrototypeOf(BaseView.prototype), "destroy", this).call(this);
             return this;
         }
     }, {
@@ -726,6 +798,215 @@ exports.BaseView = BaseView;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(0);
+/**
+ *
+ *
+ * @export
+ * @class EventEmitterError
+ * @extends {Error}
+ */
+
+var EventEmitterError = function (_Error) {
+    _inherits(EventEmitterError, _Error);
+
+    /**
+     * Creates an instance of EventEmitterError.
+     *
+     * @param {string} [message]
+     * @param {string} [method]
+     * @param {*} [klass]
+     * @param {*} [ctx]
+     *
+     * @memberOf EventEmitterError
+     */
+    function EventEmitterError(message, method, klass, ctx) {
+        _classCallCheck(this, EventEmitterError);
+
+        var _this = _possibleConstructorReturn(this, (EventEmitterError.__proto__ || Object.getPrototypeOf(EventEmitterError)).call(this, message));
+
+        _this.message = message;
+        _this.method = method;
+        _this.klass = klass;
+        _this.ctx = ctx;
+        return _this;
+    }
+    /**
+     *
+     *
+     * @returns
+     *
+     * @memberOf EventEmitterError
+     */
+
+
+    _createClass(EventEmitterError, [{
+        key: "toString",
+        value: function toString() {
+            var prefix = "EventEmitterError";
+            if (this.method && this.method != "") {
+                prefix = "EventEmitter#" + this.method;
+            }
+            return prefix + ": " + this.message;
+        }
+    }]);
+
+    return EventEmitterError;
+}(Error);
+
+exports.EventEmitterError = EventEmitterError;
+function removeFromListener(listeners, fn, ctx) {
+    for (var i = 0; i < listeners.length; i++) {
+        var e = listeners[i];
+        if (fn == null && ctx != null && e.ctx === ctx || fn != null && ctx == null && e.handler === fn || fn != null && ctx != null && e.handler === fn && e.ctx === ctx) {
+            listeners.splice(i, 1);
+        }
+    }
+    return listeners;
+}
+function isEventEmitter(a) {
+    return a && (a instanceof EventEmitter || utils_1.isFunction(a.on) && utils_1.isFunction(a.once) && utils_1.isFunction(a.off) && utils_1.isFunction(a.trigger));
+}
+exports.isEventEmitter = isEventEmitter;
+
+var EventEmitter = function () {
+    function EventEmitter() {
+        _classCallCheck(this, EventEmitter);
+    }
+
+    _createClass(EventEmitter, [{
+        key: "on",
+        value: function on(event, fn, ctx) {
+            var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+            var events = (this._listeners || (this._listeners = new Map())).get(event) || [];
+            events.push({
+                name: event,
+                once: once,
+                handler: fn,
+                ctx: ctx || this
+            });
+            if (!this._listeners.has(event)) this._listeners.set(event, events);
+            return this;
+        }
+    }, {
+        key: "once",
+        value: function once(event, fn, ctx) {
+            return this.on(event, fn, ctx, true);
+        }
+    }, {
+        key: "off",
+        value: function off(eventName, fn, ctx) {
+            this._listeners = this._listeners || new Map();
+            if (eventName == null && ctx == null) {
+                this._listeners = new Map();
+            } else if (this._listeners.has(eventName)) {
+                var events = this._listeners.get(eventName);
+                if (fn == null && ctx == null) {
+                    this._listeners.set(eventName, []);
+                } else {
+                    removeFromListener(events, fn, ctx);
+                }
+            } else {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = this._listeners.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var en = _step.value;
+
+                        removeFromListener(en, fn, ctx);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+            return this;
+        }
+    }, {
+        key: "trigger",
+        value: function trigger(eventName) {
+            this._listeners = this._listeners || new Map();
+            var events = (this._listeners.get(eventName) || []).concat(this._listeners.get("*") || []);
+            var event = void 0,
+                a = void 0,
+                index = void 0;
+            var calls = [];
+            var alls = [];
+
+            for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                args[_key - 1] = arguments[_key];
+            }
+
+            for (var i = 0, ii = events.length; i < ii; i++) {
+                event = events[i];
+                a = args;
+                if (events[i].name === '*') {
+                    alls.push(events[i]);
+                } else {
+                    calls.push(events[i]);
+                }
+                if (events[i].once === true) {
+                    index = this._listeners.get(events[i].name).indexOf(events[i]);
+                    this._listeners.get(events[i].name).splice(index, 1);
+                }
+            }
+            if (alls.length) {
+                var _a = [eventName].concat(args);
+                this._executeListener(alls, _a);
+            }
+            if (calls.length) this._executeListener(calls, args);
+            return this;
+        }
+    }, {
+        key: "_executeListener",
+        value: function _executeListener(func, args) {
+            EventEmitter.executeListenerFunction(func, args);
+        }
+    }, {
+        key: "listeners",
+        get: function get() {
+            return this._listeners;
+        }
+    }]);
+
+    return EventEmitter;
+}();
+
+EventEmitter.throwOnError = false;
+EventEmitter.executeListenerFunction = function (func, args) {
+    utils_1.callFunc(func, args);
+};
+exports.EventEmitter = EventEmitter;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -793,7 +1074,6 @@ exports.View = View;
 exports.LayoutView = mixins_1.ViewMountable(View);
 
 /***/ }),
-/* 4 */,
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -812,9 +1092,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_view_1 = __webpack_require__(2);
-var view_1 = __webpack_require__(3);
+var view_1 = __webpack_require__(4);
 var mixins_1 = __webpack_require__(1);
-var event_emitter_1 = __webpack_require__(7);
+var event_emitter_1 = __webpack_require__(3);
 
 var ArrayCollection = function (_event_emitter_1$Even) {
     _inherits(ArrayCollection, _event_emitter_1$Even);
@@ -876,6 +1156,17 @@ var ArrayCollection = function (_event_emitter_1$Even) {
             return this.a.find(fn);
         }
     }, {
+        key: "clear",
+        value: function clear() {
+            this.a = [];
+            this.trigger(ModelEvents.Clear);
+        }
+    }, {
+        key: "array",
+        value: function array() {
+            return this.a;
+        }
+    }, {
         key: "length",
         get: function get() {
             return this.a.length;
@@ -890,6 +1181,7 @@ var ModelEvents;
 (function (ModelEvents) {
     ModelEvents.Add = "add";
     ModelEvents.Remove = "remove";
+    ModelEvents.Clear = "clear";
 })(ModelEvents = exports.ModelEvents || (exports.ModelEvents = {}));
 
 var BaseCollectionView = function (_base_view_1$BaseView) {
@@ -1016,6 +1308,7 @@ var BaseCollectionView = function (_base_view_1$BaseView) {
             if (this.collection instanceof event_emitter_1.EventEmitter) {
                 this.collection.on(ModelEvents.Add, this._modelAdded, this);
                 this.collection.on(ModelEvents.Remove, this._modelRemoved, this);
+                this.collection.on(ModelEvents.Clear, this._removeChildViews, this);
             }
         }
     }, {
@@ -1028,8 +1321,9 @@ var BaseCollectionView = function (_base_view_1$BaseView) {
     }, {
         key: "_getChildViewContainer",
         value: function _getChildViewContainer() {
-            if (!this.options.childViewContainer) return this.el;
-            var el = this.el.querySelector(this.options.childViewContainer);
+            var sel = this.options.childViewContainer || this.childViewContainer;
+            if (!sel) return this.el;
+            var el = this.el.querySelector(sel);
             if (!el) throw new Error("tag not found: " + this.options.childViewContainer);
             return el;
         }
@@ -1137,155 +1431,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(0);
-function removeFromListener(listeners, fn, ctx) {
-    for (var i = 0; i < listeners.length; i++) {
-        var e = listeners[i];
-        if (fn == null && ctx != null && e.ctx === ctx || fn != null && ctx == null && e.handler === fn || fn != null && ctx != null && e.handler === fn && e.ctx === ctx) {
-            listeners.splice(i, 1);
-        }
-    }
-    return listeners;
-}
-function isEventEmitter(a) {
-    return a && (a instanceof EventEmitter || utils_1.isFunction(a.on) && utils_1.isFunction(a.once) && utils_1.isFunction(a.off) && utils_1.isFunction(a.trigger));
-}
-exports.isEventEmitter = isEventEmitter;
-
-var EventEmitter = function () {
-    function EventEmitter() {
-        _classCallCheck(this, EventEmitter);
-    }
-
-    _createClass(EventEmitter, [{
-        key: "on",
-        value: function on(event, fn, ctx) {
-            var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-
-            var events = (this._listeners || (this._listeners = new Map())).get(event) || [];
-            events.push({
-                name: event,
-                once: once,
-                handler: fn,
-                ctx: ctx || this
-            });
-            if (!this._listeners.has(event)) this._listeners.set(event, events);
-            return this;
-        }
-    }, {
-        key: "once",
-        value: function once(event, fn, ctx) {
-            return this.on(event, fn, ctx, true);
-        }
-    }, {
-        key: "off",
-        value: function off(eventName, fn, ctx) {
-            this._listeners = this._listeners || new Map();
-            if (eventName == null && ctx == null) {
-                this._listeners = new Map();
-            } else if (this._listeners.has(eventName)) {
-                var events = this._listeners.get(eventName);
-                if (fn == null && ctx == null) {
-                    this._listeners.set(eventName, []);
-                } else {
-                    removeFromListener(events, fn, ctx);
-                }
-            } else {
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
-
-                try {
-                    for (var _iterator = this._listeners.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var en = _step.value;
-
-                        removeFromListener(en, fn, ctx);
-                    }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
-                        }
-                    } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
-                    }
-                }
-            }
-            return this;
-        }
-    }, {
-        key: "trigger",
-        value: function trigger(eventName) {
-            this._listeners = this._listeners || new Map();
-            var events = (this._listeners.get(eventName) || []).concat(this._listeners.get("*") || []);
-            var event = void 0,
-                a = void 0,
-                index = void 0;
-            var calls = [];
-            var alls = [];
-
-            for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                args[_key - 1] = arguments[_key];
-            }
-
-            for (var i = 0, ii = events.length; i < ii; i++) {
-                event = events[i];
-                a = args;
-                if (events[i].name === '*') {
-                    alls.push(events[i]);
-                } else {
-                    calls.push(events[i]);
-                }
-                if (events[i].once === true) {
-                    index = this._listeners.get(events[i].name).indexOf(events[i]);
-                    this._listeners.get(events[i].name).splice(index, 1);
-                }
-            }
-            if (alls.length) {
-                var _a = [eventName].concat(args);
-                this._executeListener(alls, _a);
-            }
-            if (calls.length) this._executeListener(calls, args);
-            return this;
-        }
-    }, {
-        key: "_executeListener",
-        value: function _executeListener(func, args) {
-            EventEmitter.executeListenerFunction(func, args);
-        }
-    }]);
-
-    return EventEmitter;
-}();
-
-EventEmitter.executeListenerFunction = function (func, args) {
-    utils_1.callFunc(func, args);
-};
-exports.EventEmitter = EventEmitter;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var event_emitter_1 = __webpack_require__(7);
+var event_emitter_1 = __webpack_require__(3);
 
 var AbstractView = function (_event_emitter_1$Even) {
     _inherits(AbstractView, _event_emitter_1$Even);
@@ -1322,12 +1473,7 @@ var AbstractView = function (_event_emitter_1$Even) {
 exports.AbstractView = AbstractView;
 
 /***/ }),
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1340,8 +1486,8 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 //export * from './controller';
+__export(__webpack_require__(4));
 __export(__webpack_require__(3));
-__export(__webpack_require__(7));
 __export(__webpack_require__(1));
 __export(__webpack_require__(6));
 __export(__webpack_require__(2));

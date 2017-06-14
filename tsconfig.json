@@ -26,13 +26,13 @@
     "strict": true,
     "declaration": true,
     /* Enable all strict type-checking options. */
-    "noImplicitAny": true,
+    //"noImplicitAny": false,
     /* Raise error on expressions and declarations with an implied 'any' type. */
-    "strictNullChecks": true,
+    //"strictNullChecks": false,
     /* Enable strict null checks. */
-    "noImplicitThis": true,
+    // "noImplicitThis": true,
     /* Raise error on 'this' expressions with an implied 'any' type. */
-    "alwaysStrict": true,
+    // "alwaysStrict": true,
     /* Parse in strict mode and emit "use strict" for each source file. */
 
     /* Additional Checks */
@@ -40,7 +40,7 @@
     /* Report errors on unused locals. */
     "noUnusedParameters": true,
     /* Report errors on unused parameters. */
-    "noImplicitReturns": true,
+    //"noImplicitReturns": true,
     /* Report error when not all code paths in function return a value. */
     "noFallthroughCasesInSwitch": true,
     /* Report errors for fallthrough cases in switch statement. */

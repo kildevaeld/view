@@ -226,10 +226,10 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
     destroy(): any {
         this.undelegateEvents()
-        this.off();
         if (this.el && this.options.attachId) {
             this.el!.removeAttribute('data-vid');
         }
+        super.destroy();
         return this;
     }
 

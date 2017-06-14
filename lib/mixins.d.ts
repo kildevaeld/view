@@ -1,5 +1,5 @@
 import { BaseView, BaseViewConstructor } from './base-view';
-import { IView, Constructor } from './types';
+import { IView, Constructor, IEventEmitter, EventHandler } from './types';
 export interface ViewMapOptions<T extends BaseView<U>, U extends Element> {
     selector: string;
     view: BaseViewConstructor<T, U>;
@@ -33,3 +33,9 @@ export declare namespace Events {
     const Destroy = "destroy";
 }
 export declare function ViewObservable<T extends Constructor<BaseView<U>>, U extends Element>(Base: T): T;
+export interface IEventListener {
+    listenTo(obj: IEventEmitter, event: string, fn: EventHandler, ctx?: any): any;
+    listenToOnce(obj: IEventEmitter, event: string, fn: EventHandler, ctx?: any): any;
+    stopListening(obj?: IEventEmitter, event?: string, fn?: EventHandler): any;
+}
+export declare function EventListener<T extends Constructor<{}>>(Base: T): Constructor<IEventListener> & T;

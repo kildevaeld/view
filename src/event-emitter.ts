@@ -1,13 +1,47 @@
-import { isFunction, callFunc, Call } from './utils'
-import { IEventEmitter, EventHandler } from './types';
+import { isFunction, callFunc } from './utils'
+import { IEventEmitter, EventHandler, Event } from './types';
 
 
-interface Event extends Call {
-    name: string
-    once: boolean
-    handler: EventHandler
-    ctx?: any
+
+/**
+ * 
+ * 
+ * @export
+ * @class EventEmitterError
+ * @extends {Error}
+ */
+export class EventEmitterError extends Error {
+    /**
+     * Creates an instance of EventEmitterError.
+     * 
+     * @param {string} [message]
+     * @param {string} [method]
+     * @param {*} [klass]
+     * @param {*} [ctx]
+     * 
+     * @memberOf EventEmitterError
+     */
+    constructor(public message: string, public method?: string, public klass?: any, public ctx?: any) {
+        super(message);
+    }
+
+    /**
+     * 
+     * 
+     * @returns
+     * 
+     * @memberOf EventEmitterError
+     */
+    toString() {
+        let prefix = "EventEmitterError";
+        if (this.method && this.method != "") {
+            prefix = `EventEmitter#${this.method}`;
+        }
+        return `${prefix}: ${this.message}`;
+    }
 }
+
+
 
 function removeFromListener(listeners: Event[], fn?: EventHandler, ctx?: any) {
     for (let i = 0; i < listeners.length; i++) {
@@ -21,18 +55,24 @@ function removeFromListener(listeners: Event[], fn?: EventHandler, ctx?: any) {
     return listeners;
 }
 
-export function isEventEmitter(a: any): a is EventEmitter {
+export function isEventEmitter(a: any): a is IEventEmitter {
     return a && (a instanceof EventEmitter || (isFunction(a.on) && isFunction(a.once) && isFunction(a.off) && isFunction(a.trigger)));
 }
 
 
 export class EventEmitter implements IEventEmitter {
-
-    static executeListenerFunction: (func: Call[], args?: any[]) => void = function (func, args) {
+    static throwOnError = false;
+    static executeListenerFunction: (func: Event[], args?: any[]) => void = function (func, args) {
         callFunc(func, args);
     }
 
     private _listeners: Map<any, Event[]>
+
+
+
+    get listeners() {
+        return this._listeners;
+    }
 
     on(event: any, fn: EventHandler, ctx?: any, once: boolean = false): any {
         let events = (this._listeners || (this._listeners = new Map())).get(event) || [];
@@ -110,7 +150,10 @@ export class EventEmitter implements IEventEmitter {
 
     }
 
-    private _executeListener(func: Call[], args?: any[]) {
+
+
+
+    private _executeListener(func: Event[], args?: any[]) {
         EventEmitter.executeListenerFunction(func, args);
     }
 
