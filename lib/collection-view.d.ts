@@ -33,7 +33,8 @@ export declare class BaseCollectionView<T extends Element, U extends ICollection
     private _collection?;
     private _childViews;
     readonly options: BaseCollectionViewOptions<T, V>;
-    childView: Constructor<V>;
+    childView?: Constructor<V>;
+    childViewContainer?: string;
     collection: U | undefined;
     render(): this;
     protected _removeChildViews(): void;

@@ -81,7 +81,10 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
     private _collection?: U;
     private _childViews: V[];
     readonly options: BaseCollectionViewOptions<T, V>;
-    childView: Constructor<V>
+
+    childView?: Constructor<V>
+    childViewContainer?: string;
+
     set collection(collection: U | undefined) {
         if (this._collection == collection) return;
         if (this.collection) {
@@ -210,8 +213,9 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
     }
 
     private _getChildViewContainer() {
-        if (!this.options.childViewContainer) return this.el!;
-        let el = this.el!.querySelector(this.options.childViewContainer);
+        let sel = this.options.childViewContainer || this.childViewContainer
+        if (!sel) return this.el!;
+        let el = this.el!.querySelector(sel);
         if (!el) throw new Error(`tag not found: ${this.options.childViewContainer}`);
         return el!;
     }
