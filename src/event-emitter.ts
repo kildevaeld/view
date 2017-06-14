@@ -1,11 +1,8 @@
-import { isFunction, callFunc } from './utils'
-import { IEventEmitter } from './types';
+import { isFunction, callFunc, Call } from './utils'
+import { IEventEmitter, EventHandler } from './types';
 
-export interface EventHandler {
-    (...args: any[]): void
-}
 
-export interface Event {
+interface Event extends Call {
     name: string
     once: boolean
     handler: EventHandler
@@ -28,9 +25,10 @@ export function isEventEmitter(a: any): a is EventEmitter {
     return a && (a instanceof EventEmitter || (isFunction(a.on) && isFunction(a.once) && isFunction(a.off) && isFunction(a.trigger)));
 }
 
+
 export class EventEmitter implements IEventEmitter {
 
-    static executeListenerFunction: (func: Event[], args?: any[]) => void = function (func, args) {
+    static executeListenerFunction: (func: Call[], args?: any[]) => void = function (func, args) {
         callFunc(func, args);
     }
 
@@ -112,7 +110,7 @@ export class EventEmitter implements IEventEmitter {
 
     }
 
-    private _executeListener(func: Event[], args?: any[]) {
+    private _executeListener(func: Call[], args?: any[]) {
         EventEmitter.executeListenerFunction(func, args);
     }
 
