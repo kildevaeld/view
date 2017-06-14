@@ -99,24 +99,10 @@ export class TestController extends ViewController {
 
     constructor() {
         super();
-    }
-
-    render() {
-        super.render()
         this.view1.on('*', (event) => {
             console.log(event)
         })
-        return this;
     }
 
+
 }
-
-/*
-import { View } from './view';
-import { ViewMountable, view } from './mixins'
-class TestView extends ViewMountable(View) {
-
-    @view('.view1')
-    view1: View
-
-}*/

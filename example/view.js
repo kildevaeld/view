@@ -287,15 +287,17 @@ function ViewMountable(Base) {
                 args[_key] = arguments[_key];
             }
 
-            return _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
+            var _this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
+
+            if (_this._views) _this._bindViews(_this._views);
+            return _this;
         }
 
         _createClass(_class, [{
             key: "render",
             value: function render() {
-                if (this.el && this._views) this._unbindViews(this._views);
                 _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "render", this).call(this);
-                if (this.el && this._views) this._bindViews(this._views);
+                this._renderViews(this._views);
                 return this;
             }
         }, {
@@ -309,16 +311,11 @@ function ViewMountable(Base) {
         }, {
             key: "_bindViews",
             value: function _bindViews(views) {
-                var el = void 0,
-                    o = void 0;
+                var o = void 0;
                 for (var key in views) {
                     o = views[key];
-                    var sel = base_view_1.normalizeUIString(o.selector, this._ui || {});
-                    el = this.el.querySelector(sel);
-                    if (!el) throw new Error("No selector " + sel + " in dom");
                     var view = ViewMountable.Invoker.get(o.view);
-                    view.setElement(el, false);
-                    this[key] = view.render();
+                    this[key] = view;
                 }
             }
         }, {
@@ -330,6 +327,22 @@ function ViewMountable(Base) {
                         self[key].destroy();
                         self[key] = void 0;
                     }
+                }
+            }
+        }, {
+            key: "_renderViews",
+            value: function _renderViews(views) {
+                var el = void 0,
+                    o = void 0;
+                for (var key in views) {
+                    o = views[key];
+                    var sel = base_view_1.normalizeUIString(o.selector, this._ui || {});
+                    el = this.el.querySelector(sel);
+                    if (!el) throw new Error("No selector " + sel + " in dom");
+                    var view = this[key];
+                    if (!view) throw new Error('view not mounted');
+                    view.setElement(el, false);
+                    view.render();
                 }
             }
         }]);

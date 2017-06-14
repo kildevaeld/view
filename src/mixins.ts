@@ -24,17 +24,15 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
         _views: ViewMap
         constructor(...args: any[]) {
             super(...args);
+            if (this._views)
+                this._bindViews(this._views);
         }
 
+
+
         render() {
-            if (this.el && this._views)
-                this._unbindViews(this._views);
-
             super.render();
-
-            if (this.el && this._views)
-                this._bindViews(this._views)
-
+            this._renderViews(this._views);
             return this;
         }
 
@@ -46,18 +44,11 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
         }
 
         private _bindViews(views: ViewMap) {
-            let el: Element | null, o: ViewMapOptions<any, any>;
+            let o: ViewMapOptions<any, any>;
             for (const key in views) {
                 o = views[key];
-
-                let sel = normalizeUIString(o.selector, (<any>this)._ui || {})
-
-                el = this.el!.querySelector(sel);
-                if (!el) throw new Error(`No selector ${sel} in dom`);
-
                 let view = ViewMountable.Invoker.get<BaseView<Element>>(o.view);
-                view.setElement(el, false);
-                (<any>this)[key] = view.render();
+                (<any>this)[key] = view;
             }
         }
 
@@ -68,6 +59,23 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
                     self[key].destroy();
                     self[key] = void 0;
                 }
+            }
+        }
+
+        private _renderViews(views: ViewMap) {
+            let el: Element | null, o: ViewMapOptions<any, any>;
+            for (const key in views) {
+                o = views[key];
+
+                let sel = normalizeUIString(o.selector, (<any>this)._ui || {})
+
+                el = this.el!.querySelector(sel);
+                if (!el) throw new Error(`No selector ${sel} in dom`);
+
+                let view: BaseView<Element> = (<any>this)[key];
+                if (!view) throw new Error('view not mounted');
+                view.setElement(el, false);
+                view.render();
             }
         }
     }
