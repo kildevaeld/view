@@ -56,11 +56,19 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
     find(fn: (m: T) => boolean) {
         return this.a.find(fn);
     }
+
+    clear() {
+        this.a = [];
+        this.trigger(ModelEvents.Clear);
+    }
+
+    array() { return this.a }
 }
 
 export namespace ModelEvents {
     export const Add = "add";
     export const Remove = "remove";
+    export const Clear = "clear";
 }
 
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
@@ -191,6 +199,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         if (this.collection instanceof EventEmitter) {
             this.collection.on(ModelEvents.Add, this._modelAdded, this);
             this.collection.on(ModelEvents.Remove, this._modelRemoved, this);
+            this.collection.on(ModelEvents.Clear, this._removeChildViews, this);
         }
     }
 

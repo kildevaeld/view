@@ -17,10 +17,13 @@ export declare class ArrayCollection<T> extends EventEmitter implements ICollect
     indexOf(m: T): number;
     remove(index: number): T | undefined;
     find(fn: (m: T) => boolean): T | undefined;
+    clear(): void;
+    array(): T[];
 }
 export declare namespace ModelEvents {
     const Add = "add";
     const Remove = "remove";
+    const Clear = "clear";
 }
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
     childViewContainer?: string;

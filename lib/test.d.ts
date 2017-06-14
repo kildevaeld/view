@@ -33,5 +33,4 @@ export declare class TestController extends ViewController {
     protected view1: TestView;
     protected list: List;
     constructor();
-    render(): this;
 }
