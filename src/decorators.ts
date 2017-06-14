@@ -1,7 +1,6 @@
 import { EventsMap, StringMap, BaseView } from './base-view'
 import { extend } from './utils';
 import { Constructor, IView } from './types';
-import { IViewMountable } from './mixins'
 export interface TriggerOptions {
     event: string;
     preventDefault?: boolean;

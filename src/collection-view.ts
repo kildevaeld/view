@@ -1,27 +1,66 @@
 import { BaseView, BaseViewOptions } from './base-view';
-import { View, ViewOptions } from './view';
-import { EventEmitter } from './event-emitter';
-import { IView, Constructor } from './types';
-import { extend } from './utils';
+import { View } from './view';
+import { Constructor } from './types';
 import { ViewMountable } from './mixins';
+import { EventEmitter } from './event-emitter';
 export interface ICollection<T> {
     length: number;
     item(index: number): T | undefined;
     //indexOf(item: T): number;
 }
 
-export function ArrayCollection<T>(a: ArrayLike<T>): ICollection<T> {
-    return new class {
-        constructor(private a: ArrayLike<T>) { }
-        get length(): number {
-            return this.a.length;
-        }
+export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
 
-        item(index: number): T | undefined {
-            if (index >= this.a.length) return undefined;
-            return this.a[index];
-        }
-    }(a);
+    constructor(private a: Array<T> = []) {
+        super();
+    }
+    get length(): number {
+        return this.a.length;
+    }
+
+    item(index: number): T | undefined {
+        if (index >= this.a.length) return undefined;
+
+        return this.a[index];
+    }
+
+    push(m: T) {
+        this.a.push(m);
+        this.trigger(ModelEvents.Add, m, this.a.length - 1);
+    }
+
+    pop(): T | undefined {
+        let m = this.a.pop()
+        this.trigger(ModelEvents.Remove, m, this.a.length);
+        return m;
+    }
+
+    insert(m: T, index: number) {
+        if (index >= this.length) return;
+        this.a.splice(index, 0, m);
+        this.trigger(ModelEvents.Add, m, index);
+    }
+
+    indexOf(m: T) {
+        return this.a.indexOf(m);
+    }
+
+    remove(index: number): T | undefined {
+        let m = this.item(index);
+        if (!m) return undefined;
+        this.a.splice(index, 1);
+        this.trigger(ModelEvents.Remove, m, index);
+        return m;
+    }
+
+    find(fn: (m: T) => boolean) {
+        return this.a.find(fn);
+    }
+}
+
+export namespace ModelEvents {
+    export const Add = "add";
+    export const Remove = "remove";
 }
 
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
@@ -37,7 +76,14 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
     childView: Constructor<V>
     set collection(collection: U | undefined) {
         if (this._collection == collection) return;
+        if (this.collection) {
+            this._removeModelEvents();
+            this._removeChildViews();
+        }
         this._collection = collection;
+        if (this.collection) {
+            this._addModelEvents();
+        }
     }
 
     get collection(): U | undefined {
@@ -52,6 +98,8 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         if (!this.el || !this.collection) return this;
 
         this._renderCollection();
+
+        this.delegateEvents();
 
         return this;
     }
@@ -80,20 +128,35 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         for (let i = 0, ii = col!.length; i < ii; i++) {
             let item = col!.item(i);
             if (!item) throw TypeError("invalid index");
-            let el = this._createChildView(item);
-            frag.appendChild(el.render().el!);
-            this._childViews.push(el);
+            let view = this._createChildView(item);
+            this._renderChildView(view);
+            this._attachChildView(frag, view, i);
         }
 
         container.appendChild(frag);
     }
 
 
-    private _createChildView(model: M): V {
+
+    protected _renderChildView(view: V) {
+        view.render();
+    }
+
+    protected _attachChildView(container: Node, view: V, index: number) {
+        if (index >= this._childViews.length) {
+            container.appendChild(view.el!);
+            this._childViews.push(view);
+        } else {
+            let after = this._childViews[index];
+            this._childViews.splice(index, 0, view);
+            container.insertBefore(view.el!, after.el!);
+        }
+
+    }
+
+
+    protected _createChildView(model: M): V {
         let Vi: Constructor<V> = this.options.childView || this.childView || (View as any);
-        /*let options = extend({}, this.options.childViewOptions || {}, {
-            ensureElement: "div"
-        });*/
 
         let el = ViewMountable.Invoker.get(Vi);
         (<any>el).data = model;
@@ -103,6 +166,38 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
 
         return el;
 
+    }
+
+    protected _destroyChildView(view: V) {
+        let index = this._childViews.indexOf(view);
+        this._childViews.splice(index, 1);
+        let container = this._getChildViewContainer();
+        container.removeChild(view.el!);
+        view.destroy();
+    }
+
+    private _modelAdded(item: M, index: number) {
+        let view = this._createChildView(item);
+        this._renderChildView(view);
+        this._attachChildView(this._getChildViewContainer(), view, index);
+    }
+
+    private _modelRemoved(_: M, index: number) {
+        let view = this._childViews[index];
+        this._destroyChildView(view);
+    }
+
+    protected _addModelEvents() {
+        if (this.collection instanceof EventEmitter) {
+            this.collection.on(ModelEvents.Add, this._modelAdded, this);
+            this.collection.on(ModelEvents.Remove, this._modelRemoved, this);
+        }
+    }
+
+    protected _removeModelEvents() {
+        if (this.collection instanceof EventEmitter) {
+            this.collection.off(null, undefined, this);
+        }
     }
 
     private _getChildViewContainer() {

@@ -1,5 +1,3 @@
-
-
 export interface IEventEmitter {
     trigger(...args: any[]): void;
 }

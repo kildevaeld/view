@@ -17,15 +17,9 @@ export interface DelegateEvent extends Event {
 }
 
 export function normalizeUIKeys(obj: any, uimap: StringMap): StringMap {
-    let o: { [key: string]: any } = {}, k, v, ms, sel, ui;
+    let o: { [key: string]: any } = {}, k, v;
     for (k in obj) {
         v = obj[k];
-        /*if ((ms = kUIRegExp.exec(k)) !== null) {
-            ui = ms[1], sel = uimap[ui];
-            if (sel != null) {
-                k = k.replace(ms[0], sel);
-            }
-        }*/
         k = normalizeUIString(k, uimap);
         o[k] = v;
     }
@@ -51,17 +45,6 @@ export interface BaseViewOptions<T extends Element> {
     el?: T;
     attachId?: boolean;
 }
-
-/*
-export namespace Events {
-    export const BeforeRender = "before:render";
-    export const Render = "render";
-    export const BeforeSetElement = "before:set:element";
-    export const SetElement = "set:element";
-    export const BeforeDelegateEvents = "before:delegate:events";
-    export const DelegateEvents = "delegate:events";
-    export const UndelegateEvents = "undelegate:events";
-}*/
 
 export class BaseView<T extends Element> extends AbstractView<T> {
 

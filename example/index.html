@@ -16,12 +16,17 @@
 
         <script>
 
+        
+
             console.log(view)
             let c = view.mount(document.querySelector('body'), view.TestController).render();
 
             console.log(c)
 
             setTimeout(() => {
+                c.list.collection.insert({
+                    name: 'Test 3'
+                },1)
                 //c.destroy();
             }, 2000)
         </script>

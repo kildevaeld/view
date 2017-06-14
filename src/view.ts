@@ -1,5 +1,5 @@
 import { BaseView, BaseViewOptions } from './base-view';
-import { result, triggerMethodOn } from './utils';
+import { result } from './utils';
 import { ViewMountable } from './mixins';
 
 export interface ViewOptions extends BaseViewOptions<Element> {

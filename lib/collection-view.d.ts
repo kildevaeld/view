@@ -1,11 +1,27 @@
 import { BaseView, BaseViewOptions } from './base-view';
 import { View } from './view';
 import { Constructor } from './types';
+import { EventEmitter } from './event-emitter';
 export interface ICollection<T> {
     length: number;
     item(index: number): T | undefined;
 }
-export declare function ArrayCollection<T>(a: ArrayLike<T>): ICollection<T>;
+export declare class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
+    private a;
+    constructor(a?: Array<T>);
+    readonly length: number;
+    item(index: number): T | undefined;
+    push(m: T): void;
+    pop(): T | undefined;
+    insert(m: T, index: number): void;
+    indexOf(m: T): number;
+    remove(index: number): T | undefined;
+    find(fn: (m: T) => boolean): T | undefined;
+}
+export declare namespace ModelEvents {
+    const Add = "add";
+    const Remove = "remove";
+}
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
     childViewContainer?: string;
     childView?: Constructor<U>;
@@ -19,7 +35,14 @@ export declare class BaseCollectionView<T extends Element, U extends ICollection
     render(): this;
     protected _removeChildViews(): void;
     protected _renderCollection(collection?: U): void;
-    private _createChildView(model);
+    protected _renderChildView(view: V): void;
+    protected _attachChildView(container: Node, view: V, index: number): void;
+    protected _createChildView(model: M): V;
+    protected _destroyChildView(view: V): void;
+    private _modelAdded(item, index);
+    private _modelRemoved(_, index);
+    protected _addModelEvents(): void;
+    protected _removeModelEvents(): void;
     private _getChildViewContainer();
     destroy(): void;
 }
