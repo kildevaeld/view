@@ -9,9 +9,6 @@ export interface ViewOptions extends BaseViewOptions<Element> {
 
 export class View extends BaseView<Element> {
     readonly options: ViewOptions;
-
-
-
     constructor(options: ViewOptions = { attachId: true }) {
         super(options);
     }

@@ -15,4 +15,4 @@ export function mount<T extends IView>(el: Element, mountable: new (...args: any
     return view;
 }
 
-//export * from './test';
+export * from './test';

@@ -1,4 +1,4 @@
-import { BaseView, BaseViewConstructor, EventsMap } from './base-view';
+import { BaseView, BaseViewConstructor, EventsMap, normalizeUIString } from './base-view';
 import { IView, Constructor } from './types';
 import { triggerMethodOn } from './utils';
 //import { transient } from 'slick-di';
@@ -49,8 +49,11 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
             let el: Element | null, o: ViewMapOptions<any, any>;
             for (const key in views) {
                 o = views[key];
-                el = this.el!.querySelector(o.selector);
-                if (!el) throw new Error(`No selector ${o.selector} in dom`);
+
+                let sel = normalizeUIString(o.selector, (<any>this)._ui || {})
+
+                el = this.el!.querySelector(sel);
+                if (!el) throw new Error(`No selector ${sel} in dom`);
 
                 let view = ViewMountable.Invoker.get<BaseView<Element>>(o.view);
                 view.setElement(el, false);
