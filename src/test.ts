@@ -1,21 +1,28 @@
 import { ViewController } from './controller';
 import { View } from './view';
-import { autoinject, Container } from 'slick-di'
+import { autoinject, Container, singleton } from 'slick-di'
 import { attributes, event, view } from './decorators'
 import { ViewObservable, ViewMountable } from './mixins';
+import { uniqueId } from './utils';
 import { ArrayCollection, CollectionView, ICollection } from './collection-view';
+
+@singleton()
 export class Rapper {
+    id: string = uniqueId();
 
 }
 
 var container = new Container();
 
-ViewMountable.Invoker = container;
+
+ViewMountable.Invoker = container
 
 interface Model {
     name: string;
 }
 
+
+@autoinject
 class List extends CollectionView<Model, View> {
     childView = class ChildView extends View {
         template = (data: Model) => `${data.name}`
@@ -23,6 +30,11 @@ class List extends CollectionView<Model, View> {
     collection = ArrayCollection<Model>([
         { name: 'Test 1' }, { name: 'Test 2' }
     ]);
+
+    constructor(rapper: Rapper) {
+        super();
+        console.log(rapper)
+    }
 }
 
 @autoinject

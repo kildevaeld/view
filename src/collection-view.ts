@@ -3,7 +3,7 @@ import { View, ViewOptions } from './view';
 import { EventEmitter } from './event-emitter';
 import { IView, Constructor } from './types';
 import { extend } from './utils';
-
+import { ViewMountable } from './mixins';
 export interface ICollection<T> {
     length: number;
     item(index: number): T | undefined;
@@ -27,7 +27,6 @@ export function ArrayCollection<T>(a: ArrayLike<T>): ICollection<T> {
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
     childViewContainer?: string;
     childView?: Constructor<U>
-    childViewOptions?: ViewOptions;
 }
 
 export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, V extends View> extends BaseView<T> {
@@ -89,14 +88,18 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         container.appendChild(frag);
     }
 
-    private _createChildView(model: M): V {
-        let V = this.options.childView || this.childView || View;
-        let options = extend({}, this.options.childViewOptions || {}, {
-            ensureElement: "div"
-        });
 
-        let el = new V(options);
+    private _createChildView(model: M): V {
+        let Vi: Constructor<V> = this.options.childView || this.childView || (View as any);
+        /*let options = extend({}, this.options.childViewOptions || {}, {
+            ensureElement: "div"
+        });*/
+
+        let el = ViewMountable.Invoker.get(Vi);
         (<any>el).data = model;
+        if (!el.options.ensureElement)
+            el.options.ensureElement = 'div';
+        el.options.attachId = true;
 
         return el;
 

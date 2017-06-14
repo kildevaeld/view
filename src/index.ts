@@ -6,6 +6,7 @@ export * from './mixins';
 export * from './decorators';
 export * from './base-view';
 export * from './utils';
+export * from './collection-view';
 
 import { ViewMountable } from './mixins'
 import { IView } from './types';
@@ -15,4 +16,4 @@ export function mount<T extends IView>(el: Element, mountable: new (...args: any
     return view;
 }
 
-//export * from './test';
+export * from './test';

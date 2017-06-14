@@ -1,6 +1,7 @@
 import { ViewController } from './controller';
 import { View } from './view';
 export declare class Rapper {
+    id: string;
 }
 declare const TestView_base: typeof View;
 export declare class TestView extends TestView_base {

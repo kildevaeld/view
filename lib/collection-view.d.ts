@@ -1,5 +1,5 @@
 import { BaseView, BaseViewOptions } from './base-view';
-import { View, ViewOptions } from './view';
+import { View } from './view';
 import { Constructor } from './types';
 export interface ICollection<T> {
     length: number;
@@ -9,7 +9,6 @@ export declare function ArrayCollection<T>(a: ArrayLike<T>): ICollection<T>;
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
     childViewContainer?: string;
     childView?: Constructor<U>;
-    childViewOptions?: ViewOptions;
 }
 export declare class BaseCollectionView<T extends Element, U extends ICollection<M>, M, V extends View> extends BaseView<T> {
     private _collection?;

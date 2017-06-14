@@ -18,11 +18,11 @@ export class View extends BaseView<Element> {
         if (this.options.ensureElement) this._ensureElement();
 
         if (!this.el) return this;
-        //triggerMethodOn(this, Events.BeforeRender);
+
         this.undelegateEvents();
         this.renderTemplate();
         this.delegateEvents();
-        //triggerMethodOn(this, Events.Render);
+
         return this;
     }
 
