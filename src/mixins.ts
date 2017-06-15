@@ -20,7 +20,7 @@ export interface IViewMountable {
     _views: ViewMap;
 }
 
-export function ViewMountable<T extends Constructor<IView>>(Base: T): T {
+export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructor<IViewMountable> & T {
     return class extends Base {
         _views: ViewMap
         constructor(...args: any[]) {
@@ -108,6 +108,8 @@ export namespace Events {
     export const Destroy = "destroy";
 
 }
+
+
 
 export function ViewObservable<T extends Constructor<BaseView<U>>, U extends Element>(Base: T): T {
     return class extends Base {

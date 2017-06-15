@@ -1,4 +1,4 @@
-import { extend, triggerMethodOn, uniqueId, indexOf } from './utils';
+import { extend, triggerMethodOn, uniqueId, indexOf, result } from './utils';
 import { AbstractView } from './abstract-view'
 //import * as Debug from 'debug';
 
@@ -82,12 +82,13 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
 
     delegateEvents(events?: EventsMap): any {
+
         if (!this.el) return;
 
 
         this._bindUIElements();
 
-        events = events || this.events || {}; //result(this, 'events');
+        events = events || result(this, 'events') || {}; //result(this, 'events');
         events = normalizeUIKeys(events, this._ui);
 
         let triggers = this._configureTriggers();

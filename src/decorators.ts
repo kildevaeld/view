@@ -1,6 +1,7 @@
 import { EventsMap, StringMap, BaseView } from './base-view'
 import { extend } from './utils';
 import { Constructor, IView } from './types';
+
 export interface TriggerOptions {
     event: string;
     preventDefault?: boolean;
@@ -47,8 +48,10 @@ export namespace event {
     }
 }
 
+import { IViewMountable } from './mixins';
+
 export function view(selector: string) {
-    return function <T extends IView>(target: T, prop: PropertyKey) {
+    return function <T extends IViewMountable>(target: T, prop: PropertyKey) {
         let View = Reflect.getOwnMetadata("design:type", target, prop as string);
         if (!View) throw new Error('design:type does not exists');
         if (!(<any>target)._views) (<any>target)._views = {};
