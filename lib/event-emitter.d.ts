@@ -34,6 +34,7 @@ export declare class EventEmitterError extends Error {
 export declare function isEventEmitter(a: any): a is IEventEmitter;
 export declare class EventEmitter implements IEventEmitter {
     static throwOnError: boolean;
+    static throwError(error: Error): void;
     static executeListenerFunction: (func: Event[], args?: any[]) => void;
     private _listeners;
     readonly listeners: Map<any, Event[]>;

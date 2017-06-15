@@ -62,6 +62,11 @@ export function isEventEmitter(a: any): a is IEventEmitter {
 
 export class EventEmitter implements IEventEmitter {
     static throwOnError = false;
+
+    static throwError(error: Error) {
+        throw error;
+    }
+
     static executeListenerFunction: (func: Event[], args?: any[]) => void = function (func, args) {
         callFunc(func, args);
     }
@@ -145,6 +150,16 @@ export class EventEmitter implements IEventEmitter {
         }
 
         if (calls.length) this._executeListener(calls, args);
+        // Handle errors event
+        else if (eventName === 'error' && EventEmitter.throwOnError) {
+            if (args.length) {
+                let a = args[0];
+                if (!(a instanceof Error)) {
+                    a = new Error(String(a));
+                }
+                EventEmitter.throwError(a);
+            }
+        }
 
         return this;
 
