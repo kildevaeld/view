@@ -24,9 +24,11 @@ export declare namespace ModelEvents {
     const Add = "add";
     const Remove = "remove";
     const Clear = "clear";
+    const Sort = "sort";
 }
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
     childViewContainer?: string;
+    eventProxyName?: string;
     childView?: Constructor<U>;
 }
 export declare class BaseCollectionView<T extends Element, U extends ICollection<M>, M, V extends View> extends BaseView<T> {
@@ -36,6 +38,7 @@ export declare class BaseCollectionView<T extends Element, U extends ICollection
     childView?: Constructor<V>;
     childViewContainer?: string;
     collection: U | undefined;
+    constructor(options?: BaseCollectionViewOptions<T, V>);
     render(): this;
     protected _removeChildViews(): void;
     protected _renderCollection(collection?: U): void;
@@ -48,6 +51,7 @@ export declare class BaseCollectionView<T extends Element, U extends ICollection
     protected _addModelEvents(): void;
     protected _removeModelEvents(): void;
     private _getChildViewContainer();
+    private _proxyChildViewEvents(view);
     destroy(): void;
 }
 export declare class CollectionView<M, V extends View> extends BaseCollectionView<Element, ICollection<M>, M, V> {

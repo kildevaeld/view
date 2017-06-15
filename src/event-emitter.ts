@@ -165,9 +165,6 @@ export class EventEmitter implements IEventEmitter {
 
     }
 
-
-
-
     private _executeListener(func: Event[], args?: any[]) {
         EventEmitter.executeListenerFunction(func, args);
     }

@@ -69,10 +69,12 @@ export namespace ModelEvents {
     export const Add = "add";
     export const Remove = "remove";
     export const Clear = "clear";
+    export const Sort = "sort";
 }
 
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
     childViewContainer?: string;
+    eventProxyName?: string;
     childView?: Constructor<U>
 }
 
@@ -104,6 +106,11 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
 
     get collection(): U | undefined {
         return this._collection;
+    }
+
+    constructor(options: BaseCollectionViewOptions<T, V> = {}) {
+        options.eventProxyName = options.eventProxyName || "childView";
+        super(options);
     }
 
     render() {
@@ -168,6 +175,8 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
             container.insertBefore(view.el!, after.el!);
         }
 
+        this._proxyChildViewEvents(view);
+
     }
 
 
@@ -208,6 +217,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
             this.collection.on(ModelEvents.Add, this._modelAdded, this);
             this.collection.on(ModelEvents.Remove, this._modelRemoved, this);
             this.collection.on(ModelEvents.Clear, this._removeChildViews, this);
+            this.collection.on(ModelEvents.Sort, this.render, this);
         }
     }
 
@@ -223,6 +233,15 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         let el = this.el!.querySelector(sel);
         if (!el) throw new Error(`tag not found: ${this.options.childViewContainer}`);
         return el!;
+    }
+
+    private _proxyChildViewEvents(view: V) {
+        const fn = (eventName: string, ...args: any[]) => {
+            eventName = this.options.eventProxyName + ':' + eventName;
+            this.trigger(eventName, ...([view].concat(args)))
+        }
+
+        view.on('*', fn);
     }
 
     destroy() {
