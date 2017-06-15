@@ -91,10 +91,15 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
             this._removeModelEvents();
             this._removeChildViews();
         }
+
         this._collection = collection;
+
         if (this.collection) {
             this._addModelEvents();
         }
+
+        this.render();
+
     }
 
     get collection(): U | undefined {
