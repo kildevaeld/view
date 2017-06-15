@@ -7,6 +7,7 @@ export * from './decorators';
 export * from './base-view';
 export * from './utils';
 export * from './collection-view';
+export * from './array-collection';
 
 import { ViewMountable } from './mixins'
 import { IView } from './types';

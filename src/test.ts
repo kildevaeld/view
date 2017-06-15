@@ -5,8 +5,8 @@ import { attributes, event, view } from './decorators'
 import { ViewObservable, ViewMountable } from './mixins';
 import { uniqueId } from './utils';
 import { DelegateEvent } from './base-view';
-import { ArrayCollection, CollectionView } from './collection-view';
-
+import { CollectionView } from './collection-view';
+import { ArrayCollection } from './array-collection';
 @singleton()
 export class Rapper {
     id: string = uniqueId();

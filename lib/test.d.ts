@@ -1,7 +1,8 @@
 import { ViewController } from './controller';
 import { View } from './view';
 import { DelegateEvent } from './base-view';
-import { ArrayCollection, CollectionView } from './collection-view';
+import { CollectionView } from './collection-view';
+import { ArrayCollection } from './array-collection';
 export declare class Rapper {
     id: string;
 }
