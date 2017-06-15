@@ -22,6 +22,13 @@ export function result(obj: any, prop: string, ...args: any[]) {
     return obj[prop];
 }
 
+export function getOption<T>(option: string, objs: any[]): T | undefined {
+    for (let o of objs) {
+        if (isObject(o) && o[option]) return o[option]
+    }
+    return undefined;
+}
+
 export function triggerMethodOn<T extends any>(self: T, eventName: string, ...args: any[]) {
     const ev = camelcase("on-" + eventName.replace(':', '-'))
 
