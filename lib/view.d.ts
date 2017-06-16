@@ -1,8 +1,5 @@
 import { BaseView, BaseViewOptions } from './base-view';
-export interface ViewOptions extends BaseViewOptions<Element> {
-    ensureElement?: string;
-}
-export declare class View extends BaseView<Element> {
-    readonly options: ViewOptions;
-    constructor(options?: ViewOptions);
+export declare class View extends BaseView<HTMLElement> {
+    readonly options: BaseViewOptions<HTMLElement>;
+    constructor(options?: BaseViewOptions<HTMLElement>);
 }
