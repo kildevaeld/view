@@ -23,7 +23,7 @@ module.exports = {
     },
     output: {
         filename: 'view.js',
-        path: Path.join(process.cwd(), 'example'),
+        path: Path.join(process.cwd(), 'dist'),
         library: 'view',
         libraryTarget: 'umd'
     },
