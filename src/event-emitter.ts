@@ -2,47 +2,6 @@ import { isFunction, callFunc } from './utils'
 import { IEventEmitter, EventHandler, Event } from './types';
 
 
-
-/**
- * 
- * 
- * @export
- * @class EventEmitterError
- * @extends {Error}
- */
-export class EventEmitterError extends Error {
-    /**
-     * Creates an instance of EventEmitterError.
-     * 
-     * @param {string} [message]
-     * @param {string} [method]
-     * @param {*} [klass]
-     * @param {*} [ctx]
-     * 
-     * @memberOf EventEmitterError
-     */
-    constructor(public message: string, public method?: string, public klass?: any, public ctx?: any) {
-        super(message);
-    }
-
-    /**
-     * 
-     * 
-     * @returns
-     * 
-     * @memberOf EventEmitterError
-     */
-    toString() {
-        let prefix = "EventEmitterError";
-        if (this.method && this.method != "") {
-            prefix = `EventEmitter#${this.method}`;
-        }
-        return `${prefix}: ${this.message}`;
-    }
-}
-
-
-
 function removeFromListener(listeners: Event[], fn?: EventHandler, ctx?: any) {
     for (let i = 0; i < listeners.length; i++) {
         let e = listeners[i];

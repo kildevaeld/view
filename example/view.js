@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -194,7 +194,6 @@ function isString(a) {
 exports.isString = isString;
 function extend(obj) {
     if (!isObject(obj)) return obj;
-    //let o, k
 
     for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
         args[_key3 - 1] = arguments[_key3];
@@ -243,32 +242,6 @@ function camelcase(input) {
 }
 exports.camelcase = camelcase;
 ;
-// Bind a function to an object for ever and ever....
-function bind(target, property, descriptor) {
-    var fn = descriptor.value;
-    if (!isFunction(fn)) {
-        throw new TypeError("Can only bind functions");
-    }
-    var definingProperty = false;
-    return {
-        configurable: true,
-        get: function get() {
-            if (definingProperty || this === target.prototype || this.hasOwnProperty(property)) {
-                return fn;
-            }
-            var boundFn = fn.bind(this);
-            definingProperty = true;
-            Object.defineProperty(this, property, {
-                value: boundFn,
-                configurable: true,
-                writable: true
-            });
-            definingProperty = false;
-            return boundFn;
-        }
-    };
-}
-exports.bind = bind;
 var idCounter = 0;
 function uniqueId() {
     var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
@@ -292,475 +265,6 @@ exports.indexOf = indexOf;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(0);
-/**
- *
- *
- * @export
- * @class EventEmitterError
- * @extends {Error}
- */
-
-var EventEmitterError = function (_Error) {
-    _inherits(EventEmitterError, _Error);
-
-    /**
-     * Creates an instance of EventEmitterError.
-     *
-     * @param {string} [message]
-     * @param {string} [method]
-     * @param {*} [klass]
-     * @param {*} [ctx]
-     *
-     * @memberOf EventEmitterError
-     */
-    function EventEmitterError(message, method, klass, ctx) {
-        _classCallCheck(this, EventEmitterError);
-
-        var _this = _possibleConstructorReturn(this, (EventEmitterError.__proto__ || Object.getPrototypeOf(EventEmitterError)).call(this, message));
-
-        _this.message = message;
-        _this.method = method;
-        _this.klass = klass;
-        _this.ctx = ctx;
-        return _this;
-    }
-    /**
-     *
-     *
-     * @returns
-     *
-     * @memberOf EventEmitterError
-     */
-
-
-    _createClass(EventEmitterError, [{
-        key: "toString",
-        value: function toString() {
-            var prefix = "EventEmitterError";
-            if (this.method && this.method != "") {
-                prefix = "EventEmitter#" + this.method;
-            }
-            return prefix + ": " + this.message;
-        }
-    }]);
-
-    return EventEmitterError;
-}(Error);
-
-exports.EventEmitterError = EventEmitterError;
-function removeFromListener(listeners, fn, ctx) {
-    for (var i = 0; i < listeners.length; i++) {
-        var e = listeners[i];
-        if (fn == null && ctx != null && e.ctx === ctx || fn != null && ctx == null && e.handler === fn || fn != null && ctx != null && e.handler === fn && e.ctx === ctx) {
-            listeners.splice(i, 1);
-        }
-    }
-    return listeners;
-}
-function isEventEmitter(a) {
-    return a && (a instanceof EventEmitter || utils_1.isFunction(a.on) && utils_1.isFunction(a.once) && utils_1.isFunction(a.off) && utils_1.isFunction(a.trigger));
-}
-exports.isEventEmitter = isEventEmitter;
-
-var EventEmitter = function () {
-    function EventEmitter() {
-        _classCallCheck(this, EventEmitter);
-    }
-
-    _createClass(EventEmitter, [{
-        key: "on",
-        value: function on(event, fn, ctx) {
-            var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-
-            var events = (this._listeners || (this._listeners = new Map())).get(event) || [];
-            events.push({
-                name: event,
-                once: once,
-                handler: fn,
-                ctx: ctx || this
-            });
-            if (!this._listeners.has(event)) this._listeners.set(event, events);
-            return this;
-        }
-    }, {
-        key: "once",
-        value: function once(event, fn, ctx) {
-            return this.on(event, fn, ctx, true);
-        }
-    }, {
-        key: "off",
-        value: function off(eventName, fn, ctx) {
-            this._listeners = this._listeners || new Map();
-            if (eventName == null && ctx == null) {
-                this._listeners = new Map();
-            } else if (this._listeners.has(eventName)) {
-                var events = this._listeners.get(eventName);
-                if (fn == null && ctx == null) {
-                    this._listeners.set(eventName, []);
-                } else {
-                    removeFromListener(events, fn, ctx);
-                }
-            } else {
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
-
-                try {
-                    for (var _iterator = this._listeners.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var en = _step.value;
-
-                        removeFromListener(en, fn, ctx);
-                    }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
-                        }
-                    } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
-                    }
-                }
-            }
-            return this;
-        }
-    }, {
-        key: "trigger",
-        value: function trigger(eventName) {
-            this._listeners = this._listeners || new Map();
-            var events = (this._listeners.get(eventName) || []).concat(this._listeners.get("*") || []);
-            var event = void 0,
-                a = void 0,
-                index = void 0;
-            var calls = [];
-            var alls = [];
-
-            for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                args[_key - 1] = arguments[_key];
-            }
-
-            for (var i = 0, ii = events.length; i < ii; i++) {
-                event = events[i];
-                a = args;
-                if (events[i].name === '*') {
-                    alls.push(events[i]);
-                } else {
-                    calls.push(events[i]);
-                }
-                if (events[i].once === true) {
-                    index = this._listeners.get(events[i].name).indexOf(events[i]);
-                    this._listeners.get(events[i].name).splice(index, 1);
-                }
-            }
-            if (alls.length) {
-                var _a = [eventName].concat(args);
-                this._executeListener(alls, _a);
-            }
-            if (calls.length) this._executeListener(calls, args);else if (eventName === 'error' && EventEmitter.throwOnError) {
-                if (args.length) {
-                    var _a2 = args[0];
-                    if (!(_a2 instanceof Error)) {
-                        _a2 = new Error(String(_a2));
-                    }
-                    EventEmitter.throwError(_a2);
-                }
-            }
-            return this;
-        }
-    }, {
-        key: "_executeListener",
-        value: function _executeListener(func, args) {
-            EventEmitter.executeListenerFunction(func, args);
-        }
-    }, {
-        key: "listeners",
-        get: function get() {
-            return this._listeners;
-        }
-    }], [{
-        key: "throwError",
-        value: function throwError(error) {
-            throw error;
-        }
-    }]);
-
-    return EventEmitter;
-}();
-
-EventEmitter.throwOnError = false;
-EventEmitter.executeListenerFunction = function (func, args) {
-    utils_1.callFunc(func, args);
-};
-exports.EventEmitter = EventEmitter;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var base_view_1 = __webpack_require__(3);
-var utils_1 = __webpack_require__(0);
-var event_emitter_1 = __webpack_require__(1);
-function ViewMountable(Base) {
-    return function (_Base) {
-        _inherits(_class, _Base);
-
-        function _class() {
-            var _ref;
-
-            _classCallCheck(this, _class);
-
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-            }
-
-            var _this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
-
-            if (_this._views) _this._bindViews(_this._views);
-            return _this;
-        }
-
-        _createClass(_class, [{
-            key: "render",
-            value: function render() {
-                _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "render", this).call(this);
-                this._renderViews(this._views);
-                return this;
-            }
-        }, {
-            key: "destroy",
-            value: function destroy() {
-                if (this._views) {
-                    this._unbindViews(this._views);
-                }
-                _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "destroy", this).call(this);
-            }
-        }, {
-            key: "_bindViews",
-            value: function _bindViews(views) {
-                var o = void 0;
-                for (var key in views) {
-                    o = views[key];
-                    var view = ViewMountable.Invoker.get(o.view);
-                    this[key] = view;
-                }
-            }
-        }, {
-            key: "_unbindViews",
-            value: function _unbindViews(views) {
-                var self = this;
-                for (var key in views) {
-                    if (self[key] && self[key] instanceof base_view_1.BaseView) {
-                        self[key].destroy();
-                        self[key] = void 0;
-                    }
-                }
-            }
-        }, {
-            key: "_renderViews",
-            value: function _renderViews(views) {
-                var el = void 0,
-                    o = void 0;
-                for (var key in views) {
-                    o = views[key];
-                    var sel = base_view_1.normalizeUIString(o.selector, this._ui || {});
-                    el = this.el.querySelector(sel);
-                    if (!el) throw new Error("No selector " + sel + " in dom");
-                    var view = this[key];
-                    if (!view) throw new Error('view not mounted');
-                    view.setElement(el, false);
-                    view.render();
-                }
-            }
-        }]);
-
-        return _class;
-    }(Base);
-}
-exports.ViewMountable = ViewMountable;
-(function (ViewMountable) {
-    ViewMountable.Invoker = {
-        get: function get(V) {
-            return new V();
-        }
-    };
-})(ViewMountable = exports.ViewMountable || (exports.ViewMountable = {}));
-var Events;
-(function (Events) {
-    Events.BeforeRender = "before:render";
-    Events.Render = "render";
-    Events.BeforeSetElement = "before:set:element";
-    Events.SetElement = "set:element";
-    Events.BeforeDelegateEvents = "before:delegate:events";
-    Events.DelegateEvents = "delegate:events";
-    Events.BeforeUndelegateEvents = "before:undelegate:events";
-    Events.UndelegateEvents = "undelegate:events";
-    Events.BeforeDestroy = "before:destroy";
-    Events.Destroy = "destroy";
-})(Events = exports.Events || (exports.Events = {}));
-function ViewObservable(Base) {
-    return function (_Base2) {
-        _inherits(_class2, _Base2);
-
-        function _class2() {
-            _classCallCheck(this, _class2);
-
-            return _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).apply(this, arguments));
-        }
-
-        _createClass(_class2, [{
-            key: "render",
-            value: function render() {
-                utils_1.triggerMethodOn(this, Events.BeforeRender);
-                _get(_class2.prototype.__proto__ || Object.getPrototypeOf(_class2.prototype), "render", this).call(this);
-                utils_1.triggerMethodOn(this, Events.Render);
-                return this;
-            }
-        }, {
-            key: "setElement",
-            value: function setElement(el, trigger) {
-                utils_1.triggerMethodOn(this, Events.BeforeSetElement);
-                _get(_class2.prototype.__proto__ || Object.getPrototypeOf(_class2.prototype), "setElement", this).call(this, el, trigger);
-                utils_1.triggerMethodOn(this, Events.SetElement);
-                return this;
-            }
-        }, {
-            key: "delegateEvents",
-            value: function delegateEvents(events) {
-                utils_1.triggerMethodOn(this, Events.BeforeDelegateEvents);
-                _get(_class2.prototype.__proto__ || Object.getPrototypeOf(_class2.prototype), "delegateEvents", this).call(this, events);
-                utils_1.triggerMethodOn(this, Events.DelegateEvents);
-                return this;
-            }
-        }, {
-            key: "undelegateEvents",
-            value: function undelegateEvents() {
-                utils_1.triggerMethodOn(this, Events.BeforeUndelegateEvents);
-                _get(_class2.prototype.__proto__ || Object.getPrototypeOf(_class2.prototype), "undelegateEvents", this).call(this);
-                utils_1.triggerMethodOn(this, Events.UndelegateEvents);
-                return this;
-            }
-        }, {
-            key: "destroy",
-            value: function destroy() {
-                utils_1.triggerMethodOn(this, Events.BeforeDestroy);
-                var off = this.off;
-                this.off = function () {};
-                _get(_class2.prototype.__proto__ || Object.getPrototypeOf(_class2.prototype), "destroy", this).call(this);
-                this.off = off;
-                utils_1.triggerMethodOn(this, Events.Destroy);
-                this.off();
-            }
-        }]);
-
-        return _class2;
-    }(Base);
-}
-exports.ViewObservable = ViewObservable;
-function EventListener(Base) {
-    return function (_Base3) {
-        _inherits(_class3, _Base3);
-
-        function _class3() {
-            _classCallCheck(this, _class3);
-
-            return _possibleConstructorReturn(this, (_class3.__proto__ || Object.getPrototypeOf(_class3)).apply(this, arguments));
-        }
-
-        _createClass(_class3, [{
-            key: "listenTo",
-            value: function listenTo(obj, event, fn, ctx) {
-                var once = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-
-                if (!event_emitter_1.isEventEmitter(obj)) {
-                    //if (EventEmitter.throwOnError)
-                    //    throw new EventEmitterError("obj is not an EventEmitter", once ? "listenToOnce" : "listenTo", this, obj);
-                    return this;
-                }
-                var listeningTo = void 0,
-                    id = void 0,
-                    meth = void 0;
-                listeningTo = this._listeningTo || (this._listeningTo = {});
-                id = obj.listenId || (obj.listenId = utils_1.uniqueId());
-                listeningTo[id] = obj;
-                meth = once ? 'once' : 'on';
-                obj[meth](event, fn, ctx || this);
-                return this;
-            }
-        }, {
-            key: "listenToOnce",
-            value: function listenToOnce(obj, event, fn, ctx) {
-                return this.listenTo(obj, event, fn, ctx, true);
-            }
-        }, {
-            key: "stopListening",
-            value: function stopListening(obj, event, callback) {
-                if (obj && !event_emitter_1.isEventEmitter(obj)) {
-                    //if (EventEmitter.throwOnError)
-                    //    throw new EventEmitterError("obj is not an EventEmitter", "stopListening", this, obj);
-                    return this;
-                }
-                var listeningTo = this._listeningTo;
-                if (!listeningTo) return this;
-                var remove = !event && !callback;
-                if (!callback && (typeof event === "undefined" ? "undefined" : _typeof(event)) === 'object') callback = this;
-                if (obj) (listeningTo = {})[obj.listenId] = obj;
-                for (var id in listeningTo) {
-                    obj = listeningTo[id];
-                    obj.off(event, callback, this);
-                    if (remove || !Object.keys(obj.listeners).length) delete this._listeningTo[id];
-                }
-                return this;
-            }
-        }, {
-            key: "destroy",
-            value: function destroy() {
-                if (typeof Base.prototype.destroy === 'function') Base.prototype.destroy.call(this);
-                this.stopListening();
-            }
-        }]);
-
-        return _class3;
-    }(Base);
-}
-exports.EventListener = EventListener;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -771,7 +275,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(0);
-var abstract_view_1 = __webpack_require__(8);
+var abstract_view_1 = __webpack_require__(5);
 //import * as Debug from 'debug';
 var debug = function debug() {}; //Debug("views");
 var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#]+)/i,
@@ -811,7 +315,6 @@ var BaseView = function (_abstract_view_1$Abst) {
         var _this = _possibleConstructorReturn(this, (BaseView.__proto__ || Object.getPrototypeOf(BaseView)).call(this));
 
         _this._options = _options;
-        //this._el = options.el;
         _this.setElement(_options.el, false);
         _this._domEvents = [];
         _this._vid = utils_1.uniqueId('vid');
@@ -825,7 +328,7 @@ var BaseView = function (_abstract_view_1$Abst) {
 
             if (!this.el) return;
             this._bindUIElements();
-            events = events || this.events || {}; //result(this, 'events');
+            events = events || utils_1.result(this, 'events') || {};
             events = normalizeUIKeys(events, this._ui);
             var triggers = this._configureTriggers();
             events = utils_1.extend({}, events, triggers);
@@ -1041,7 +544,7 @@ var BaseView = function (_abstract_view_1$Abst) {
 exports.BaseView = BaseView;
 
 /***/ }),
-/* 4 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1049,422 +552,161 @@ exports.BaseView = BaseView;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 Object.defineProperty(exports, "__esModule", { value: true });
-var event_emitter_1 = __webpack_require__(1);
-
-var ArrayCollection = function (_event_emitter_1$Even) {
-    _inherits(ArrayCollection, _event_emitter_1$Even);
-
-    function ArrayCollection() {
-        var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-        _classCallCheck(this, ArrayCollection);
-
-        var _this = _possibleConstructorReturn(this, (ArrayCollection.__proto__ || Object.getPrototypeOf(ArrayCollection)).call(this));
-
-        _this.a = a;
-        return _this;
-    }
-
-    _createClass(ArrayCollection, [{
-        key: "item",
-        value: function item(index) {
-            if (index >= this.a.length) return undefined;
-            return this.a[index];
-        }
-    }, {
-        key: "push",
-        value: function push(m) {
-            this.a.push(m);
-            this.trigger(ModelEvents.Add, m, this.a.length - 1);
-        }
-    }, {
-        key: "pop",
-        value: function pop() {
-            var m = this.a.pop();
-            this.trigger(ModelEvents.Remove, m, this.a.length);
-            return m;
-        }
-    }, {
-        key: "insert",
-        value: function insert(m, index) {
-            if (index >= this.length) return;
-            this.a.splice(index, 0, m);
-            this.trigger(ModelEvents.Add, m, index);
-        }
-    }, {
-        key: "indexOf",
-        value: function indexOf(m) {
-            return this.a.indexOf(m);
-        }
-    }, {
-        key: "remove",
-        value: function remove(index) {
-            var m = this.item(index);
-            if (!m) return undefined;
-            this.a.splice(index, 1);
-            this.trigger(ModelEvents.Remove, m, index);
-            return m;
-        }
-    }, {
-        key: "find",
-        value: function find(fn) {
-            return this.a.find(fn);
-        }
-    }, {
-        key: "sort",
-        value: function sort(fn) {
-            this.a.sort(fn);
-            this.trigger('sort');
-        }
-    }, {
-        key: "clear",
-        value: function clear() {
-            this.a = [];
-            this.trigger(ModelEvents.Clear);
-        }
-    }, {
-        key: "array",
-        value: function array() {
-            return [].concat(_toConsumableArray(this.a));
-        }
-    }, {
-        key: "length",
-        get: function get() {
-            return this.a.length;
-        }
-    }]);
-
-    return ArrayCollection;
-}(event_emitter_1.EventEmitter);
-
-exports.ArrayCollection = ArrayCollection;
-var ModelEvents;
-(function (ModelEvents) {
-    ModelEvents.Add = "add";
-    ModelEvents.Remove = "remove";
-    ModelEvents.Clear = "clear";
-    ModelEvents.Sort = "sort";
-})(ModelEvents = exports.ModelEvents || (exports.ModelEvents = {}));
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var base_view_1 = __webpack_require__(3);
 var utils_1 = __webpack_require__(0);
-var mixins_1 = __webpack_require__(2);
+function removeFromListener(listeners, fn, ctx) {
+    for (var i = 0; i < listeners.length; i++) {
+        var e = listeners[i];
+        if (fn == null && ctx != null && e.ctx === ctx || fn != null && ctx == null && e.handler === fn || fn != null && ctx != null && e.handler === fn && e.ctx === ctx) {
+            listeners.splice(i, 1);
+        }
+    }
+    return listeners;
+}
+function isEventEmitter(a) {
+    return a && (a instanceof EventEmitter || utils_1.isFunction(a.on) && utils_1.isFunction(a.once) && utils_1.isFunction(a.off) && utils_1.isFunction(a.trigger));
+}
+exports.isEventEmitter = isEventEmitter;
 
-var View = function (_base_view_1$BaseView) {
-    _inherits(View, _base_view_1$BaseView);
-
-    function View() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { attachId: true };
-
-        _classCallCheck(this, View);
-
-        return _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this, options));
+var EventEmitter = function () {
+    function EventEmitter() {
+        _classCallCheck(this, EventEmitter);
     }
 
-    _createClass(View, [{
-        key: "render",
-        value: function render() {
-            if (this.options.ensureElement) this._ensureElement();
-            if (!this.el) return this;
-            this.undelegateEvents();
-            this.renderTemplate();
-            this.delegateEvents();
+    _createClass(EventEmitter, [{
+        key: "on",
+        value: function on(event, fn, ctx) {
+            var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+            var events = (this._listeners || (this._listeners = new Map())).get(event) || [];
+            events.push({
+                name: event,
+                once: once,
+                handler: fn,
+                ctx: ctx || this
+            });
+            if (!this._listeners.has(event)) this._listeners.set(event, events);
             return this;
         }
     }, {
-        key: "destroy",
-        value: function destroy() {
-            var data = utils_1.result(this, 'data');
-            var template = utils_1.result(this, 'template', data);
-            if (template) this.el.innerHTML = '';
-            _get(View.prototype.__proto__ || Object.getPrototypeOf(View.prototype), "destroy", this).call(this);
+        key: "once",
+        value: function once(event, fn, ctx) {
+            return this.on(event, fn, ctx, true);
         }
     }, {
-        key: "_ensureElement",
-        value: function _ensureElement() {
-            if (this.el) return;
-            var el = document.createElement(this.options.ensureElement);
-            this.setElement(el);
-        }
-    }, {
-        key: "renderTemplate",
-        value: function renderTemplate() {
-            if (!this.el) return;
-            var data = utils_1.result(this, 'data');
-            var template = utils_1.result(this, 'template', data);
-            if (!template) return;
-            this.el.innerHTML = template;
-        }
-    }]);
-
-    return View;
-}(base_view_1.BaseView);
-
-exports.View = View;
-exports.LayoutView = mixins_1.ViewMountable(View);
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var base_view_1 = __webpack_require__(3);
-var view_1 = __webpack_require__(5);
-var mixins_1 = __webpack_require__(2);
-var event_emitter_1 = __webpack_require__(1);
-var array_collection_1 = __webpack_require__(4);
-
-var BaseCollectionView = function (_base_view_1$BaseView) {
-    _inherits(BaseCollectionView, _base_view_1$BaseView);
-
-    function BaseCollectionView() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, BaseCollectionView);
-
-        options.eventProxyName = options.eventProxyName || "childView";
-        return _possibleConstructorReturn(this, (BaseCollectionView.__proto__ || Object.getPrototypeOf(BaseCollectionView)).call(this, options));
-    }
-
-    _createClass(BaseCollectionView, [{
-        key: "render",
-        value: function render() {
-            this.undelegateEvents();
-            this._removeChildViews();
-            if (!this.el || !this.collection) return this;
-            this._renderCollection();
-            this.delegateEvents();
-            return this;
-        }
-    }, {
-        key: "_removeChildViews",
-        value: function _removeChildViews() {
-            if (!this._childViews) {
-                this._childViews = [];
-            }
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this._childViews[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var v = _step.value;
-
-                    v.destroy();
-                    v.el.remove();
+        key: "off",
+        value: function off(eventName, fn, ctx) {
+            this._listeners = this._listeners || new Map();
+            if (eventName == null && ctx == null) {
+                this._listeners = new Map();
+            } else if (this._listeners.has(eventName)) {
+                var events = this._listeners.get(eventName);
+                if (fn == null && ctx == null) {
+                    this._listeners.set(eventName, []);
+                } else {
+                    removeFromListener(events, fn, ctx);
                 }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            this._childViews = [];
-        }
-    }, {
-        key: "_renderCollection",
-        value: function _renderCollection(collection) {
-            var col = collection || this.collection;
-            var container = this._getChildViewContainer();
-            container.innerHTML = '';
-            var frag = document.createDocumentFragment();
-            for (var i = 0, ii = col.length; i < ii; i++) {
-                var item = col.item(i);
-                if (!item) throw TypeError("invalid index");
-                var view = this._createChildView(item);
-                this._renderChildView(view);
-                this._attachChildView(frag, view, i);
-            }
-            container.appendChild(frag);
-        }
-    }, {
-        key: "_renderChildView",
-        value: function _renderChildView(view) {
-            view.render();
-        }
-    }, {
-        key: "_attachChildView",
-        value: function _attachChildView(container, view, index) {
-            if (index >= this._childViews.length) {
-                container.appendChild(view.el);
-                this._childViews.push(view);
             } else {
-                var after = this._childViews[index];
-                this._childViews.splice(index, 0, view);
-                container.insertBefore(view.el, after.el);
-            }
-            this._proxyChildViewEvents(view);
-        }
-    }, {
-        key: "_createChildView",
-        value: function _createChildView(model) {
-            var Vi = this.options.childView || this.childView || view_1.View;
-            var el = mixins_1.ViewMountable.Invoker.get(Vi);
-            el.data = model;
-            if (!el.options.ensureElement) el.options.ensureElement = 'div';
-            el.options.attachId = true;
-            return el;
-        }
-    }, {
-        key: "_destroyChildView",
-        value: function _destroyChildView(view) {
-            var index = this._childViews.indexOf(view);
-            this._childViews.splice(index, 1);
-            var container = this._getChildViewContainer();
-            container.removeChild(view.el);
-            view.destroy();
-        }
-    }, {
-        key: "_modelAdded",
-        value: function _modelAdded(item, index) {
-            var view = this._createChildView(item);
-            this._renderChildView(view);
-            this._attachChildView(this._getChildViewContainer(), view, index);
-        }
-    }, {
-        key: "_modelRemoved",
-        value: function _modelRemoved(_, index) {
-            var view = this._childViews[index];
-            this._destroyChildView(view);
-        }
-    }, {
-        key: "_addModelEvents",
-        value: function _addModelEvents() {
-            if (this.collection instanceof event_emitter_1.EventEmitter) {
-                this.collection.on(array_collection_1.ModelEvents.Add, this._modelAdded, this);
-                this.collection.on(array_collection_1.ModelEvents.Remove, this._modelRemoved, this);
-                this.collection.on(array_collection_1.ModelEvents.Clear, this._removeChildViews, this);
-                this.collection.on(array_collection_1.ModelEvents.Sort, this.render, this);
-            }
-        }
-    }, {
-        key: "_removeModelEvents",
-        value: function _removeModelEvents() {
-            if (this.collection instanceof event_emitter_1.EventEmitter) {
-                this.collection.off(null, undefined, this);
-            }
-        }
-    }, {
-        key: "_getChildViewContainer",
-        value: function _getChildViewContainer() {
-            var sel = this.options.childViewContainer || this.childViewContainer;
-            if (!sel) return this.el;
-            var el = this.el.querySelector(sel);
-            if (!el) throw new Error("tag not found: " + this.options.childViewContainer);
-            return el;
-        }
-    }, {
-        key: "_proxyChildViewEvents",
-        value: function _proxyChildViewEvents(view) {
-            var _this2 = this;
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
 
-            var fn = function fn(eventName) {
-                for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                    args[_key - 1] = arguments[_key];
+                try {
+                    for (var _iterator = this._listeners.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var en = _step.value;
+
+                        removeFromListener(en, fn, ctx);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
                 }
+            }
+            return this;
+        }
+    }, {
+        key: "trigger",
+        value: function trigger(eventName) {
+            this._listeners = this._listeners || new Map();
+            var events = (this._listeners.get(eventName) || []).concat(this._listeners.get("*") || []);
+            var event = void 0,
+                a = void 0,
+                index = void 0;
+            var calls = [];
+            var alls = [];
 
-                eventName = _this2.options.eventProxyName + ':' + eventName;
-                _this2.trigger.apply(_this2, [eventName].concat(_toConsumableArray([view].concat(args))));
-            };
-            view.on('*', fn);
+            for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                args[_key - 1] = arguments[_key];
+            }
+
+            for (var i = 0, ii = events.length; i < ii; i++) {
+                event = events[i];
+                a = args;
+                if (events[i].name === '*') {
+                    alls.push(events[i]);
+                } else {
+                    calls.push(events[i]);
+                }
+                if (events[i].once === true) {
+                    index = this._listeners.get(events[i].name).indexOf(events[i]);
+                    this._listeners.get(events[i].name).splice(index, 1);
+                }
+            }
+            if (alls.length) {
+                var _a = [eventName].concat(args);
+                this._executeListener(alls, _a);
+            }
+            if (calls.length) this._executeListener(calls, args);else if (eventName === 'error' && EventEmitter.throwOnError) {
+                if (args.length) {
+                    var _a2 = args[0];
+                    if (!(_a2 instanceof Error)) {
+                        _a2 = new Error(String(_a2));
+                    }
+                    EventEmitter.throwError(_a2);
+                }
+            }
+            return this;
         }
     }, {
-        key: "destroy",
-        value: function destroy() {
-            this._removeChildViews();
-            _get(BaseCollectionView.prototype.__proto__ || Object.getPrototypeOf(BaseCollectionView.prototype), "destroy", this).call(this);
+        key: "_executeListener",
+        value: function _executeListener(func, args) {
+            EventEmitter.executeListenerFunction(func, args);
         }
     }, {
-        key: "collection",
-        set: function set(collection) {
-            if (this._collection == collection) return;
-            if (this.collection) {
-                this._removeModelEvents();
-                this._removeChildViews();
-            }
-            this._collection = collection;
-            if (this.collection) {
-                this._addModelEvents();
-            }
-            this.render();
-        },
+        key: "listeners",
         get: function get() {
-            return this._collection;
+            return this._listeners;
+        }
+    }], [{
+        key: "throwError",
+        value: function throwError(error) {
+            throw error;
         }
     }]);
 
-    return BaseCollectionView;
-}(base_view_1.BaseView);
+    return EventEmitter;
+}();
 
-exports.BaseCollectionView = BaseCollectionView;
-
-var CollectionView = function (_BaseCollectionView) {
-    _inherits(CollectionView, _BaseCollectionView);
-
-    function CollectionView() {
-        _classCallCheck(this, CollectionView);
-
-        return _possibleConstructorReturn(this, (CollectionView.__proto__ || Object.getPrototypeOf(CollectionView)).apply(this, arguments));
-    }
-
-    return CollectionView;
-}(BaseCollectionView);
-
-exports.CollectionView = CollectionView;
+EventEmitter.throwOnError = false;
+EventEmitter.executeListenerFunction = function (func, args) {
+    utils_1.callFunc(func, args);
+};
+exports.EventEmitter = EventEmitter;
 
 /***/ }),
-/* 7 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1500,21 +742,41 @@ exports.event = event;
     }
     event.change = change;
 })(event = exports.event || (exports.event = {}));
-function view(selector) {
-    return function (target, prop) {
-        var View = Reflect.getOwnMetadata("design:type", target, prop);
-        if (!View) throw new Error('design:type does not exists');
-        if (!target._views) target._views = {};
-        target._views[prop] = {
-            selector: selector,
-            view: View
-        };
-    };
-}
-exports.view = view;
 
 /***/ }),
-/* 8 */
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var base_view_1 = __webpack_require__(1);
+
+var View = function (_base_view_1$BaseView) {
+    _inherits(View, _base_view_1$BaseView);
+
+    function View() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { attachId: true };
+
+        _classCallCheck(this, View);
+
+        return _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this, options));
+    }
+
+    return View;
+}(base_view_1.BaseView);
+
+exports.View = View;
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1529,7 +791,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var event_emitter_1 = __webpack_require__(1);
+var event_emitter_1 = __webpack_require__(2);
 
 var AbstractView = function (_event_emitter_1$Even) {
     _inherits(AbstractView, _event_emitter_1$Even);
@@ -1566,7 +828,7 @@ var AbstractView = function (_event_emitter_1$Even) {
 exports.AbstractView = AbstractView;
 
 /***/ }),
-/* 9 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1578,23 +840,11 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-//export * from './controller';
-__export(__webpack_require__(5));
-__export(__webpack_require__(1));
-__export(__webpack_require__(2));
-__export(__webpack_require__(7));
-__export(__webpack_require__(3));
-__export(__webpack_require__(0));
-__export(__webpack_require__(6));
 __export(__webpack_require__(4));
-var mixins_1 = __webpack_require__(2);
-function mount(el, mountable) {
-    var view = mixins_1.ViewMountable.Invoker.get(mountable);
-    if (view) view.el = el;
-    return view;
-}
-exports.mount = mount;
-//export * from './test';
+__export(__webpack_require__(2));
+__export(__webpack_require__(3));
+__export(__webpack_require__(1));
+__export(__webpack_require__(0));
 
 /***/ })
 /******/ ]);

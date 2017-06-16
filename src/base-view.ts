@@ -2,7 +2,6 @@ import { extend, triggerMethodOn, uniqueId, indexOf, result } from './utils';
 import { AbstractView } from './abstract-view'
 //import * as Debug from 'debug';
 
-
 const debug = (..._: any[]) => { }  //Debug("views");
 
 export type EventsMap = { [key: string]: Function | string }
@@ -73,7 +72,6 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
         super();
 
-        //this._el = options.el;
         this.setElement(_options.el, false);
         this._domEvents = []
         this._vid = uniqueId('vid');
@@ -88,7 +86,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
         this._bindUIElements();
 
-        events = events || result(this, 'events') || {}; //result(this, 'events');
+        events = events || result(this, 'events') || {};
         events = normalizeUIKeys(events, this._ui);
 
         let triggers = this._configureTriggers();
@@ -310,9 +308,6 @@ export class BaseView<T extends Element> extends AbstractView<T> {
             triggerMethodOn(this, options.event, {
                 view: this,
             }, e);
-
         };
     }
-
-
 }

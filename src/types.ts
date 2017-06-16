@@ -82,9 +82,3 @@ export interface IView extends IEventEmitter {
 }
 
 export type Constructor<T> = new (...args: any[]) => T;
-
-export interface ICollection<T> {
-    length: number;
-    item(index: number): T | undefined;
-    //indexOf(item: T): number;
-}

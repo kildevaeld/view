@@ -1,6 +1,6 @@
 import { EventsMap, StringMap, BaseView } from './base-view'
 import { extend } from './utils';
-import { Constructor, IView } from './types';
+import { Constructor } from './types';
 
 export interface TriggerOptions {
     event: string;
@@ -24,7 +24,7 @@ export function attributes(attrs: AttributesOptions) {
 }
 
 export function event(eventName: string, selector: string) {
-    return function <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: PropertyDescriptor) {
+    return function <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) {
         if (!desc) throw new Error('no description');
         if (typeof desc.value !== 'function') {
             throw new Error('must be a function');
@@ -45,19 +45,5 @@ export namespace event {
 
     export function change(selector: string) {
         return event('change', selector);
-    }
-}
-
-import { IViewMountable } from './mixins';
-
-export function view(selector: string) {
-    return function <T extends IViewMountable>(target: T, prop: PropertyKey) {
-        let View = Reflect.getOwnMetadata("design:type", target, prop as string);
-        if (!View) throw new Error('design:type does not exists');
-        if (!(<any>target)._views) (<any>target)._views = {};
-        (<any>target)._views[prop as string] = {
-            selector: selector,
-            view: View
-        };
     }
 }

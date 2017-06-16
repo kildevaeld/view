@@ -49,7 +49,6 @@ export function triggerMethodOn<T extends any>(self: T, eventName: string, ...ar
 
 }
 
-
 export function isObject(obj: any): obj is Object {
     return obj === Object(obj);
 }
@@ -64,7 +63,6 @@ export function isString(a: any): a is string {
 
 export function extend<T extends Object, U extends Object>(obj: T, ...args: U[]): T & U {
     if (!isObject(obj)) return obj
-    //let o, k
     for (const o of args) {
         if (!isObject(o)) continue
         for (const k in o) {
@@ -79,40 +77,11 @@ export function has(obj: Object, prop: string): boolean {
     return _has.call(obj, prop)
 }
 
-
 export function camelcase(input: string): string {
     return input.toLowerCase().replace(/-(.)/g, function (_, group1) {
         return group1.toUpperCase();
     });
 };
-
-// Bind a function to an object for ever and ever....
-export function bind(target: any, property: PropertyKey, descriptor: PropertyDescriptor) {
-    let fn = descriptor.value;
-    if (!isFunction(fn)) {
-        throw new TypeError("Can only bind functions");
-    }
-    let definingProperty = false;
-
-    return {
-        configurable: true,
-        get() {
-            if (definingProperty || this === target.prototype || this.hasOwnProperty(property)) {
-                return fn;
-            }
-
-            const boundFn = fn.bind(this);
-            definingProperty = true;
-            Object.defineProperty(this, property, {
-                value: boundFn,
-                configurable: true,
-                writable: true,
-            });
-            definingProperty = false;
-            return boundFn;
-        }
-    };
-}
 
 var idCounter = 0;
 export function uniqueId(prefix: string = "") {
