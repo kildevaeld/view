@@ -1,36 +1,4 @@
 import { IEventEmitter, EventHandler, Event } from './types';
-/**
- *
- *
- * @export
- * @class EventEmitterError
- * @extends {Error}
- */
-export declare class EventEmitterError extends Error {
-    message: string;
-    method: string;
-    klass: any;
-    ctx: any;
-    /**
-     * Creates an instance of EventEmitterError.
-     *
-     * @param {string} [message]
-     * @param {string} [method]
-     * @param {*} [klass]
-     * @param {*} [ctx]
-     *
-     * @memberOf EventEmitterError
-     */
-    constructor(message: string, method?: string, klass?: any, ctx?: any);
-    /**
-     *
-     *
-     * @returns
-     *
-     * @memberOf EventEmitterError
-     */
-    toString(): string;
-}
 export declare function isEventEmitter(a: any): a is IEventEmitter;
 export declare class EventEmitter implements IEventEmitter {
     static throwOnError: boolean;
