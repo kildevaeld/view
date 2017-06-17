@@ -75,7 +75,7 @@ export interface IEventEmitter {
     trigger(event: string, ...args: any[]): any
 }
 
-export interface IView extends IEventEmitter {
+export interface IView /*extends IEventEmitter*/ {
     render(): this;
     el?: Element;
     destroy(): void;
