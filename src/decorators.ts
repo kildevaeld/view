@@ -14,6 +14,7 @@ export interface AttributesOptions {
     events?: EventsMap;
     ui?: StringMap;
     triggers?: TriggerMap;
+    [key: string]: any;
 }
 
 
