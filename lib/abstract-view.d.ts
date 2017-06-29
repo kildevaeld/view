@@ -4,5 +4,5 @@ export declare abstract class AbstractView<T extends Element> implements IView {
     el: T | undefined;
     render(): this;
     destroy(): void;
-    abstract setElement(el?: Element, trigger?: boolean): void;
+    abstract setElement(el?: Element): void;
 }

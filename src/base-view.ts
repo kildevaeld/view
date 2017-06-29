@@ -45,6 +45,7 @@ export interface BaseViewOptions<T extends Element> {
     attachId?: boolean;
 }
 
+
 export class BaseView<T extends Element> extends AbstractView<T> {
 
     static find(selector: string, context: HTMLElement): NodeList {
@@ -148,6 +149,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
             let node = (e.target || e.srcElement) as Node | null;
             // Already handled
             if (e.delegateTarget) return;
+
 
             for (; node && node != root; node = node!.parentNode) {
                 if (node && (node as Element).matches(selector as string)) {
