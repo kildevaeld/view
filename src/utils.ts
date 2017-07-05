@@ -63,7 +63,9 @@ export function isString(a: any): a is string {
 
 export function extend<T extends Object, U extends Object>(obj: T, ...args: U[]): T & U {
     if (!isObject(obj)) return obj
-    for (const o of args) {
+
+    for (let i = 0, ii = args.length; i < ii; i++) {
+        const o = args[i];
         if (!isObject(o)) continue
         for (const k in o) {
             if (has(o, k)) (<any>obj)[k] = o[k] as any
@@ -91,4 +93,22 @@ export function uniqueId(prefix: string = "") {
 export function indexOf<T>(array: ArrayLike<T>, item: T): number {
     for (var i = 0, len = array.length; i < len; i++) if (array[i] === item) return i;
     return -1;
+}
+
+
+// Because IE/edge stinks!
+const ElementProto: any = (typeof Element !== 'undefined' && Element.prototype) || {};
+
+const matchesSelector = ElementProto.matches ||
+    ElementProto.webkitMatchesSelector ||
+    ElementProto.mozMatchesSelector ||
+    ElementProto.msMatchesSelector ||
+    ElementProto.oMatchesSelector || function (this: Element, selector: string) {
+        var nodeList = ((this.parentNode || document) as Element).querySelectorAll(selector) || [];
+        return !!~indexOf(nodeList, this);
+    };
+
+
+export function matches(elm: Element, selector: string): boolean {
+    return matchesSelector.call(elm, selector)
 }

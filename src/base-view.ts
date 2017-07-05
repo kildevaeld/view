@@ -1,4 +1,4 @@
-import { extend, triggerMethodOn, uniqueId, indexOf, result } from './utils';
+import { extend, triggerMethodOn, uniqueId, indexOf, result, matches } from './utils';
 import { AbstractView } from './abstract-view'
 //import * as Debug from 'debug';
 
@@ -144,6 +144,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
             selector = undefined;
         }
 
+
         let root = this.el;
         let handler = selector ? function (e: DelegateEvent) {
             let node = (e.target || e.srcElement) as Node | null;
@@ -152,11 +153,16 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
 
             for (; node && node != root; node = node!.parentNode) {
-                if (node && (node as Element).matches(selector as string)) {
+                /*if (node && (node as Element).matches(selector as string)) {
 
                     e.delegateTarget = node as Element;
                     listener!(e);
+                }*/
+                if (node && matches((node as Element), selector as string)) {
+                    e.delegateTarget = node as Element;
+                    listener!(e);
                 }
+
             }
         } : function (e: any) {
             if (e.delegateTarget) return;

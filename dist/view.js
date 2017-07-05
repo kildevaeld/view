@@ -199,34 +199,13 @@ function extend(obj) {
         args[_key3 - 1] = arguments[_key3];
     }
 
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-        for (var _iterator2 = args[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var o = _step2.value;
-
-            if (!isObject(o)) continue;
-            for (var k in o) {
-                if (has(o, k)) obj[k] = o[k];
-            }
-        }
-    } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
-            }
-        } finally {
-            if (_didIteratorError2) {
-                throw _iteratorError2;
-            }
+    for (var i = 0, ii = args.length; i < ii; i++) {
+        var o = args[i];
+        if (!isObject(o)) continue;
+        for (var k in o) {
+            if (has(o, k)) obj[k] = o[k];
         }
     }
-
     return obj;
 }
 exports.extend = extend;
@@ -255,6 +234,16 @@ function indexOf(array, item) {
     }return -1;
 }
 exports.indexOf = indexOf;
+// Because IE/edge stinks!
+var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
+var matchesSelector = ElementProto.matches || ElementProto.webkitMatchesSelector || ElementProto.mozMatchesSelector || ElementProto.msMatchesSelector || ElementProto.oMatchesSelector || function (selector) {
+    var nodeList = (this.parentNode || document).querySelectorAll(selector) || [];
+    return !!~indexOf(nodeList, this);
+};
+function matches(elm, selector) {
+    return matchesSelector.call(elm, selector);
+}
+exports.matches = matches;
 
 /***/ }),
 /* 1 */
@@ -424,7 +413,11 @@ var BaseView = function (_abstract_view_1$Abst) {
                 // Already handled
                 if (e.delegateTarget) return;
                 for (; node && node != root; node = node.parentNode) {
-                    if (node && node.matches(selector)) {
+                    /*if (node && (node as Element).matches(selector as string)) {
+                         e.delegateTarget = node as Element;
+                        listener!(e);
+                    }*/
+                    if (node && utils_1.matches(node, selector)) {
                         e.delegateTarget = node;
                         listener(e);
                     }

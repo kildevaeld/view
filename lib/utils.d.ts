@@ -14,3 +14,4 @@ export declare function has(obj: Object, prop: string): boolean;
 export declare function camelcase(input: string): string;
 export declare function uniqueId(prefix?: string): string;
 export declare function indexOf<T>(array: ArrayLike<T>, item: T): number;
+export declare function matches(elm: Element, selector: string): boolean;
