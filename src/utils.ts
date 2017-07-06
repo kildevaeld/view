@@ -23,9 +23,13 @@ export function result(obj: any, prop: string, ...args: any[]) {
 }
 
 export function getOption<T>(option: string, objs: any[]): T | undefined {
-    for (let o of objs) {
+    /*for (let o of objs) {
         if (isObject(o) && o[option]) return o[option]
+    }*/
+    for (let i = 0, ii = objs.length; i < ii; i++) {
+        if (isObject(objs[i]) && objs[i][option]) return objs[i][option];
     }
+
     return undefined;
 }
 
