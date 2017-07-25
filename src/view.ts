@@ -7,4 +7,3 @@ export class View extends BaseView<HTMLElement> {
     }
 }
 
-

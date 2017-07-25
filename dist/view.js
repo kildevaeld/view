@@ -131,15 +131,22 @@ function result(obj, prop) {
 }
 exports.result = result;
 function getOption(option, objs) {
-    /*for (let o of objs) {
-        if (isObject(o) && o[option]) return o[option]
-    }*/
     for (var i = 0, ii = objs.length; i < ii; i++) {
         if (isObject(objs[i]) && objs[i][option]) return objs[i][option];
     }
     return undefined;
 }
 exports.getOption = getOption;
+/**
+ * Trigger an event on an object, if it's an eventemitter,
+ * will also call an method "on<EventName>" if it's exists
+ *
+ * @export
+ * @template T
+ * @param {T} self
+ * @param {string} eventName
+ * @param {...any[]} args
+ */
 function triggerMethodOn(self, eventName) {
     for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
         args[_key2 - 2] = arguments[_key2];
@@ -394,10 +401,6 @@ var BaseView = function (_abstract_view_1$Abst) {
                 // Already handled
                 if (e.delegateTarget) return;
                 for (; node && node != root; node = node.parentNode) {
-                    /*if (node && (node as Element).matches(selector as string)) {
-                         e.delegateTarget = node as Element;
-                        listener!(e);
-                    }*/
                     if (node && utils_1.matches(node, selector)) {
                         e.delegateTarget = node;
                         listener(e);

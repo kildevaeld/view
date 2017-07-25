@@ -35,7 +35,7 @@ export function normalizeUIString(str: string, uimap: StringMap): string {
 }
 
 export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
-    new (...args: any[]): T;
+    new(...args: any[]): T;
     readonly prototype: T;
 }
 
@@ -151,18 +151,11 @@ export class BaseView<T extends Element> extends AbstractView<T> {
             // Already handled
             if (e.delegateTarget) return;
 
-
             for (; node && node != root; node = node!.parentNode) {
-                /*if (node && (node as Element).matches(selector as string)) {
-
-                    e.delegateTarget = node as Element;
-                    listener!(e);
-                }*/
                 if (node && matches((node as Element), selector as string)) {
                     e.delegateTarget = node as Element;
                     listener!(e);
                 }
-
             }
         } : function (e: any) {
             if (e.delegateTarget) return;

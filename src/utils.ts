@@ -23,9 +23,6 @@ export function result(obj: any, prop: string, ...args: any[]) {
 }
 
 export function getOption<T>(option: string, objs: any[]): T | undefined {
-    /*for (let o of objs) {
-        if (isObject(o) && o[option]) return o[option]
-    }*/
     for (let i = 0, ii = objs.length; i < ii; i++) {
         if (isObject(objs[i]) && objs[i][option]) return objs[i][option];
     }
@@ -33,20 +30,31 @@ export function getOption<T>(option: string, objs: any[]): T | undefined {
     return undefined;
 }
 
+
+/**
+ * Trigger an event on an object, if it's an eventemitter,
+ * will also call an method "on<EventName>" if it's exists
+ * 
+ * @export
+ * @template T 
+ * @param {T} self 
+ * @param {string} eventName 
+ * @param {...any[]} args 
+ */
 export function triggerMethodOn<T extends any>(self: T, eventName: string, ...args: any[]) {
     const ev = camelcase("on-" + eventName.replace(':', '-'))
 
-    if (self[ev] && typeof self[ev] === 'function') {
+    if ((<any>self)[ev] && typeof (<any>self)[ev] === 'function') {
         callFunc([{
-            handler: self[ev],
+            handler: (<any>self)[ev],
             ctx: self
         } as any], args);
     }
 
-    if (isFunction(self.trigger)) {
+    if (isFunction((<any>self).trigger)) {
         args = [eventName].concat(args)
         callFunc([{
-            handler: self.trigger,
+            handler: (<any>self).trigger,
             ctx: self
         } as any], args);
     }
