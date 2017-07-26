@@ -1,13 +1,5 @@
 import { AbstractView } from './abstract-view';
-export declare type EventsMap = {
-    [key: string]: Function | string;
-};
-export declare type StringMap = {
-    [key: string]: string;
-};
-export declare type UIMap = {
-    [key: string]: HTMLElement;
-};
+import { StringMap, UIMap, EventsMap } from './types';
 export interface DelegateEvent extends Event {
     delegateTarget?: Element;
 }

@@ -5,5 +5,6 @@ export class View extends BaseView<HTMLElement> {
     constructor(options: BaseViewOptions<HTMLElement> = { attachId: true }) {
         super(options);
     }
+
 }
 

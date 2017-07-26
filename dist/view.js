@@ -294,7 +294,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(0);
 var abstract_view_1 = __webpack_require__(1);
-//import * as Debug from 'debug';
 var debug = function debug() {}; //Debug("views");
 var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#]+)/i,
     unbubblebles = 'focus blur change'.split(' ');
@@ -572,6 +571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(0);
+;
 function attributes(attrs) {
     return function (target) {
         utils_1.extend(target.prototype, attrs);

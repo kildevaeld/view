@@ -6,18 +6,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <script src="../node_modules/reflect-metadata/Reflect.js"></script>
-        <script src="view.js"></script>
+        <script src="../dist/view.js"></script>
     </head>
     <body>
         
 
-        <div class="view1"></div>
+        <div class="view1">
+            <button>Open</button>
+        </div>
         <div class="view2"></div>
 
         <script>
 
+            var view = new view.View({
+                el: document.querySelector('.view1')
+            });
+
+            view.onClick = () => alert('open')
+
+            view.events = {
+                'click button':  'onClick'
+            }
             
-            
+            view.render();
         
 
             /*console.log(view)

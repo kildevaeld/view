@@ -1,12 +1,10 @@
 import { extend, triggerMethodOn, uniqueId, indexOf, result, matches } from './utils';
 import { AbstractView } from './abstract-view'
 //import * as Debug from 'debug';
-
+import { StringMap, UIMap, EventsMap } from './types';
 const debug = (..._: any[]) => { }  //Debug("views");
 
-export type EventsMap = { [key: string]: Function | string }
-export type StringMap = { [key: string]: string }
-export type UIMap = { [key: string]: HTMLElement };
+
 
 const kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#]+)/i,
     unbubblebles = 'focus blur change'.split(' ');
@@ -78,7 +76,6 @@ export class BaseView<T extends Element> extends AbstractView<T> {
         this._vid = uniqueId('vid');
 
     }
-
 
     delegateEvents(events?: EventsMap): any {
 
