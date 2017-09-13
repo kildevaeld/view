@@ -1,5 +1,5 @@
 import { BaseView } from './base-view'
-import { extend } from './utils';
+import { extend, has } from './utils';
 import { EventsMap, StringMap, Constructor } from './types';
 
 export interface TriggerOptions {
@@ -27,6 +27,11 @@ export interface AttributesOptions {
     [key: string]: any;
 }
 
+export interface EventOptions {
+    preventDefault?: boolean;
+    stopPropagation?: boolean;
+}
+
 
 export function attributes(attrs: AttributesOptions) {
     return function <T extends Constructor<BaseView<U>>, U extends Element>(target: T) {
@@ -38,12 +43,21 @@ export function event(eventName: string, selector: string) {
     return function <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) {
         if (!desc) throw new Error('no description');
         if (typeof desc.value !== 'function') {
-            throw new Error('must be a function');
+            throw new TypeError('must be a function');
         }
 
-        target.events = extend(target.events || {}, {
-            [`${eventName} ${selector}`]: property
-        });
+        const key = `${eventName} ${selector}`
+        if (target.events && has(target.events, key)) {
+            let old = target.events[key]
+            if (!Array.isArray(old)) old = [old];
+            old.push(property as any);
+            target.events[key] = old;
+        } else {
+            target.events = extend(target.events || {}, {
+                [key]: property
+            });
+
+        }
 
     }
 }

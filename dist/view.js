@@ -355,15 +355,19 @@ var BaseView = function (_abstract_view_1$Abst) {
             this.undelegateEvents();
             var dels = [];
             for (var key in events) {
-                var method = events[key];
-                if (typeof method !== 'function') method = this[method];
+                var methods = events[key];
                 var match = key.match(/^(\S+)\s*(.*)$/);
-                // Set delegates immediately and defer event on this.el
-                var boundFn = method.bind(this); // bind(<Function>method, this);
-                if (match[2]) {
-                    this.delegate(match[1], match[2], boundFn);
-                } else {
-                    dels.push([match[1], boundFn]);
+                if (!Array.isArray(methods)) methods = [methods];
+                for (var i = 0, ii = methods.length; i < ii; i++) {
+                    var method = methods[i];
+                    if (typeof method !== 'function') method = this[method];
+                    // Set delegates immediately and defer event on this.el
+                    var boundFn = method.bind(this); // bind(<Function>method, this);
+                    if (match[2]) {
+                        this.delegate(match[1], match[2], boundFn);
+                    } else {
+                        dels.push([match[1], boundFn]);
+                    }
                 }
             }
             dels.forEach(function (d) {
@@ -582,9 +586,17 @@ function event(eventName, selector) {
     return function (target, property, desc) {
         if (!desc) throw new Error('no description');
         if (typeof desc.value !== 'function') {
-            throw new Error('must be a function');
+            throw new TypeError('must be a function');
         }
-        target.events = utils_1.extend(target.events || {}, _defineProperty({}, eventName + " " + selector, property));
+        var key = eventName + " " + selector;
+        if (target.events && utils_1.has(target.events, key)) {
+            var old = target.events[key];
+            if (!Array.isArray(old)) old = [old];
+            old.push(property);
+            target.events[key] = old;
+        } else {
+            target.events = utils_1.extend(target.events || {}, _defineProperty({}, key, property));
+        }
     };
 }
 exports.event = event;

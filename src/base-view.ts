@@ -98,18 +98,26 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
         let dels = []
         for (let key in events) {
-            let method = events[key];
-            if (typeof method !== 'function') method = (<any>this)[<string>method];
+            let methods = events[key];
+            const match = key.match(/^(\S+)\s*(.*)$/)!;
 
-            let match = key.match(/^(\S+)\s*(.*)$/)!;
+            if (!Array.isArray(methods)) methods = [methods]
 
-            // Set delegates immediately and defer event on this.el
-            let boundFn = (<any>method).bind(this); // bind(<Function>method, this);
-            if (match[2]) {
-                this.delegate(match[1], match[2], boundFn);
-            } else {
-                dels.push([match[1], boundFn]);
+            for (let i = 0, ii = methods.length; i < ii; i++) {
+                let method = methods[i]
+
+                if (typeof method !== 'function') method = (<any>this)[method];
+
+                // Set delegates immediately and defer event on this.el
+                const boundFn = (<any>method).bind(this); // bind(<Function>method, this);
+                if (match[2]) {
+                    this.delegate(match[1], match[2], boundFn);
+                } else {
+                    dels.push([match[1], boundFn]);
+                }
+
             }
+
         }
 
         dels.forEach(d => { this.delegate(d[0], d[1]) });
@@ -271,7 +279,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
         // Configure the triggers, prevent default
         // action and stop propagation of DOM events
-        let events: { [key: string]: Function } = {}, val, key;
+        let events: EventsMap = {}, val, key;
         for (key in triggers) {
             val = triggers[key];
             debug('%s added trigger %s %s', this, key, val)
