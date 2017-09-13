@@ -295,7 +295,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(0);
 var abstract_view_1 = __webpack_require__(1);
 var debug = function debug() {}; //Debug("views");
-var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#]+)/i,
+var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i,
     unbubblebles = 'focus blur change'.split(' ');
 function normalizeUIKeys(obj, uimap) {
     var o = {},

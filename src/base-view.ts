@@ -5,8 +5,7 @@ import { StringMap, UIMap, EventsMap } from './types';
 const debug = (..._: any[]) => { }  //Debug("views");
 
 
-
-const kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#]+)/i,
+const kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i,
     unbubblebles = 'focus blur change'.split(' ');
 
 export interface DelegateEvent extends Event {
