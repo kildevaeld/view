@@ -232,6 +232,30 @@ function matches(elm, selector) {
     return matchesSelector.call(elm, selector);
 }
 exports.matches = matches;
+var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i;
+function normalizeUIKeys(obj, uimap) {
+    var o = {},
+        k = void 0,
+        v = void 0;
+    for (k in obj) {
+        v = obj[k];
+        k = normalizeUIString(k, uimap);
+        o[k] = v;
+    }
+    return o;
+}
+exports.normalizeUIKeys = normalizeUIKeys;
+function normalizeUIString(str, uimap) {
+    var ms = void 0,
+        ui = void 0,
+        sel = void 0;
+    if ((ms = kUIRegExp.exec(str)) != null) {
+        ui = ms[1], sel = uimap[ui];
+        if (sel != null) str = str.replace(ms[0], sel);
+    }
+    return str;
+}
+exports.normalizeUIString = normalizeUIString;
 
 /***/ }),
 /* 1 */
@@ -295,31 +319,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(0);
 var abstract_view_1 = __webpack_require__(1);
 var debug = function debug() {}; //Debug("views");
-var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i,
-    unbubblebles = 'focus blur change'.split(' ');
-function normalizeUIKeys(obj, uimap) {
-    var o = {},
-        k = void 0,
-        v = void 0;
-    for (k in obj) {
-        v = obj[k];
-        k = normalizeUIString(k, uimap);
-        o[k] = v;
-    }
-    return o;
-}
-exports.normalizeUIKeys = normalizeUIKeys;
-function normalizeUIString(str, uimap) {
-    var ms = void 0,
-        ui = void 0,
-        sel = void 0;
-    if ((ms = kUIRegExp.exec(str)) != null) {
-        ui = ms[1], sel = uimap[ui];
-        if (sel != null) str = str.replace(ms[0], sel);
-    }
-    return str;
-}
-exports.normalizeUIString = normalizeUIString;
+var unbubblebles = 'focus blur change'.split(' ');
 
 var BaseView = function (_abstract_view_1$Abst) {
     _inherits(BaseView, _abstract_view_1$Abst);
@@ -346,7 +346,7 @@ var BaseView = function (_abstract_view_1$Abst) {
             if (!this.el) return;
             this._bindUIElements();
             events = events || utils_1.result(this, 'events') || {};
-            events = normalizeUIKeys(events, this._ui);
+            events = utils_1.normalizeUIKeys(events, this._ui);
             var triggers = this._configureTriggers();
             events = utils_1.extend({}, events, triggers);
             debug('%s delegate events %j', this, events);
@@ -505,7 +505,7 @@ var BaseView = function (_abstract_view_1$Abst) {
         key: "_configureTriggers",
         value: function _configureTriggers() {
             var triggers = this.triggers || {};
-            triggers = normalizeUIKeys(triggers, this._ui);
+            triggers = utils_1.normalizeUIKeys(triggers, this._ui);
             // Configure the triggers, prevent default
             // action and stop propagation of DOM events
             var events = {},
@@ -575,7 +575,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(0);
-;
 function attributes(attrs) {
     return function (target) {
         utils_1.extend(target.prototype, attrs);

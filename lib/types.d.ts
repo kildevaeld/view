@@ -13,3 +13,20 @@ export interface StringMap {
 export interface UIMap {
     [key: string]: HTMLElement;
 }
+export interface TriggerOptions {
+    event: string;
+    preventDefault?: boolean;
+    stopPropagation?: boolean;
+}
+/**
+ * A key-value maps
+ * @example
+ *  "<dom-event> <selector>": "<event>" | TriggerOptions
+ *  "<dom-event> <ui>": ...
+ *
+ * @export
+ * @interface TriggerMap
+ */
+export interface TriggerMap {
+    [key: string]: string | TriggerOptions;
+}

@@ -3,8 +3,6 @@ import { StringMap, UIMap, EventsMap } from './types';
 export interface DelegateEvent extends Event {
     delegateTarget?: Element;
 }
-export declare function normalizeUIKeys(obj: any, uimap: StringMap): StringMap;
-export declare function normalizeUIString(str: string, uimap: StringMap): string;
 export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
     new (...args: any[]): T;
     readonly prototype: T;

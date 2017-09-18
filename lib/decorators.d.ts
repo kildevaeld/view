@@ -1,22 +1,5 @@
 import { BaseView } from './base-view';
-import { EventsMap, StringMap, Constructor } from './types';
-export interface TriggerOptions {
-    event: string;
-    preventDefault?: boolean;
-    stopPropagation?: boolean;
-}
-/**
- * A key-value maps
- * @example
- *  "<dom-event> <selector>": "<event>" | TriggerOptions
- *  "<dom-event> <ui>": ...
- *
- * @export
- * @interface TriggerMap
- */
-export interface TriggerMap {
-    [key: string]: string | TriggerOptions;
-}
+import { EventsMap, StringMap, Constructor, TriggerMap } from './types';
 export interface AttributesOptions {
     events?: EventsMap;
     ui?: StringMap;

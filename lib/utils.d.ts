@@ -1,3 +1,4 @@
+import { StringMap } from './types';
 export interface Call {
     ctx?: any;
     handler: (...args: any[]) => void;
@@ -25,3 +26,5 @@ export declare function camelcase(input: string): string;
 export declare function uniqueId(prefix?: string): string;
 export declare function indexOf<T>(array: ArrayLike<T>, item: T): number;
 export declare function matches(elm: Element, selector: string): boolean;
+export declare function normalizeUIKeys(obj: any, uimap: StringMap): StringMap;
+export declare function normalizeUIString(str: string, uimap: StringMap): string;
