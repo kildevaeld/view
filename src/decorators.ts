@@ -41,8 +41,8 @@ export function event(eventName: string, selector: string) {
             throw new Error('must be a function');
         }
 
-        target.events = extend(target.events || {}, {
-            [`${eventName} ${selector}`]: property
+        target.events = extend({}, target.events || {}, {
+            [`${eventName} ${selector}`]: property as string
         });
 
     }

@@ -584,7 +584,7 @@ function event(eventName, selector) {
         if (typeof desc.value !== 'function') {
             throw new Error('must be a function');
         }
-        target.events = utils_1.extend(target.events || {}, _defineProperty({}, eventName + " " + selector, property));
+        target.events = utils_1.extend({}, target.events || {}, _defineProperty({}, eventName + " " + selector, property));
     };
 }
 exports.event = event;
