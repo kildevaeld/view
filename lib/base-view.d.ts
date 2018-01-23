@@ -11,11 +11,11 @@ export interface BaseViewOptions<T extends Element> {
     el?: T;
     attachId?: boolean;
 }
-export declare class BaseView<T extends Element> extends AbstractView<T> {
+export declare class BaseView<T extends Element = HTMLElement, UIMapType extends UIMap = UIMap> extends AbstractView<T> {
     private _options;
-    static find(selector: string, context: HTMLElement): NodeList;
+    static find<T extends Element = Element>(selector: string, context: Element): NodeListOf<T>;
     events: EventsMap;
-    ui: UIMap;
+    ui: UIMapType;
     triggers: StringMap;
     private _ui;
     private _domEvents;
@@ -28,7 +28,7 @@ export declare class BaseView<T extends Element> extends AbstractView<T> {
     delegate(eventName: string, selector?: string | Function, listener?: Function): this | ((e: DelegateEvent) => void);
     undelegate(eventName: string, selector?: string | Function, listener?: Function): this;
     render(): this;
-    setElement(el?: T, trigger?: boolean): this;
+    protected setElement(el?: T, trigger?: boolean): this;
     destroy(): any;
     private _bindUIElements();
     private _unbindUIElements();

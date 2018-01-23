@@ -6,12 +6,12 @@ export abstract class AbstractView<T extends Element> implements IView {
     get el(): T | undefined { return this._el; }
     set el(el: T | undefined) { this.setElement(el); }
 
-    render() { return this; }
+    render(): this { return this; }
 
     destroy() {
-
+        return this;
     }
 
-    abstract setElement(el?: Element): void;
+    protected abstract setElement(el?: Element): this;
 
 }

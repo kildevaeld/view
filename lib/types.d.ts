@@ -1,7 +1,7 @@
 export interface IView {
     render(): this;
     el?: Element;
-    destroy(): void;
+    destroy(): this;
 }
 export declare type Constructor<T> = new (...args: any[]) => T;
 export interface EventsMap {
@@ -30,3 +30,10 @@ export interface TriggerOptions {
 export interface TriggerMap {
     [key: string]: string | TriggerOptions;
 }
+export interface IInvoker {
+    get<T>(key: any): T;
+}
+export declare var Invoker: {
+    get<T extends IView = IView>(V: Constructor<T>): T;
+};
+export declare function setInvoker(i: IInvoker): void;

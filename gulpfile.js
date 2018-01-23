@@ -19,7 +19,9 @@ gulp.task('bump:minor', () => {
 });
 
 gulp.task('typescript', () => {
-	const project = tsc.createProject('./tsconfig.json')
+	const project = tsc.createProject('./tsconfig.json', {
+		declaration: true
+	})
 	return gulp.src('./src/**/*.ts')
 		.pipe(project())
 		.pipe(gulp.dest('lib'));

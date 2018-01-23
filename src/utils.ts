@@ -75,6 +75,10 @@ export function isString(a: any): a is string {
     return typeof a === 'string';
 }
 
+export function isElement(a: any): a is Element {
+    return a instanceof Element;
+}
+
 export function extend<T extends Object, U extends Object>(obj: T, ...args: U[]): T & U {
     if (!isObject(obj)) return obj
 

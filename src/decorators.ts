@@ -1,8 +1,7 @@
 import { BaseView } from './base-view'
 import { extend, has } from './utils';
-import { EventsMap, StringMap, Constructor, TriggerMap } from './types';
-
-
+import { EventsMap, StringMap, Constructor, TriggerMap, UIMap } from './types';
+import { IViewAttachable } from './mixins'
 
 export interface AttributesOptions {
     events?: EventsMap;
@@ -18,7 +17,7 @@ export interface EventOptions {
 
 
 export function attributes(attrs: AttributesOptions) {
-    return function <T extends Constructor<BaseView<U>>, U extends Element>(target: T) {
+    return function <T extends Constructor<BaseView<U, Map>>, U extends Element, Map extends UIMap>(target: T) {
         extend(target.prototype, attrs);
     }
 }
@@ -54,5 +53,30 @@ export namespace event {
 
     export function change(selector: string) {
         return event('change', selector);
+    }
+}
+
+
+export interface MountOptions {
+    optional?: boolean
+}
+
+/**
+ * Mount a view on the target and bind matched element
+ *
+ * @export
+ * @param {string} selector
+ * @returns
+ */
+export function attach(selector: string, options: MountOptions = {}) {
+    return function <T extends IViewAttachable>(target: T, prop: string) {
+        let View = Reflect.getOwnMetadata("design:type", target, prop as string);
+        if (!View) throw new Error('design:type does not exists');
+        if (!target.views) target.views = {};
+        target.views[prop] = {
+            selector: selector,
+            view: View,
+            optional: typeof options.optional !== 'boolean' ? false : options.optional
+        };
     }
 }
