@@ -70,8 +70,9 @@ export interface MountOptions {
  */
 export function attach(selector: string, options: MountOptions = {}) {
     return function <T extends IViewAttachable>(target: T, prop: string) {
-        let View = Reflect.getOwnMetadata("design:type", target, prop as string);
-        if (!View) throw new Error('design:type does not exists');
+
+        let View = Reflect.getOwnMetadata("design:type", target, prop);
+        if (!View) throw new Error(`design:type does not exists for prop '${prop}' on '${target}'`);
         if (!target.views) target.views = {};
         target.views[prop] = {
             selector: selector,

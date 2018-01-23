@@ -619,33 +619,66 @@ __export(__webpack_require__(8));
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    }return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var lib_1 = __webpack_require__(4);
 
-var View = function (_lib_1$withTemplate) {
-    _inherits(View, _lib_1$withTemplate);
+var TestView = function (_lib_1$withTemplate) {
+    _inherits(TestView, _lib_1$withTemplate);
 
-    function View() {
-        _classCallCheck(this, View);
+    function TestView() {
+        _classCallCheck(this, TestView);
 
-        var _this = _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (TestView.__proto__ || Object.getPrototypeOf(TestView)).apply(this, arguments));
 
-        _this.template = function (data) {
-            return "<ul>\n       <h1>Hello, World</h1>\n    </ul>";
+        _this.template = function () {
+            return "\n        <h4>You tube</h4>\n    ";
         };
         return _this;
     }
 
-    return View;
-}(lib_1.withTemplate(lib_1.BaseView));
+    return TestView;
+}(lib_1.withTemplate(lib_1.View));
 
-exports.View = View;
+exports.TestView = TestView;
+
+var MainView = function (_lib_1$withAttachedVi) {
+    _inherits(MainView, _lib_1$withAttachedVi);
+
+    function MainView() {
+        _classCallCheck(this, MainView);
+
+        var _this2 = _possibleConstructorReturn(this, (MainView.__proto__ || Object.getPrototypeOf(MainView)).apply(this, arguments));
+
+        _this2.template = function (data) {
+            return "<ul>\n       <h1>Hello, World</h1>\n       <div class=\"test\"></div>\n    </ul>";
+        };
+        return _this2;
+    }
+
+    return MainView;
+}(lib_1.withAttachedViews(lib_1.withTemplate(lib_1.View)));
+
+__decorate([lib_1.attach('.test'), __metadata("design:type", TestView)], MainView.prototype, "test", void 0);
+exports.MainView = MainView;
 
 /***/ }),
 /* 6 */
@@ -704,7 +737,7 @@ function attach(selector) {
 
     return function (target, prop) {
         var View = Reflect.getOwnMetadata("design:type", target, prop);
-        if (!View) throw new Error('design:type does not exists');
+        if (!View) throw new Error("design:type does not exists for prop '" + prop + "' on '" + target + "'");
         if (!target.views) target.views = {};
         target.views[prop] = {
             selector: selector,
