@@ -1,4 +1,4 @@
-import { View, attributes, withTemplate, Constructor, IViewTemplate, UIMap, attach, withAttachedViews, IViewAttachable } from '../lib';
+import { event, View, attributes, withTemplate, Constructor, IViewTemplate, UIMap, attach, withAttachedViews, IViewAttachable } from '../lib';
 
 export interface Todo {
     name: string;
@@ -14,6 +14,7 @@ export class TestView extends withTemplate(View) {
     `)
 }
 
+
 export class MainView extends withAttachedViews(withTemplate<Constructor<View>, Model>(View)) {
     template = (data: Model) => (`<ul>
        <h1>Hello, World</h1>
@@ -22,6 +23,18 @@ export class MainView extends withAttachedViews(withTemplate<Constructor<View>, 
 
     @attach('.test')
     test: TestView;
+
+
+
+    @event.click('.test')
+    rapper() {
+
+    }
+
+    @event.click('.ara')
+    rapper2(e: MouseEvent) {
+
+    }
 
 }
 
