@@ -12,10 +12,10 @@ export interface EventOptions {
     stopPropagation?: boolean;
 }
 export declare function attributes(attrs: AttributesOptions): <T extends Constructor<BaseView<U, Map>>, U extends Element, Map extends UIMap>(target: T) => void;
-export declare function event(eventName: string, selector: string): <T extends BaseView<U, UIMap>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) => void;
+export declare function event(eventName: string, selector: string): <T extends BaseView<U, UIMap>, U extends Element, E extends Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any>) => void;
 export declare namespace event {
-    function click(selector: string): <T extends BaseView<U, UIMap>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) => void;
-    function change(selector: string): <T extends BaseView<U, UIMap>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) => void;
+    function click(selector: string): <T extends BaseView<U, UIMap>, U extends Element, E extends Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any>) => void;
+    function change(selector: string): <T extends BaseView<U, UIMap>, U extends Element, E extends Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any>) => void;
 }
 export interface MountOptions {
     optional?: boolean;

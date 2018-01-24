@@ -23,7 +23,7 @@ export function attributes(attrs: AttributesOptions) {
 }
 
 export function event(eventName: string, selector: string) {
-    return function <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) {
+    return function <T extends BaseView<U>, U extends Element, E extends Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any>) {
         if (!desc) throw new Error('no description');
         if (typeof desc.value !== 'function') {
             throw new TypeError('must be a function');
