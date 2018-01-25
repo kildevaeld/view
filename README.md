@@ -25,7 +25,7 @@ class Feature extends withTemplate<Model>(View) {
   
   @event.click('button')
   onClick(e:MouseEvent) {
-    alert('click on button');
+    alert('click on button ' + this.model.header);
   }
 
 }
