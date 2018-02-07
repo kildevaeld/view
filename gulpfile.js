@@ -2,7 +2,9 @@ const gulp = require('gulp'),
 	bump = require('gulp-bump'),
 	tsc = require('gulp-typescript'),
 	gutil = require('gulp-util'),
-	rollup = require('rollup');
+	rollup = require('rollup'),
+	babel = require('gulp-babel'),
+	merge = require('merge2');
 
 
 gulp.task('bump', () => {
@@ -22,9 +24,15 @@ gulp.task('typescript', () => {
 	const project = tsc.createProject('./tsconfig.json', {
 		declaration: true
 	})
-	return gulp.src('./src/**/*.ts')
+	const out = gulp.src('./src/**/*.ts')
 		.pipe(project())
-		.pipe(gulp.dest('./lib'));
+
+	return merge([
+		out.dts.pipe(gulp.dest('./lib')),
+		out.js.pipe(babel({
+			presets: ['env']
+		})).pipe(gulp.dest('./lib'))
+	])
 });
 
 
