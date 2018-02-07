@@ -2,7 +2,6 @@ const gulp = require('gulp'),
 	bump = require('gulp-bump'),
 	tsc = require('gulp-typescript'),
 	gutil = require('gulp-util'),
-	rollup = require('rollup'),
 	babel = require('gulp-babel'),
 	merge = require('merge2');
 
@@ -32,20 +31,11 @@ gulp.task('typescript', () => {
 		out.js.pipe(babel({
 			presets: ['env']
 		})).pipe(gulp.dest('./lib'))
-	])
+	]);
 });
 
 
-gulp.task('rollup', () => {
-	const config = require('./rollup.config.js');
-	return Promise.all(config.map(m => {
-		return rollup.rollup(m).then(bundler => {
-			return bundler.write(m.output);
-		});
-	}));
-});
-
-gulp.task('build', ['typescript', 'rollup']);
+gulp.task('build', ['typescript']);
 
 gulp.task('watch', ['default'], () => {
 	gulp.watch('./src/**/*.ts', ['typescript'])
