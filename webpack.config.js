@@ -1,25 +1,18 @@
 const Path = require('path');
 const webpack = require('webpack');
+
+
 const babelOptions = {
     "presets": [
-        [
-            "es2015",
-            {
-                "modules": false
-            }
-        ],
-        "es2016"
+        "env"
     ]
 };
 
 module.exports = {
-    entry: './example-src/index.ts',
+    entry: './src/index.ts',
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: ['.ts', '.tsx', '.js'],
-        alias: {
-            debug: process.cwd() + "/node_modules/debug/src/browser.js"
-        }
     },
     output: {
         filename: 'view.js',
@@ -27,9 +20,6 @@ module.exports = {
         library: 'view',
         libraryTarget: 'umd'
     },
-    /*externals: {
-        "slick-di": "slick-di"
-    },*/
     module: {
         rules: [{
             test: /\.ts(x?)$/,
@@ -49,7 +39,7 @@ module.exports = {
             ]
         }, {
             test: /\.js$/,
-            //exclude: /node_modules/,
+            exclude: /node_modules/,
             use: [{
                 loader: 'babel-loader',
                 options: babelOptions

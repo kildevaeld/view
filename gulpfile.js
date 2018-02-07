@@ -1,8 +1,8 @@
 const gulp = require('gulp'),
 	bump = require('gulp-bump'),
 	tsc = require('gulp-typescript'),
-	webpack = require('webpack'),
-	gutil = require('gulp-util');
+	gutil = require('gulp-util'),
+	rollup = require('rollup');
 
 
 gulp.task('bump', () => {
@@ -24,29 +24,23 @@ gulp.task('typescript', () => {
 	})
 	return gulp.src('./src/**/*.ts')
 		.pipe(project())
-		.pipe(gulp.dest('lib'));
+		.pipe(gulp.dest('./lib'));
 });
 
-gulp.task('webpack', done => {
-	webpack(require('./webpack.config'), (e, s) => {
-		if (e) {
-			throw new gutil.PluginError('webpack:build', e);
-		}
-		gutil.log('[webpack:build]', s.toString({
-			chunks: false,
-			colors: true
-		}));
-		done();
-	});
+
+gulp.task('rollup', () => {
+	const config = require('./rollup.config.js');
+	return Promise.all(config.map(m => {
+		return rollup.rollup(m).then(bundler => {
+			return bundler.write(m.output);
+		});
+	}));
 });
 
-gulp.task('build', ['typescript', 'webpack']);
+gulp.task('build', ['typescript', 'rollup']);
 
 gulp.task('watch', ['default'], () => {
 	gulp.watch('./src/**/*.ts', ['typescript'])
-	const compiler = webpack(require('./webpack.config'));
-	compiler.watch({}, e => e ? gutil.log(e) : void 0)
-
 });
 
 gulp.task('default', ['build']);
