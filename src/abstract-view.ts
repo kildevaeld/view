@@ -12,6 +12,6 @@ export abstract class AbstractView<T extends Element> implements IView {
         return this;
     }
 
-    protected abstract setElement(el?: Element): this;
+    protected abstract setElement(el?: T): this;
 
 }

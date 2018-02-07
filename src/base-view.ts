@@ -11,8 +11,6 @@ export interface DelegateEvent extends Event {
     delegateTarget?: Element;
 }
 
-
-
 export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
     new(...args: any[]): T;
     readonly prototype: T;
