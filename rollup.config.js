@@ -14,11 +14,16 @@ module.exports = [
             format: 'umd',
             name: 'view'
         },
+        treeshake: {
+            pureExternalModules: false,
+            propertyReadSideEffects: false
+        },
+        exports: 'named',
         plugins: [
             typescript({
                 typescript: require('typescript')
             }),
-            resolve(), // so Rollup can find `ms`
+            //resolve(), // so Rollup can find `ms`
             commonjs(), // so Rollup can convert `ms` to an ES module
             babel({
                 //presets: ['env'],
