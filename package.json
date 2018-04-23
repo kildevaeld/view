@@ -18,5 +18,10 @@
     "typescript": "^2.7.1",
     "webpack": "^3.10.0"
   },
-  "types": "./lib/index.d.ts"
+  "types": "./lib/index.d.ts",
+  "license": "MIT",
+  "author": {
+    "email": "rasmuskildevaed@gmail.com",
+    "name": "Rasmus Kildevæld"
+  }
 }
