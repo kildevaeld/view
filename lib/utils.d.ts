@@ -20,6 +20,7 @@ export declare function triggerMethodOn<T extends any>(self: T, eventName: strin
 export declare function isObject(obj: any): obj is Object;
 export declare function isFunction(a: any): a is Function;
 export declare function isString(a: any): a is string;
+export declare function isElement(a: any): a is Element;
 export declare function extend<T extends Object, U extends Object>(obj: T, ...args: U[]): T & U;
 export declare function has(obj: Object, prop: string): boolean;
 export declare function camelcase(input: string): string;

@@ -1,5 +1,6 @@
 import { BaseView } from './base-view';
-import { EventsMap, StringMap, Constructor, TriggerMap } from './types';
+import { EventsMap, StringMap, Constructor, TriggerMap, UIMap } from './types';
+import { IViewAttachable } from './mixins';
 export interface AttributesOptions {
     events?: EventsMap;
     ui?: StringMap;
@@ -10,9 +11,20 @@ export interface EventOptions {
     preventDefault?: boolean;
     stopPropagation?: boolean;
 }
-export declare function attributes(attrs: AttributesOptions): <T extends Constructor<BaseView<U>>, U extends Element>(target: T) => void;
-export declare function event(eventName: string, selector: string): <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) => void;
+export declare function attributes(attrs: AttributesOptions): <T extends Constructor<BaseView<U, Map>>, U extends Element, Map extends UIMap>(target: T) => void;
+export declare function event(eventName: string, selector: string): <T extends BaseView<U, UIMap>, U extends Element = Element, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
 export declare namespace event {
-    function click(selector: string): <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) => void;
-    function change(selector: string): <T extends BaseView<U>, U extends Element>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<Function>) => void;
+    function click(selector: string): <T extends BaseView<U, UIMap>, U extends Element = Element, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
+    function change(selector: string): <T extends BaseView<U, UIMap>, U extends Element = Element, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
 }
+export interface MountOptions {
+    optional?: boolean;
+}
+/**
+ * Mount a view on the target and bind matched element
+ *
+ * @export
+ * @param {string} selector
+ * @returns
+ */
+export declare function attach(selector: string, options?: MountOptions): <T extends IViewAttachable>(target: T, prop: string) => void;

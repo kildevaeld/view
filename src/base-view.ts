@@ -11,8 +11,6 @@ export interface DelegateEvent extends Event {
     delegateTarget?: Element;
 }
 
-
-
 export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
     new(...args: any[]): T;
     readonly prototype: T;
@@ -25,14 +23,14 @@ export interface BaseViewOptions<T extends Element> {
 }
 
 
-export class BaseView<T extends Element> extends AbstractView<T> {
+export class BaseView<T extends Element = HTMLElement, UIMapType extends UIMap = UIMap> extends AbstractView<T> {
 
-    static find(selector: string, context: HTMLElement): NodeList {
-        return context.querySelectorAll(selector);
+    static find<T extends Element = Element>(selector: string, context: Element): NodeListOf<T> {
+        return context.querySelectorAll(selector) as any;
     }
 
     public events: EventsMap;
-    public ui: UIMap;
+    public ui: UIMapType;
     public triggers: StringMap;
 
     private _ui: { [key: string]: string };
@@ -189,7 +187,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
         return this;
     }
 
-    setElement(el?: T, trigger: boolean = true) {
+    protected setElement(el?: T, trigger: boolean = true) {
 
         if (trigger)
             this.undelegateEvents();
@@ -229,7 +227,7 @@ export class BaseView<T extends Element> extends AbstractView<T> {
 
         ui = this._ui;
 
-        this.ui = {};
+        this.ui = {} as any;
 
         Object.keys(ui).forEach((k) => {
             let elm: any = this.el!.querySelectorAll(ui[k]);

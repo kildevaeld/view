@@ -1,8 +1,9 @@
 const gulp = require('gulp'),
 	bump = require('gulp-bump'),
 	tsc = require('gulp-typescript'),
-	webpack = require('webpack'),
-	gutil = require('gulp-util');
+	gutil = require('gulp-util'),
+	babel = require('gulp-babel'),
+	merge = require('merge2');
 
 
 gulp.task('bump', () => {
@@ -19,32 +20,25 @@ gulp.task('bump:minor', () => {
 });
 
 gulp.task('typescript', () => {
-	const project = tsc.createProject('./tsconfig.json')
-	return gulp.src('./src/**/*.ts')
+	const project = tsc.createProject('./tsconfig.json', {
+		declaration: true
+	})
+	const out = gulp.src('./src/**/*.ts')
 		.pipe(project())
-		.pipe(gulp.dest('lib'));
+
+	return merge([
+		out.dts.pipe(gulp.dest('./lib')),
+		out.js.pipe(babel({
+			presets: ['env']
+		})).pipe(gulp.dest('./lib'))
+	]);
 });
 
-gulp.task('webpack', done => {
-	webpack(require('./webpack.config'), (e, s) => {
-		if (e) {
-			throw new gutil.PluginError('webpack:build', e);
-		}
-		gutil.log('[webpack:build]', s.toString({
-			chunks: false,
-			colors: true
-		}));
-		done();
-	});
-});
 
-gulp.task('build', ['typescript', 'webpack']);
+gulp.task('build', ['typescript']);
 
 gulp.task('watch', ['default'], () => {
 	gulp.watch('./src/**/*.ts', ['typescript'])
-	const compiler = webpack(require('./webpack.config'));
-	compiler.watch({}, e => e ? gutil.log(e) : void 0)
-
 });
 
 gulp.task('default', ['build']);
