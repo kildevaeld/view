@@ -1,9 +1,9 @@
 {
   "name": "@viewjs/view",
-  "version": "2.2.3",
+  "version": "2.4.0",
   "dependencies": {
-    "reflect-metadata": "^0.1.12",
-    "@viewjs/utils": "^1.0.0"
+    "@viewjs/utils": "^1.0.0",
+    "reflect-metadata": "^0.1.12"
   },
   "main": "./lib/index.js",
   "devDependencies": {
