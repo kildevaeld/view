@@ -1,4 +1,5 @@
-import { extend, triggerMethodOn, uniqueId, indexOf, result, matches, normalizeUIKeys } from './utils';
+import { matches, normalizeUIKeys } from './utils';
+import { extend, triggerMethodOn, uniqueId, indexOf, result } from '@viewjs/utils';
 import { AbstractView } from './abstract-view'
 //import * as Debug from 'debug';
 import { StringMap, UIMap, EventsMap } from './types';

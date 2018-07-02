@@ -1,6 +1,6 @@
 
 import { Constructor, IView } from '../types';
-import { result, isFunction, isString, isElement } from '../utils'
+import { result, isFunction, isString, isElement } from '@viewjs/utils'
 
 export interface IViewTemplate<M> {
     model: M

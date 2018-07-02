@@ -3,7 +3,6 @@ import { Constructor, IView } from '../types'
 import { normalizeUIString } from '../utils';
 import { Invoker } from '../types';
 
-
 export interface IViewAttachable {
     views: ViewMap;
 }

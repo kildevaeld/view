@@ -14,7 +14,7 @@
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     "outDir": "./lib",
     /* Redirect output structure to the directory. */
-    "rootDir": "./", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "rootDir": "./src", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "removeComments": true,                /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
     "importHelpers": false,
@@ -63,5 +63,8 @@
     /* Enables experimental support for ES7 decorators. */
     "emitDecoratorMetadata": true
     /* Enables experimental support for emitting type metadata for decorators. */
-  }
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }
