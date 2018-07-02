@@ -3,7 +3,7 @@
   "version": "2.2.3",
   "dependencies": {
     "reflect-metadata": "^0.1.12",
-    "@viewjs/utils": "~0.0.1"
+    "@viewjs/utils": "^1.0.0"
   },
   "main": "./lib/index.js",
   "devDependencies": {
