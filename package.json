@@ -5,6 +5,9 @@
     "@viewjs/utils": "^1.0.0",
     "reflect-metadata": "^0.1.12"
   },
+  "scripts": {
+    "build": "node ./node_modules/.bin/gulp default"
+  },
   "main": "./lib/index.js",
   "devDependencies": {
     "babel-core": "^6.26.0",
