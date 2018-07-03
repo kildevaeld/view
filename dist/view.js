@@ -320,7 +320,6 @@
                             elm = elm[0];
                         }
                         _this3.ui[k] = elm;
-                    } else {
                     }
                 });
             }

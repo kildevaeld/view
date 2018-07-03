@@ -3,7 +3,8 @@ const gulp = require('gulp'),
 	tsc = require('gulp-typescript'),
 	gutil = require('gulp-util'),
 	babel = require('gulp-babel'),
-	merge = require('merge2');
+	merge = require('merge2'),
+	rollup = require('rollup');
 
 
 gulp.task('bump', () => {
@@ -26,19 +27,31 @@ gulp.task('typescript', () => {
 	const out = gulp.src('./src/**/*.ts')
 		.pipe(project())
 
-	return merge([
-		out.dts.pipe(gulp.dest('./lib')),
-		out.js.pipe(babel({
-			presets: ['env']
-		})).pipe(gulp.dest('./lib'))
-	]);
+	// return merge([
+	// 	out.dts.pipe(gulp.dest('./lib')),
+	// 	out.js.pipe(babel({
+	// 		presets: ['env']
+	// 	})).pipe(gulp.dest('./lib'))
+	// ]);
+	return out.pipe(gulp.dest('lib'));
 });
 
+gulp.task('rollup', () => {
+	gulp.task('rollup', _ => {
+		const config = require('./rollup.config.js');
+		return Promise.all(config.map(m => {
+			return rollup.rollup(m).then(bundler => {
+				return bundler.write(m.output);
+			});
+		}));
+	})
+})
 
-gulp.task('build', ['typescript']);
+
+gulp.task('build', ['typescript', 'rollup']);
 
 gulp.task('watch', ['default'], () => {
-	gulp.watch('./src/**/*.ts', ['typescript'])
+	gulp.watch('./src/**/*.ts', ['typescript', 'rollup']);
 });
 
 gulp.task('default', ['build']);

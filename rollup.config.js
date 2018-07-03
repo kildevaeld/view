@@ -25,11 +25,12 @@ module.exports = [
 
         plugins: [
             typescript({
+                exclude: ['node_modules/**'],
                 typescript: require('typescript'),
-                declaration: false
+                declaration: false,
             }),
             //resolve(), // so Rollup can find `ms`
-            commonjs(), // so Rollup can convert `ms` to an ES module
+            //commonjs(), // so Rollup can convert `ms` to an ES module
             babel({
                 //presets: ['env'],
                 exclude: ['node_modules/**']
