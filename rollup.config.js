@@ -25,7 +25,8 @@ module.exports = [
 
         plugins: [
             typescript({
-                typescript: require('typescript')
+                typescript: require('typescript'),
+                declaration: false
             }),
             //resolve(), // so Rollup can find `ms`
             commonjs(), // so Rollup can convert `ms` to an ES module

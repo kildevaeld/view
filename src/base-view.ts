@@ -24,14 +24,14 @@ export interface BaseViewOptions<T extends Element> {
 }
 
 
-export class BaseView<T extends Element = HTMLElement, UIMapType extends UIMap = UIMap> extends AbstractView<T> {
+export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
 
     static find<T extends Element = Element>(selector: string, context: Element): NodeListOf<T> {
         return context.querySelectorAll(selector) as any;
     }
 
     public events: EventsMap;
-    public ui: UIMapType;
+    public ui: UIMap;
     public triggers: StringMap;
 
     private _ui: { [key: string]: string };
@@ -44,14 +44,16 @@ export class BaseView<T extends Element = HTMLElement, UIMapType extends UIMap =
     }
 
     get options() {
-        return this._options;
+        return this._options!;
     }
 
-    constructor(private _options: BaseViewOptions<T> = {}) {
+    constructor(private _options?: OptionsType) {
 
         super();
 
-        this.setElement(_options.el, false);
+        (this as any)._options = this._options || {}
+
+        this.setElement(_options!.el, false);
         this._domEvents = []
         this._vid = uniqueId('vid');
 

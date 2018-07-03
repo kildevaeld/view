@@ -156,14 +156,13 @@
     var BaseView = function (_AbstractView) {
         inherits(BaseView, _AbstractView);
 
-        function BaseView() {
-            var _options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
+        function BaseView(_options) {
             classCallCheck(this, BaseView);
 
             var _this = possibleConstructorReturn(this, (BaseView.__proto__ || Object.getPrototypeOf(BaseView)).call(this));
 
             _this._options = _options;
+            _this._options = _this._options || {};
             _this.setElement(_options.el, false);
             _this._domEvents = [];
             _this._vid = utils.uniqueId('vid');

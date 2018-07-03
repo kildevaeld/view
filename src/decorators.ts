@@ -1,6 +1,6 @@
-import { BaseView } from './base-view'
+import { BaseView, BaseViewOptions } from './base-view'
 import { extend, has } from '@viewjs/utils';
-import { EventsMap, StringMap, Constructor, TriggerMap, UIMap } from './types';
+import { EventsMap, StringMap, Constructor, TriggerMap } from './types';
 import { IViewAttachable } from './mixins'
 
 export interface AttributesOptions {
@@ -17,13 +17,13 @@ export interface EventOptions {
 
 
 export function attributes(attrs: AttributesOptions) {
-    return function <T extends Constructor<BaseView<U, Map>>, U extends Element, Map extends UIMap>(target: T) {
+    return function <T extends Constructor<BaseView<U, O>>, U extends Element, O extends BaseViewOptions<U>>(target: T) {
         extend(target.prototype, attrs);
     }
 }
 
 export function event(eventName: string, selector: string) {
-    return function <T extends BaseView<U>, U extends Element = Element, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) {
+    return function <T extends BaseView<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) {
         if (!desc) throw new Error('no description');
         if (typeof desc.value !== 'function') {
             throw new TypeError('must be a function');

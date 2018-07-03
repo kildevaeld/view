@@ -1,5 +1,5 @@
-import { BaseView } from './base-view';
-import { EventsMap, StringMap, Constructor, TriggerMap, UIMap } from './types';
+import { BaseView, BaseViewOptions } from './base-view';
+import { EventsMap, StringMap, Constructor, TriggerMap } from './types';
 import { IViewAttachable } from './mixins';
 export interface AttributesOptions {
     events?: EventsMap;
@@ -11,11 +11,11 @@ export interface EventOptions {
     preventDefault?: boolean;
     stopPropagation?: boolean;
 }
-export declare function attributes(attrs: AttributesOptions): <T extends Constructor<BaseView<U, Map>>, U extends Element, Map extends UIMap>(target: T) => void;
-export declare function event(eventName: string, selector: string): <T extends BaseView<U, UIMap>, U extends Element = Element, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
+export declare function attributes(attrs: AttributesOptions): <T extends Constructor<BaseView<U, O>>, U extends Element, O extends BaseViewOptions<U>>(target: T) => void;
+export declare function event(eventName: string, selector: string): <T extends BaseView<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>, E extends Event = Event>(target: T, property: string | number | symbol, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
 export declare namespace event {
-    function click(selector: string): <T extends BaseView<U, UIMap>, U extends Element = Element, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
-    function change(selector: string): <T extends BaseView<U, UIMap>, U extends Element = Element, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
+    function click(selector: string): <T extends BaseView<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>, E extends Event = Event>(target: T, property: string | number | symbol, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
+    function change(selector: string): <T extends BaseView<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>, E extends Event = Event>(target: T, property: string | number | symbol, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) => void;
 }
 export interface MountOptions {
     optional?: boolean;
