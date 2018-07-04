@@ -31,16 +31,21 @@ export interface TriggerMap { [key: string]: string | TriggerOptions };
 
 
 export interface IInvoker {
-    get<T>(key: any): T
+    get<T>(key: Constructor<T>): T
 }
 
-export var Invoker = {
-    get<T extends IView = IView>(V: Constructor<T>): T {
-        return Reflect.construct(V, []);
+const defaultInvoker = {
+    get<T>(V: Constructor<T>): T {
+        if (typeof Reflect !== 'undefined' && typeof Reflect.construct === 'function')
+            return Reflect.construct(V, []);
+        return new V();
     }
-}
+};
 
-export function setInvoker(i: IInvoker) {
+export var Invoker = defaultInvoker;
+
+export function setInvoker(i?: IInvoker) {
+    if (!i) i = defaultInvoker;
     Invoker = i;
 }
 
