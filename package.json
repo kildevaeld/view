@@ -2,14 +2,14 @@
   "name": "@viewjs/view",
   "version": "2.5.1",
   "dependencies": {
-    "@viewjs/utils": "^1.0.0",
-    "reflect-metadata": "^0.1.12"
+    "@viewjs/utils": "^1.0.0"
   },
   "scripts": {
     "build": "node ./node_modules/.bin/gulp default"
   },
   "main": "./lib/index.js",
   "devDependencies": {
+    "reflect-metadata": "^0.1.12",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-external-helpers": "^6.22.0",
