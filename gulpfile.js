@@ -36,16 +36,14 @@ gulp.task('typescript', () => {
 	return out.pipe(gulp.dest('lib'));
 });
 
-gulp.task('rollup', () => {
-	gulp.task('rollup', _ => {
-		const config = require('./rollup.config.js');
-		return Promise.all(config.map(m => {
-			return rollup.rollup(m).then(bundler => {
-				return bundler.write(m.output);
-			});
-		}));
-	})
-})
+gulp.task('rollup', _ => {
+	const config = require('./rollup.config.js');
+	return Promise.all(config.map(m => {
+		return rollup.rollup(m).then(bundler => {
+			return bundler.write(m.output);
+		});
+	}));
+});
 
 
 gulp.task('build', ['typescript', 'rollup']);

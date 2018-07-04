@@ -53,7 +53,7 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
 
         (this as any)._options = this._options || {}
 
-        this.setElement(_options!.el, false);
+        this.setElement(this._options!.el, false);
         this._domEvents = []
         this._vid = uniqueId('vid');
 

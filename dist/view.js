@@ -163,7 +163,7 @@
 
             _this._options = _options;
             _this._options = _this._options || {};
-            _this.setElement(_options.el, false);
+            _this.setElement(_this._options.el, false);
             _this._domEvents = [];
             _this._vid = utils.uniqueId('vid');
             return _this;
