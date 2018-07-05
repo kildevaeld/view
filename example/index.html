@@ -19,23 +19,34 @@
 
         <script>
             console.log(viewjs)
-            var view = new viewjs.view.View({
-                el: document.querySelector('.view1')
-            });
+            var View = viewjs.view.withTemplate(viewjs.view.View);
 
-            view.count = 0;
+            const view = new View({
+                el: document.querySelector('.view1'),
+                attachId: true
+            })
+            view.name = "View 1"
+            
+            view.model = {count: 0}
+
+            view.template = (model) => {
+                return `
+                <div>Count ${model.count}</div>
+                <button>Open</button>
+                `
+            };
 
             view.onClick = (e) => {
                 console.log(view)
-                e.delegateTarget.innerText= ++view.count
-                if (view.count >= 3) {
+                view.model.count++;
+                if (view.model.count >= 3) {
                     view.destroy();
                     setTimeout(() => {
                         view.el = document.querySelector('.view1')
-                        view.count = 0;
+                        view.model.count = 0;
                         view.render();
                     }, 2000)
-                }
+                } else view.render();
             }
 
             view.onClick2 =  function () {

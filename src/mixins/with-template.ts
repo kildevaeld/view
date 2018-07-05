@@ -1,6 +1,7 @@
 
-import { Constructor, IView } from '../types';
+import { Constructor, IView, debug as Debug } from '../types';
 import { result, isFunction, isString, isElement } from '@viewjs/utils'
+const debug = Debug("withTemplate");
 
 export interface IViewTemplate<M> {
     model: M
@@ -20,6 +21,7 @@ export function withTemplate<T extends Constructor<IView>, M = any>(Base: T): Co
         model: M
         getTemplateData() {
             let data = result(this, 'model') || {};
+            debug("%s get template data", this);
             return data;
         }
 
@@ -48,6 +50,7 @@ export function withTemplate<T extends Constructor<IView>, M = any>(Base: T): Co
             let data = this.getTemplateData();
             let template = result(this, 'template', data);
             if (!template) return;
+            debug("%s render template", this)
             if (isString(template))
                 this.el.innerHTML = template;
             else if (isElement(template)) {
@@ -57,6 +60,8 @@ export function withTemplate<T extends Constructor<IView>, M = any>(Base: T): Co
             }
 
         }
+
+
 
     }
 }

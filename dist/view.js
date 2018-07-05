@@ -134,33 +134,6 @@
       }
     };
 
-    var AbstractView = function () {
-        function AbstractView() {
-            classCallCheck(this, AbstractView);
-        }
-
-        createClass(AbstractView, [{
-            key: 'render',
-            value: function render() {
-                return this;
-            }
-        }, {
-            key: 'destroy',
-            value: function destroy() {
-                return this;
-            }
-        }, {
-            key: 'el',
-            get: function get$$1() {
-                return this._el;
-            },
-            set: function set$$1(el) {
-                this.setElement(el);
-            }
-        }]);
-        return AbstractView;
-    }();
-
     var Base = function Base() {
         classCallCheck(this, Base);
     };
@@ -197,6 +170,36 @@
         return function () {};
     };
 
+    var AbstractView = function (_Base) {
+        inherits(AbstractView, _Base);
+
+        function AbstractView() {
+            classCallCheck(this, AbstractView);
+            return possibleConstructorReturn(this, (AbstractView.__proto__ || Object.getPrototypeOf(AbstractView)).apply(this, arguments));
+        }
+
+        createClass(AbstractView, [{
+            key: 'render',
+            value: function render() {
+                return this;
+            }
+        }, {
+            key: 'destroy',
+            value: function destroy() {
+                return this;
+            }
+        }, {
+            key: 'el',
+            get: function get$$1() {
+                return this._el;
+            },
+            set: function set$$1(el) {
+                this.setElement(el);
+            }
+        }]);
+        return AbstractView;
+    }(Base);
+
     var debug$1 = debug("BaseView");
     var unbubblebles = 'focus blur change'.split(' ');
 
@@ -210,9 +213,9 @@
 
             _this._options = _options;
             _this._options = _this._options || {};
-            _this.setElement(_this._options.el);
             _this._domEvents = [];
             _this._vid = utils.uniqueId('vid');
+            _this.setElement(_this._options.el);
             return _this;
         }
 
@@ -222,12 +225,12 @@
                 var _this2 = this;
 
                 if (!this.el) return;
-                this._bindUIElements();
                 events = events || utils.result(this, 'events') || {};
+                debug$1('%s delegate events %o', this, events);
+                this._bindUIElements();
                 events = normalizeUIKeys(events, this._ui);
                 var triggers = this._configureTriggers();
                 events = utils.extend({}, events, triggers);
-                debug$1('%s delegate events %o', this, events);
                 if (!events) return this;
                 var dels = [];
                 for (var key in events) {
@@ -255,8 +258,8 @@
             key: 'undelegateEvents',
             value: function undelegateEvents() {
                 if (!this.el) return this;
-                this._unbindUIElements();
                 debug$1('%s undelegate events', this);
+                this._unbindUIElements();
                 if (this.el) {
                     for (var i = 0, len = this._domEvents.length; i < len; i++) {
                         var item = this._domEvents[i];
@@ -339,6 +342,7 @@
         }, {
             key: 'render',
             value: function render() {
+                debug$1("%s render", this);
                 this.undelegateEvents();
                 this.delegateEvents();
                 return this;
@@ -348,10 +352,13 @@
             value: function setElement(el) {
                 this.undelegateEvents();
                 if (this.el && this.options.attachId) {
+                    debug$1("%s remove view id attribute", this);
                     this.el.removeAttribute('data-vid');
                 }
+                debug$1("%s set element", this, el);
                 this._el = el;
                 if (this.el && this.options.attachId) {
+                    debug$1("%s set view id attribute", this);
                     this.el.setAttribute('data-vid', this.vid);
                 }
                 return this;
@@ -360,7 +367,7 @@
             key: 'destroy',
             value: function destroy() {
                 debug$1("%s destroy", this);
-                this.undelegateEvents();
+                this.setElement(void 0);
                 if (this.el && this.options.attachId) {
                     this.el.removeAttribute('data-vid');
                 }
@@ -441,7 +448,7 @@
         }, {
             key: 'toString',
             value: function toString() {
-                return '[' + this.constructor.name + ' ' + this.vid + ']';
+                return '[' + (this.name || this.constructor.name) + ' ' + this.vid + ']';
             }
         }, {
             key: 'events',
@@ -703,7 +710,8 @@
         }(Base);
     }
 
-    function withTemplate(Base) {
+    var debug$2 = debug("withTemplate");
+    function withTemplate(Base$$1) {
         return function (_Base) {
             inherits(_class, _Base);
 
@@ -716,6 +724,7 @@
                 key: 'getTemplateData',
                 value: function getTemplateData() {
                     var data = utils.result(this, 'model') || {};
+                    debug$2("%s get template data", this);
                     return data;
                 }
             }, {
@@ -743,6 +752,7 @@
                     var data = this.getTemplateData();
                     var template = utils.result(this, 'template', data);
                     if (!template) return;
+                    debug$2("%s render template", this);
                     if (utils.isString(template)) this.el.innerHTML = template;else if (utils.isElement(template)) {
                         this.el.appendChild(template);
                     } else {
@@ -751,7 +761,7 @@
                 }
             }]);
             return _class;
-        }(Base);
+        }(Base$$1);
     }
 
     exports.View = View;

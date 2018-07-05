@@ -1,6 +1,6 @@
-import { IView } from './types';
+import { IView, Base } from './types';
 
-export abstract class AbstractView<T extends Element> implements IView {
+export abstract class AbstractView<T extends Element> extends Base implements IView {
 
     protected _el?: T;
     get el(): T | undefined { return this._el; }

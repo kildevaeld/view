@@ -72,9 +72,9 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
 
         (this as any)._options = this._options || {}
 
-        this.setElement(this._options!.el);
         this._domEvents = []
         this._vid = uniqueId('vid');
+        this.setElement(this._options!.el);
 
     }
 
@@ -82,15 +82,17 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
 
         if (!this.el) return;
 
+        events = events || result(this, 'events') || {};
+        debug('%s delegate events %o', this, events);
         this._bindUIElements();
 
-        events = events || result(this, 'events') || {};
+
         events = normalizeUIKeys(events, this._ui);
 
         let triggers = this._configureTriggers();
 
         events = extend({}, events!, triggers);
-        debug('%s delegate events %o', this, events);
+
 
         if (!events) return this;
 
@@ -127,8 +129,11 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
 
     undelegateEvents() {
         if (!this.el) return this;
-        this._unbindUIElements();
+
         debug('%s undelegate events', this);
+
+        this._unbindUIElements();
+
 
         if (this.el) {
             for (var i = 0, len = this._domEvents.length; i < len; i++) {
@@ -220,7 +225,7 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
     }
 
     render() {
-
+        debug("%s render", this);
         this.undelegateEvents();
         this.delegateEvents();
 
@@ -232,12 +237,14 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
         this.undelegateEvents();
 
         if (this.el && this.options.attachId) {
+            debug("%s remove view id attribute", this);
             this.el!.removeAttribute('data-vid');
         }
-
+        debug("%s set element", this, el);
         this._el = el;
 
         if (this.el && this.options.attachId) {
+            debug("%s set view id attribute", this);
             this.el!.setAttribute('data-vid', this.vid);
         }
 
@@ -246,7 +253,7 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
 
     destroy(): any {
         debug("%s destroy", this);
-        this.undelegateEvents()
+        this.setElement(void 0);
         if (this.el && this.options.attachId) {
             this.el!.removeAttribute('data-vid');
         }
@@ -332,6 +339,6 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
     }
 
     toString() {
-        return `[${this.constructor.name} ${this.vid}]`;
+        return `[${(this as any).name || this.constructor.name} ${this.vid}]`;
     }
 }
