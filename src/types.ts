@@ -1,4 +1,4 @@
-import { isFunction, isString, isObject } from '@viewjs/utils'
+import { isString, isObject } from '@viewjs/utils'
 
 export class Base { }
 export interface IView {

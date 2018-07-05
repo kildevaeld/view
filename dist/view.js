@@ -566,6 +566,7 @@
         return Controller;
     }(AbstractView);
 
+    var debug$2 = debug("withAtachedViews");
     function withAttachedViews(Base$$1) {
         return function (_Base) {
             inherits(_class, _Base);
@@ -626,6 +627,7 @@
                 value: function _renderViews(views) {
                     var el = void 0,
                         o = void 0;
+                    debug$2("%s render attached views", this);
                     for (var key in views) {
                         o = views[key];
                         var sel = normalizeUIString(o.selector, this._ui || {});
@@ -635,6 +637,7 @@
                         if (!el) return;
                         var view = this[key];
                         if (!view) throw new ReferenceError('view "' + o.view.name + '" not mount');
+                        debug$2("%s render atcched view %s", this, view);
                         view.el = el;
                         view.render();
                     }
@@ -710,7 +713,7 @@
         }(Base);
     }
 
-    var debug$2 = debug("withTemplate");
+    var debug$3 = debug("withTemplate");
     function withTemplate(Base$$1) {
         return function (_Base) {
             inherits(_class, _Base);
@@ -724,7 +727,7 @@
                 key: 'getTemplateData',
                 value: function getTemplateData() {
                     var data = utils.result(this, 'model') || {};
-                    debug$2("%s get template data", this);
+                    debug$3("%s get template data", this);
                     return data;
                 }
             }, {
@@ -752,7 +755,7 @@
                     var data = this.getTemplateData();
                     var template = utils.result(this, 'template', data);
                     if (!template) return;
-                    debug$2("%s render template", this);
+                    debug$3("%s render template", this);
                     if (utils.isString(template)) this.el.innerHTML = template;else if (utils.isElement(template)) {
                         this.el.appendChild(template);
                     } else {

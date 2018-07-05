@@ -1,8 +1,8 @@
 import { BaseView } from '../base-view';
 import { Constructor, IView } from '../types'
 import { normalizeUIString } from '../utils';
-import { Invoker } from '../types';
-
+import { Invoker, debug as Debug } from '../types';
+const debug = Debug("withAtachedViews");
 export interface IViewAttachable {
     views: ViewMap;
 }
@@ -64,6 +64,7 @@ export function withAttachedViews<T extends Constructor<IView>>(Base: T): Constr
 
         private _renderViews(views: ViewMap) {
             let el: Element | null, o: ViewMapOptions;
+            debug("%s render attached views", this);
             for (const key in views) {
                 o = views[key];
 
@@ -77,6 +78,7 @@ export function withAttachedViews<T extends Constructor<IView>>(Base: T): Constr
 
                 let view: IView = (<any>this)[key];
                 if (!view) throw new ReferenceError(`view "${o.view.name}" not mount`);
+                debug("%s render atcched view %s", this, view);
                 view.el = el;
                 view.render();
 
