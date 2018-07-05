@@ -23,11 +23,34 @@
                 el: document.querySelector('.view1')
             });
 
-            view.onClick = () => alert('open')
+            view.count = 0;
+
+            view.onClick = (e) => {
+                console.log(view)
+                e.delegateTarget.innerText= ++view.count
+                if (view.count >= 3) {
+                    view.destroy();
+                    setTimeout(() => {
+                        view.el = document.querySelector('.view1')
+                        view.count = 0;
+                        view.render();
+                    }, 2000)
+                }
+            }
+
+            view.onClick2 =  function () {
+                console.log('on clic 2');
+                view.undelegate('click', 'button', view.onClick2);
+                console.log(view);
+            }
 
             view.events = {
-                'click button':  'onClick'
+                'click @btn':  ['onClick', view.onClick2]
             }
+            
+            view._ui = {
+                'btn': 'button'
+            };
             
             view.render();
             

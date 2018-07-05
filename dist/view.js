@@ -124,6 +124,16 @@
       return call && (typeof call === "object" || typeof call === "function") ? call : self;
     };
 
+    var toConsumableArray = function (arr) {
+      if (Array.isArray(arr)) {
+        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+        return arr2;
+      } else {
+        return Array.from(arr);
+      }
+    };
+
     var AbstractView = function () {
         function AbstractView() {
             classCallCheck(this, AbstractView);
@@ -151,6 +161,43 @@
         return AbstractView;
     }();
 
+    var Base = function Base() {
+        classCallCheck(this, Base);
+    };
+    var defaultInvoker = {
+        get: function get$$1(V) {
+            if (typeof Reflect !== 'undefined' && typeof Reflect.construct === 'function') return Reflect.construct(V, []);
+            return new V();
+        }
+    };
+    exports.Invoker = defaultInvoker;
+    function setInvoker(i) {
+        if (!i) i = defaultInvoker;
+        exports.Invoker = i;
+    }
+    var debug = localStorage && localStorage.getItem("viewjs.debug") != null ? function (namespace) {
+        return function () {
+            var _console;
+
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
+
+            var l = args.length;
+            if (l && utils.isString(args[0])) {
+                args[0] = namespace + ' ' + args[0];
+            } else if (l) {
+                args.unshift(namespace);
+            } else return;
+            (_console = console).log.apply(_console, toConsumableArray(args.map(function (m) {
+                return utils.isObject(m) && m instanceof Base ? String(m) : m;
+            })));
+        };
+    } : function (_) {
+        return function () {};
+    };
+
+    var debug$1 = debug("BaseView");
     var unbubblebles = 'focus blur change'.split(' ');
 
     var BaseView = function (_AbstractView) {
@@ -163,7 +210,7 @@
 
             _this._options = _options;
             _this._options = _this._options || {};
-            _this.setElement(_this._options.el, false);
+            _this.setElement(_this._options.el);
             _this._domEvents = [];
             _this._vid = utils.uniqueId('vid');
             return _this;
@@ -180,9 +227,8 @@
                 events = normalizeUIKeys(events, this._ui);
                 var triggers = this._configureTriggers();
                 events = utils.extend({}, events, triggers);
+                debug$1('%s delegate events %o', this, events);
                 if (!events) return this;
-                //if (!(events || (events = result(this, 'events')))) return this;
-                this.undelegateEvents();
                 var dels = [];
                 for (var key in events) {
                     var methods = events[key];
@@ -192,7 +238,7 @@
                         var method = methods[i];
                         if (typeof method !== 'function') method = this[method];
                         // Set delegates immediately and defer event on this.el
-                        var boundFn = method.bind(this); // bind(<Function>method, this);
+                        var boundFn = method; // (<any>method).bind(this); // bind(<Function>method, this);
                         if (match[2]) {
                             this.delegate(match[1], match[2], boundFn);
                         } else {
@@ -210,9 +256,11 @@
             value: function undelegateEvents() {
                 if (!this.el) return this;
                 this._unbindUIElements();
+                debug$1('%s undelegate events', this);
                 if (this.el) {
                     for (var i = 0, len = this._domEvents.length; i < len; i++) {
                         var item = this._domEvents[i];
+                        debug$1("%s remove dom eventlistener for event '%s'", this, item.eventName);
                         this.el.removeEventListener(item.eventName, item.handler);
                     }
                     this._domEvents.length = 0;
@@ -227,25 +275,42 @@
                     listener = selector;
                     selector = undefined;
                 }
+                var id = utils.uniqueId();
+                var domEvent = this._domEvents.find(function (m) {
+                    return m.eventName == eventName && m.selector == selector;
+                });
+                if (domEvent) {
+                    id = domEvent.id;
+                    domEvent.listeners.push(listener);
+                    return this;
+                } else {
+                    domEvent = { id: id, selector: selector, listeners: [listener], eventName: eventName };
+                }
                 var root = this.el;
-                var handler = selector ? function (e) {
+                var self = this;
+                domEvent.handler = selector ? function (e) {
                     var node = e.target || e.srcElement;
-                    // Already handled
                     if (e.delegateTarget) return;
                     for (; node && node != root; node = node.parentNode) {
                         if (node && matches(node, selector)) {
                             e.delegateTarget = node;
-                            listener(e);
+                            debug$1("%s trigger %i listeners for '%s'-event on selector '%s'", self, domEvent.listeners.length, domEvent.eventName, domEvent.selector);
+                            domEvent.listeners.forEach(function (listener) {
+                                return listener.call(self, e);
+                            });
                         }
                     }
                 } : function (e) {
                     if (e.delegateTarget) return;
-                    listener(e);
+                    domEvent.listeners.forEach(function (listener) {
+                        return listener.call(self, e);
+                    });
                 };
                 var useCap = !!~unbubblebles.indexOf(eventName) && selector != null;
-                this.el.addEventListener(eventName, handler, useCap);
-                this._domEvents.push({ eventName: eventName, handler: handler, listener: listener, selector: selector });
-                return handler;
+                debug$1("%s delegate event '%s'", this, eventName);
+                this.el.addEventListener(eventName, domEvent.handler, useCap);
+                this._domEvents.push(domEvent);
+                return this;
             }
         }, {
             key: 'undelegate',
@@ -255,14 +320,18 @@
                     listener = selector;
                     selector = undefined;
                 }
-                if (this.el) {
-                    var handlers = this._domEvents.slice();
-                    for (var i = 0, len = handlers.length; i < len; i++) {
-                        var item = handlers[i];
-                        var match = item.eventName === eventName && (listener ? item.listener === listener : true) && (selector ? item.selector === selector : true);
-                        if (!match) continue;
+                var handlers = this._domEvents.slice();
+                for (var i = 0, len = handlers.length; i < len; i++) {
+                    var item = handlers[i];
+                    var match = item.eventName === eventName && (listener ? !!~item.listeners.indexOf(listener) : true) && (selector ? item.selector === selector : true);
+                    if (!match) continue;
+                    if (listener && item.listeners.length == 1 || !listener) {
+                        debug$1("%s remove dom eventlistener for event '%s'", this, item.eventName);
                         this.el.removeEventListener(item.eventName, item.handler);
                         this._domEvents.splice(utils.indexOf(handlers, item), 1);
+                    } else {
+                        debug$1("%s remove listener for event '%s'", this, item.eventName);
+                        item.listeners.splice(utils.indexOf(item.listeners, listener), 1);
                     }
                 }
                 return this;
@@ -277,14 +346,11 @@
         }, {
             key: 'setElement',
             value: function setElement(el) {
-                var trigger = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-                if (trigger) this.undelegateEvents();
+                this.undelegateEvents();
                 if (this.el && this.options.attachId) {
                     this.el.removeAttribute('data-vid');
                 }
                 this._el = el;
-                if (trigger) this.delegateEvents();
                 if (this.el && this.options.attachId) {
                     this.el.setAttribute('data-vid', this.vid);
                 }
@@ -293,10 +359,12 @@
         }, {
             key: 'destroy',
             value: function destroy() {
+                debug$1("%s destroy", this);
                 this.undelegateEvents();
                 if (this.el && this.options.attachId) {
                     this.el.removeAttribute('data-vid');
                 }
+                this._el = void 0;
                 get(BaseView.prototype.__proto__ || Object.getPrototypeOf(BaseView.prototype), 'destroy', this).call(this);
                 return this;
             }
@@ -305,13 +373,10 @@
             value: function _bindUIElements() {
                 var _this3 = this;
 
-                var ui = this.ui;
-                if (!ui) return;
                 if (!this._ui) {
-                    this._ui = ui;
+                    return;
                 }
-                ui = this._ui;
-                this.ui = {};
+                var ui = this._ui;
                 Object.keys(ui).forEach(function (k) {
                     var elm = _this3.el.querySelectorAll(ui[k]);
                     if (elm && elm.length) {
@@ -319,13 +384,19 @@
                         if (elm instanceof NodeList) {
                             elm = elm[0];
                         }
+                        debug$1('%s added ui element %s %s', _this3, k, ui[k]);
                         _this3.ui[k] = elm;
+                    } else {
+                        debug$1('%s ui element not found ', _this3, k, ui[k]);
                     }
                 });
             }
         }, {
             key: '_unbindUIElements',
-            value: function _unbindUIElements() {}
+            value: function _unbindUIElements() {
+                debug$1("%s unbind ui elements", this);
+                this.ui = {};
+            }
         }, {
             key: '_configureTriggers',
             value: function _configureTriggers() {
@@ -338,6 +409,7 @@
                     key = void 0;
                 for (key in triggers) {
                     val = triggers[key];
+                    debug$1('%s added trigger %s %s', this, key, val);
                     events[key] = this._buildViewTrigger(val);
                 }
                 return events;
@@ -366,6 +438,24 @@
                     }, e);
                 };
             }
+        }, {
+            key: 'toString',
+            value: function toString() {
+                return '[' + this.constructor.name + ' ' + this.vid + ']';
+            }
+        }, {
+            key: 'events',
+            set: function set$$1(events) {
+                if (this._events) {
+                    this.undelegateEvents();
+                }
+                this._events = utils.extend({}, events);
+            },
+            get: function get$$1() {
+                return utils.extend({}, this._events || {});
+            }
+            // Unique view id
+
         }, {
             key: 'vid',
             get: function get$$1() {
@@ -396,18 +486,6 @@
 
         return View;
     }(BaseView);
-
-    var defaultInvoker = {
-        get: function get(V) {
-            if (typeof Reflect !== 'undefined' && typeof Reflect.construct === 'function') return Reflect.construct(V, []);
-            return new V();
-        }
-    };
-    exports.Invoker = defaultInvoker;
-    function setInvoker(i) {
-        if (!i) i = defaultInvoker;
-        exports.Invoker = i;
-    }
 
     function attributes(attrs) {
         return function (target) {
@@ -481,7 +559,7 @@
         return Controller;
     }(AbstractView);
 
-    function withAttachedViews(Base) {
+    function withAttachedViews(Base$$1) {
         return function (_Base) {
             inherits(_class, _Base);
 
@@ -556,7 +634,7 @@
                 }
             }]);
             return _class;
-        }(Base);
+        }(Base$$1);
     }
 
     function withElement(Base) {
@@ -678,6 +756,8 @@
 
     exports.View = View;
     exports.setInvoker = setInvoker;
+    exports.debug = debug;
+    exports.Base = Base;
     exports.attributes = attributes;
     exports.event = event;
     exports.attach = attach;

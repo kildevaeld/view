@@ -1,3 +1,5 @@
+export declare class Base {
+}
 export interface IView {
     render(): this;
     el?: Element;
@@ -37,3 +39,4 @@ export declare var Invoker: {
     get<T>(V: Constructor<T>): T;
 };
 export declare function setInvoker(i?: IInvoker): void;
+export declare const debug: (namespace: string) => (...args: any[]) => void;

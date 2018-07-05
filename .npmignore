@@ -4,4 +4,5 @@ src/
 gulpfile.js
 tsconfig.json
 webpack.config.js
-roll
+rollup.config.js
+test-output
