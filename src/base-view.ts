@@ -344,4 +344,8 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
     toString() {
         return `[${(this as any).name || this.constructor.name} ${this.vid}]`;
     }
+
+    // get [Symbol.toStringTag]() {
+    //     return (this as any).name || this.constructor.name;
+    // }
 }

@@ -1,5 +1,5 @@
 import { BaseView, BaseViewOptions } from './base-view'
-import { extend, has } from '@viewjs/utils';
+import { extend, has, callFuncCtx } from '@viewjs/utils';
 import { EventsMap, StringMap, Constructor, TriggerMap } from './types';
 import { IViewAttachable } from './mixins'
 
@@ -58,8 +58,13 @@ const keyEventDecorator = function (eventName: string, selector: string, keyCode
         if (keyCodes) {
             const oldValue = desc.value;
             desc.value = function (e: KeyboardEvent) {
-                if (~(keyCodes as number[]).indexOf(e.keyCode))
-                    oldValue.call(this, e);
+                if (e && e instanceof KeyboardEvent) {
+                    if (~(keyCodes as number[]).indexOf(e.keyCode))
+                        return oldValue.call(this, e);
+                    return;
+                }
+                const args = Array.prototype.slice.call(arguments);
+                return callFuncCtx(oldValue, args, this);
             }
         }
 

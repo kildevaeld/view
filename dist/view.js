@@ -526,7 +526,12 @@
             if (keyCodes) {
                 var oldValue = desc.value;
                 desc.value = function (e) {
-                    if (~keyCodes.indexOf(e.keyCode)) oldValue.call(this, e);
+                    if (e && e instanceof KeyboardEvent) {
+                        if (~keyCodes.indexOf(e.keyCode)) return oldValue.call(this, e);
+                        return;
+                    }
+                    var args = Array.prototype.slice.call(arguments);
+                    return utils.callFuncCtx(oldValue, args, this);
                 };
             }
             return factory(target, property, desc);
@@ -610,7 +615,6 @@
 
                 var _this = possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
 
-                _this.views = {};
                 if (_this.views) _this._bindViews(_this.views);
                 return _this;
             }

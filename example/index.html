@@ -38,6 +38,7 @@
 
             view.onClick = (e) => {
                 console.log(view)
+                e.stopPropagation();
                 view.model.count++;
                 if (view.model.count >= 3) {
                     view.destroy();
@@ -49,8 +50,8 @@
                 } else view.render();
             }
 
-            view.onClick2 =  function () {
-                console.log('on clic 2');
+            view.onClick2 =  function (e) {
+                console.log('on clic 2',e);
                 view.undelegate('click', 'button', view.onClick2);
                 console.log(view);
             }

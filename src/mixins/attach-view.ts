@@ -20,7 +20,7 @@ export interface ViewMap {
 
 export function withAttachedViews<T extends Constructor<IView>>(Base: T): Constructor<IViewAttachable> & T {
     return class extends Base {
-        views: ViewMap = {};
+        views: ViewMap;
 
         constructor(...args: any[]) {
             super(...args);
