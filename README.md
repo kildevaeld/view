@@ -13,7 +13,6 @@ interface Model {
   body: string;
 }
 
-
 class Feature extends withTemplate<Model>(View) {
 
   template = (data:Model) => `
@@ -30,7 +29,6 @@ class Feature extends withTemplate<Model>(View) {
 
 }
 
-
 new Feature({
   el: document.body,
   model: {
@@ -38,6 +36,16 @@ new Feature({
     body: "This is view with a template"
   }
 }).render();
+
+
+
+```
+
+
+```js
+
+
+const view = new View({el: document.body});
 
 
 

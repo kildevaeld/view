@@ -1,1 +1,0 @@
-(A) Remove render method @BaseView

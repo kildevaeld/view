@@ -206,16 +206,15 @@
     var BaseView = function (_AbstractView) {
         inherits(BaseView, _AbstractView);
 
-        function BaseView(_options) {
+        function BaseView(options) {
             classCallCheck(this, BaseView);
 
             var _this = possibleConstructorReturn(this, (BaseView.__proto__ || Object.getPrototypeOf(BaseView)).call(this));
 
-            _this._options = _options;
-            _this._options = _this._options || {};
+            _this._options = utils.extend({}, options || {});
             _this._domEvents = [];
             _this._vid = utils.uniqueId('vid');
-            _this.setElement(_this._options.el);
+            if (_this._options.el) _this.setElement(_this._options.el);
             return _this;
         }
 
@@ -516,6 +515,23 @@
             }
         };
     }
+    var keyEventDecorator = function keyEventDecorator(eventName, selector, keyCodes) {
+        var factory = event(eventName, selector);
+        if (keyCodes && !Array.isArray(keyCodes)) keyCodes = [keyCodes];
+        return function (target, property, desc) {
+            if (!desc) throw new Error('no description');
+            if (typeof desc.value !== 'function') {
+                throw new TypeError('must be a function');
+            }
+            if (keyCodes) {
+                var oldValue = desc.value;
+                desc.value = function (e) {
+                    if (~keyCodes.indexOf(e.keyCode)) oldValue.call(this, e);
+                };
+            }
+            return factory(target, property, desc);
+        };
+    };
     (function (event) {
         function click(selector) {
             return event('click', selector);
@@ -525,6 +541,18 @@
             return event('change', selector);
         }
         event.change = change;
+        function keypress(selector, keyCodes) {
+            return keyEventDecorator("keypress", selector, keyCodes);
+        }
+        event.keypress = keypress;
+        function keydown(selector, keyCodes) {
+            return keyEventDecorator("keydown", selector, keyCodes);
+        }
+        event.keydown = keydown;
+        function keyup(selector, keyCodes) {
+            return keyEventDecorator("keyup", selector, keyCodes);
+        }
+        event.keyup = keyup;
     })(event || (event = {}));
     /**
      * Mount a view on the target and bind matched element
@@ -582,6 +610,7 @@
 
                 var _this = possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args)));
 
+                _this.views = {};
                 if (_this.views) _this._bindViews(_this.views);
                 return _this;
             }

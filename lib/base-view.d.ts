@@ -11,9 +11,9 @@ export declare type EventHandler<E extends Event = Event> = (event: E) => any;
 export interface BaseViewOptions<T extends Element> {
     el?: T;
     attachId?: boolean;
+    events?: EventsMap;
 }
 export declare class BaseView<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
-    private _options?;
     static find<T extends Element = HTMLElement>(selector: string, context: HTMLElement): NodeListOf<T>;
     private _events;
     ui: UIMap;
@@ -21,10 +21,11 @@ export declare class BaseView<T extends Element = HTMLElement, OptionsType exten
     private _ui;
     private _domEvents;
     private _vid;
+    private _options;
     events: EventsMap;
     readonly vid: string;
     readonly options: NonNullable<OptionsType>;
-    constructor(_options?: OptionsType | undefined);
+    constructor(options?: OptionsType);
     delegateEvents(events?: EventsMap): any;
     undelegateEvents(): this;
     protected delegate(eventName: string, selector?: string | EventHandler, listener?: EventHandler): this;

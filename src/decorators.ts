@@ -45,6 +45,29 @@ export function event(eventName: string, selector: string) {
     }
 }
 
+const keyEventDecorator = function (eventName: string, selector: string, keyCodes?: number[] | number) {
+    const factory = event(eventName, selector);
+    if (keyCodes && !Array.isArray(keyCodes)) keyCodes = [keyCodes];
+    return function <T extends BaseView<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: KeyboardEvent) => any> | TypedPropertyDescriptor<() => any>) {
+        if (!desc) throw new Error('no description');
+        if (typeof desc.value !== 'function') {
+            throw new TypeError('must be a function');
+        }
+
+
+        if (keyCodes) {
+            const oldValue = desc.value;
+            desc.value = function (e: KeyboardEvent) {
+                if (~(keyCodes as number[]).indexOf(e.keyCode))
+                    oldValue.call(this, e);
+            }
+        }
+
+        return factory(target, property, desc);
+    }
+}
+
+
 export namespace event {
 
     export function click(selector: string) {
@@ -53,6 +76,18 @@ export namespace event {
 
     export function change(selector: string) {
         return event('change', selector);
+    }
+
+    export function keypress(selector: string, keyCodes?: number[] | number) {
+        return keyEventDecorator("keypress", selector, keyCodes);
+    }
+
+    export function keydown(selector: string, keyCodes?: number[] | number) {
+        return keyEventDecorator("keydown", selector, keyCodes);
+    }
+
+    export function keyup(selector: string, keyCodes?: number[] | number) {
+        return keyEventDecorator("keyup", selector, keyCodes);
     }
 }
 

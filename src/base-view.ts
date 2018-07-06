@@ -1,5 +1,5 @@
 import { matches, normalizeUIKeys } from './utils';
-import { extend, triggerMethodOn, uniqueId, indexOf, result } from '@viewjs/utils';
+import { extend, triggerMethodOn, uniqueId, indexOf, result, callFuncCtx } from '@viewjs/utils';
 import { AbstractView } from './abstract-view'
 //import * as Debug from 'debug';
 import { StringMap, UIMap, EventsMap, debug as Debug } from './types';
@@ -21,6 +21,7 @@ export type EventHandler<E extends Event = Event> = (event: E) => any;
 export interface BaseViewOptions<T extends Element> {
     el?: T;
     attachId?: boolean;
+    events?: EventsMap;
 }
 
 interface DomEvent {
@@ -45,6 +46,7 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
     private _ui: { [key: string]: string };
     private _domEvents: DomEvent[];
     private _vid: string;
+    private _options: OptionsType;
 
     set events(events: EventsMap) {
         if (this._events) {
@@ -66,15 +68,15 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
         return this._options!;
     }
 
-    constructor(private _options?: OptionsType) {
+    constructor(options?: OptionsType) {
 
         super();
-
-        (this as any)._options = this._options || {}
+        (this as any)._options = extend({}, options || {});
 
         this._domEvents = []
         this._vid = uniqueId('vid');
-        this.setElement(this._options!.el);
+        if (this._options.el)
+            this.setElement(this._options!.el);
 
     }
 
@@ -176,6 +178,7 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
                     e.delegateTarget = node as Element;
                     debug("%s trigger %i listeners for '%s'-event on selector '%s'", self, domEvent!.listeners.length, domEvent!.eventName, domEvent!.selector)
                     domEvent!.listeners.forEach(listener => listener.call(self, e));
+
 
                 }
             }

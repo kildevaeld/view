@@ -1,6 +1,6 @@
 import { Constructor, IView } from '../types';
 export interface IViewTemplate<M> {
-    model: M;
+    model?: M;
     /**
      * Template
      *

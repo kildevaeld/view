@@ -4,7 +4,7 @@ import { result, isFunction, isString, isElement } from '@viewjs/utils'
 const debug = Debug("withTemplate");
 
 export interface IViewTemplate<M> {
-    model: M
+    model?: M
     /**
      * Template 
      * 
@@ -18,7 +18,7 @@ export interface IViewTemplate<M> {
 
 export function withTemplate<T extends Constructor<IView>, M = any>(Base: T): Constructor<IViewTemplate<M>> & T {
     return class extends Base {
-        model: M
+        model?: M
         getTemplateData() {
             let data = result(this, 'model') || {};
             debug("%s get template data", this);
