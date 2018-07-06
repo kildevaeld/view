@@ -9,14 +9,20 @@ module.exports = [
     // browser-friendly UMD build
     {
         input: './src/index.ts',
-        output: {
+        output: [{
             file: pkg.browser,
             format: 'umd',
             name: 'viewjs.view',
             globals: {
                 '@viewjs/utils': 'viewjs.utils',
             }
-        },
+        }, {
+            file: pkg.module,
+            format: 'es',
+            // globals: {
+            //     '@viewjs/utils': 'viewjs.utils',
+            // }
+        }],
         external: ["@viewjs/utils"],
         treeshake: {
             pureExternalModules: false,
@@ -28,6 +34,7 @@ module.exports = [
                 exclude: ['node_modules/**'],
                 typescript: require('typescript'),
                 declaration: false,
+                module: 'es2015'
             }),
             //resolve(), // so Rollup can find `ms`
             //commonjs(), // so Rollup can convert `ms` to an ES module

@@ -36,5 +36,6 @@
     "email": "rasmuskildevaed@gmail.com",
     "name": "Rasmus Kildevæld"
   },
-  "browser": "./dist/view.js"
+  "browser": "./dist/view.js",
+  "module": "./dist/view.es6"
 }
