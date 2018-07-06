@@ -1,6 +1,6 @@
 
-import { Constructor, IView, debug as Debug } from '../types';
-import { result, isFunction, isString, isElement } from '@viewjs/utils'
+import { IView } from '../types';
+import { result, isFunction, isString, isElement, debug as Debug, Constructor } from '@viewjs/utils'
 const debug = Debug("withTemplate");
 
 export interface IViewTemplate<M> {

@@ -1,7 +1,7 @@
 import { BaseView } from '../base-view';
-import { Constructor, IView } from '../types'
+import { IView } from '../types'
 import { normalizeUIString } from '../utils';
-import { Invoker, debug as Debug } from '../types';
+import { Constructor, debug as Debug, Invoker } from '@viewjs/utils';
 const debug = Debug("withAtachedViews");
 export interface IViewAttachable {
     views: ViewMap;

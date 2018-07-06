@@ -1,8 +1,7 @@
 import { matches, normalizeUIKeys } from './utils';
-import { extend, triggerMethodOn, uniqueId, indexOf, result, callFuncCtx } from '@viewjs/utils';
+import { extend, triggerMethodOn, uniqueId, indexOf, result, debug as Debug } from '@viewjs/utils';
 import { AbstractView } from './abstract-view'
-//import * as Debug from 'debug';
-import { StringMap, UIMap, EventsMap, debug as Debug } from './types';
+import { StringMap, UIMap, EventsMap } from './types';
 const debug = Debug("BaseView");
 
 const unbubblebles = 'focus blur change'.split(' ');

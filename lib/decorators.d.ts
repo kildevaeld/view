@@ -1,5 +1,6 @@
 import { BaseView, BaseViewOptions } from './base-view';
-import { EventsMap, StringMap, Constructor, TriggerMap } from './types';
+import { Constructor } from '@viewjs/utils';
+import { EventsMap, StringMap, TriggerMap } from './types';
 import { IViewAttachable } from './mixins';
 export interface AttributesOptions {
     events?: EventsMap;

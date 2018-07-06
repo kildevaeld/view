@@ -1,11 +1,8 @@
-export declare class Base {
-}
 export interface IView {
     render(): this;
     el?: Element;
     destroy(): this;
 }
-export declare type Constructor<T> = new (...args: any[]) => T;
 export interface EventsMap {
     [key: string]: (Function | string)[] | Function | string;
 }
@@ -32,11 +29,3 @@ export interface TriggerOptions {
 export interface TriggerMap {
     [key: string]: string | TriggerOptions;
 }
-export interface IInvoker {
-    get<T>(key: Constructor<T>): T;
-}
-export declare var Invoker: {
-    get<T>(V: Constructor<T>): T;
-};
-export declare function setInvoker(i?: IInvoker): void;
-export declare const debug: (namespace: string) => (...args: any[]) => void;

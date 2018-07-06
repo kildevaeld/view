@@ -1,4 +1,5 @@
-import { Constructor, IView } from '../types';
+import { IView } from '../types';
+import { Constructor } from '@viewjs/utils';
 export interface IViewAttachable {
     views: ViewMap;
 }

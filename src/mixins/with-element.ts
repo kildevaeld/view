@@ -1,5 +1,5 @@
-import { Constructor, IView } from '../types';
-import { getOption } from '@viewjs/utils';
+import { IView } from '../types';
+import { getOption, Constructor } from '@viewjs/utils';
 
 
 export interface IViewElement {
