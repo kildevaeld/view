@@ -12,6 +12,7 @@ export interface BaseViewOptions<T extends Element> {
     el?: T;
     attachId?: boolean;
     events?: EventsMap;
+    [key: string]: any;
 }
 export declare class BaseView<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
     static find<T extends Element = HTMLElement>(selector: string, context: HTMLElement): NodeListOf<T>;

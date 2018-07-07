@@ -40,7 +40,8 @@ gulp.task('rollup', _ => {
 	const config = require('./rollup.config.js');
 	return Promise.all(config.map(m => {
 		return rollup.rollup(m).then(bundler => {
-			return bundler.write(m.output);
+			//return bundler.write(m.output);
+			return Promise.all(m.output.map(m => bundler.write(m)));
 		});
 	}));
 });

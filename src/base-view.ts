@@ -21,6 +21,7 @@ export interface BaseViewOptions<T extends Element> {
     el?: T;
     attachId?: boolean;
     events?: EventsMap;
+    [key: string]: any;
 }
 
 interface DomEvent {
