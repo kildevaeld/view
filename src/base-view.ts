@@ -1,12 +1,10 @@
 import { normalizeUIKeys } from './utils';
 import { extend, triggerMethodOn, uniqueId, indexOf, result, debug as Debug, matches } from '@viewjs/utils';
-import { Controller } from './controller'
+import { AbstractView } from './abstract-view'
 import { StringMap, UIMap, EventsMap } from './types';
 const debug = Debug("View");
 
 const unbubblebles = 'focus blur change'.split(' ');
-
-
 
 export interface DelegateEvent extends Event {
     delegateTarget?: Element;
@@ -34,14 +32,10 @@ interface DomEvent {
     listeners: EventHandler[];
 }
 
-
-export class View<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends Controller<T> {
-
-    static find<T extends Element = HTMLElement>(selector: string, context: HTMLElement): NodeListOf<T> {
-        return context.querySelectorAll(selector) as NodeListOf<T>;
-    }
+export class View<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
 
     private _events: EventsMap | undefined;
+    private _el: T | undefined;
 
     public ui: UIMap;
     public triggers: StringMap;
@@ -245,7 +239,7 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
             this.el!.removeAttribute('data-vid');
         }
         debug("%s set element", this, el);
-        super.setElement(el);
+        this._el = el;
 
         if (this.el && this.options.attachId) {
             debug("%s set view id attribute", this);
@@ -253,6 +247,10 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
         }
 
         return this;
+    }
+
+    getElement() {
+        return this._el;
     }
 
     destroy(): any {

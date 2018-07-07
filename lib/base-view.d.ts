@@ -1,4 +1,4 @@
-import { Controller } from './controller';
+import { AbstractView } from './abstract-view';
 import { StringMap, UIMap, EventsMap } from './types';
 export interface DelegateEvent extends Event {
     delegateTarget?: Element;
@@ -14,9 +14,9 @@ export interface BaseViewOptions<T extends Element> {
     events?: EventsMap;
     [key: string]: any;
 }
-export declare class View<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends Controller<T> {
-    static find<T extends Element = HTMLElement>(selector: string, context: HTMLElement): NodeListOf<T>;
+export declare class View<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
     private _events;
+    private _el;
     ui: UIMap;
     triggers: StringMap;
     private _ui;
@@ -33,6 +33,7 @@ export declare class View<T extends Element = HTMLElement, OptionsType extends B
     undelegate(eventName: string, selector?: string | EventHandler, listener?: EventHandler): this;
     render(): this;
     setElement(el?: T): this;
+    getElement(): T | undefined;
     destroy(): any;
     private _bindUIElements;
     private _unbindUIElements;

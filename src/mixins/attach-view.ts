@@ -55,7 +55,7 @@ export function withAttachedViews<T extends Constructor<IView>>(Base: T): Constr
             for (const key in views) {
                 if (self[key] && self[key] instanceof View) {
                     self[key].destroy();
-                    self[key] = void 0;
+                    delete self[key];
                 }
             }
         }

@@ -238,41 +238,11 @@
         return AbstractView;
     }(utils.Base);
 
-    var Controller = function (_AbstractView) {
-        inherits(Controller, _AbstractView);
-
-        function Controller() {
-            classCallCheck(this, Controller);
-            return possibleConstructorReturn(this, (Controller.__proto__ || Object.getPrototypeOf(Controller)).apply(this, arguments));
-        }
-
-        createClass(Controller, [{
-            key: 'setElement',
-            value: function setElement(el) {
-                this._el = el;
-                return this;
-            }
-        }, {
-            key: 'getElement',
-            value: function getElement() {
-                return this._el;
-            }
-        }, {
-            key: 'destroy',
-            value: function destroy() {
-                get(Controller.prototype.__proto__ || Object.getPrototypeOf(Controller.prototype), 'destroy', this).call(this);
-                this._el = void 0;
-                return this;
-            }
-        }]);
-        return Controller;
-    }(AbstractView);
-
     var debug = utils.debug("View");
     var unbubblebles = 'focus blur change'.split(' ');
 
-    var View = function (_Controller) {
-        inherits(View, _Controller);
+    var View = function (_AbstractView) {
+        inherits(View, _AbstractView);
 
         function View(options) {
             classCallCheck(this, View);
@@ -423,12 +393,17 @@
                     this.el.removeAttribute('data-vid');
                 }
                 debug("%s set element", this, el);
-                get(View.prototype.__proto__ || Object.getPrototypeOf(View.prototype), 'setElement', this).call(this, el);
+                this._el = el;
                 if (this.el && this.options.attachId) {
                     debug("%s set view id attribute", this);
                     this.el.setAttribute('data-vid', this.vid);
                 }
                 return this;
+            }
+        }, {
+            key: 'getElement',
+            value: function getElement() {
+                return this._el;
             }
         }, {
             key: 'destroy',
@@ -539,14 +514,9 @@
             get: function get$$1() {
                 return this._options;
             }
-        }], [{
-            key: 'find',
-            value: function find(selector, context) {
-                return context.querySelectorAll(selector);
-            }
         }]);
         return View;
-    }(Controller);
+    }(AbstractView);
 
     var debug$1 = utils.debug("withAtachedViews");
     function withAttachedViews(Base) {
@@ -757,7 +727,6 @@
     exports.normalizeUIKeys = normalizeUIKeys;
     exports.normalizeUIString = normalizeUIString;
     exports.AbstractView = AbstractView;
-    exports.Controller = Controller;
     exports.withAttachedViews = withAttachedViews;
     exports.withElement = withElement;
     exports.withTemplate = withTemplate;
