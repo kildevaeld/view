@@ -36,10 +36,7 @@ module.exports = [
                 declaration: false,
                 module: 'es2015'
             }),
-            //resolve(), // so Rollup can find `ms`
-            //commonjs(), // so Rollup can convert `ms` to an ES module
             babel({
-                //presets: ['env'],
                 exclude: ['node_modules/**']
             })
         ]

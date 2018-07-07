@@ -1,5 +1,5 @@
-import { matches, normalizeUIKeys } from './utils';
-import { extend, triggerMethodOn, uniqueId, indexOf, result, debug as Debug } from '@viewjs/utils';
+import { normalizeUIKeys } from './utils';
+import { extend, triggerMethodOn, uniqueId, indexOf, result, debug as Debug, matches } from '@viewjs/utils';
 import { AbstractView } from './abstract-view'
 import { StringMap, UIMap, EventsMap } from './types';
 const debug = Debug("BaseView");

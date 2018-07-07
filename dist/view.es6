@@ -1,14 +1,5 @@
-import { indexOf, Base, extend, triggerMethodOn, uniqueId, result, debug, has, callFuncCtx, Invoker, getOption, isFunction, isString, isElement } from '@viewjs/utils';
+import { Base, extend, triggerMethodOn, uniqueId, indexOf, result, debug, matches, has, callFuncCtx, Invoker, getOption, isFunction, isString, isElement } from '@viewjs/utils';
 
-// Because IE/edge stinks!
-var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
-var matchesSelector = ElementProto.matches || ElementProto.webkitMatchesSelector || ElementProto.mozMatchesSelector || ElementProto.msMatchesSelector || ElementProto.oMatchesSelector || function (selector) {
-    var nodeList = (this.parentNode || document).querySelectorAll(selector) || [];
-    return !!~indexOf(nodeList, this);
-};
-function matches(elm, selector) {
-    return matchesSelector.call(elm, selector);
-}
 var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i;
 function normalizeUIKeys(obj, uimap) {
     var o = {},
@@ -750,4 +741,4 @@ function withTemplate(Base$$1) {
     }(Base$$1);
 }
 
-export { View, attributes, event, attach, BaseView, matches, normalizeUIKeys, normalizeUIString, AbstractView, Controller, withAttachedViews, withElement, withTemplate };
+export { View, attributes, event, attach, BaseView, normalizeUIKeys, normalizeUIString, AbstractView, Controller, withAttachedViews, withElement, withTemplate };

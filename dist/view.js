@@ -4,15 +4,6 @@
     (factory((global.viewjs = global.viewjs || {}, global.viewjs.view = {}),global.viewjs.utils));
 }(this, (function (exports,utils) { 'use strict';
 
-    // Because IE/edge stinks!
-    var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
-    var matchesSelector = ElementProto.matches || ElementProto.webkitMatchesSelector || ElementProto.mozMatchesSelector || ElementProto.msMatchesSelector || ElementProto.oMatchesSelector || function (selector) {
-        var nodeList = (this.parentNode || document).querySelectorAll(selector) || [];
-        return !!~utils.indexOf(nodeList, this);
-    };
-    function matches(elm, selector) {
-        return matchesSelector.call(elm, selector);
-    }
     var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i;
     function normalizeUIKeys(obj, uimap) {
         var o = {},
@@ -248,7 +239,7 @@
                     var node = e.target || e.srcElement;
                     if (e.delegateTarget) return;
                     for (; node && node != root; node = node.parentNode) {
-                        if (node && matches(node, selector)) {
+                        if (node && utils.matches(node, selector)) {
                             e.delegateTarget = node;
                             debug("%s trigger %i listeners for '%s'-event on selector '%s'", self, domEvent.listeners.length, domEvent.eventName, domEvent.selector);
                             domEvent.listeners.forEach(function (listener) {
@@ -759,7 +750,6 @@
     exports.event = event;
     exports.attach = attach;
     exports.BaseView = BaseView;
-    exports.matches = matches;
     exports.normalizeUIKeys = normalizeUIKeys;
     exports.normalizeUIString = normalizeUIString;
     exports.AbstractView = AbstractView;
