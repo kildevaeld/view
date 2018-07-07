@@ -57,24 +57,25 @@ export function withElement<T extends Constructor<IView>>(Base: T): Constructor<
                     el.setAttribute(key, attr[key]);
                 }
             }
+
+            this.__created = true;
             this.el = el;
         }
 
         remove() {
-            if (this.el && this.el!.parentNode) {
+            if (this.__created && this.el && this.el!.parentNode) {
                 if (typeof (this as any).undelegateEvents === 'function')
                     (this as any).undelegateEvents();
                 this.el!.parentNode!.removeChild(this.el);
                 this.el = void 0;
             }
+            this.__created = false;
             return this;
         }
 
         destroy() {
-            super.destroy()
-            if (this.el && this.__created) {
-                this.remove();
-            }
+            super.destroy();
+            this.remove();
             return this;
         }
     }

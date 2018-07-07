@@ -3,16 +3,14 @@ import { Base } from '@viewjs/utils';
 
 export abstract class AbstractView<T extends Element> extends Base implements IView {
 
-    protected _el?: T;
-    get el(): T | undefined { return this._el; }
+    get el(): T | undefined { return this.getElement(); }
     set el(el: T | undefined) { this.setElement(el); }
 
     render(): this { return this; }
 
-    destroy() {
-        return this;
-    }
+    destroy(): this { return this; }
 
     protected abstract setElement(el?: T): this;
+    protected abstract getElement(): T | undefined;
 
 }

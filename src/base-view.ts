@@ -6,6 +6,8 @@ const debug = Debug("BaseView");
 
 const unbubblebles = 'focus blur change'.split(' ');
 
+
+
 export interface DelegateEvent extends Event {
     delegateTarget?: Element;
 }
@@ -40,6 +42,8 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
     }
 
     private _events: EventsMap | undefined;
+
+    private _el?: T;
     public ui: UIMap;
     public triggers: StringMap;
 
@@ -220,8 +224,6 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
                 debug("%s remove listener for event '%s'", this, item.eventName);
                 item.listeners.splice(indexOf(item.listeners, listener), 1);
             }
-
-
         }
 
         return this;
@@ -252,6 +254,10 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
         }
 
         return this;
+    }
+
+    protected getElement(): T | undefined {
+        return this._el;
     }
 
     destroy(): any {

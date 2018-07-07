@@ -17,6 +17,7 @@ export interface BaseViewOptions<T extends Element> {
 export declare class BaseView<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
     static find<T extends Element = HTMLElement>(selector: string, context: HTMLElement): NodeListOf<T>;
     private _events;
+    private _el?;
     ui: UIMap;
     triggers: StringMap;
     private _ui;
@@ -33,6 +34,7 @@ export declare class BaseView<T extends Element = HTMLElement, OptionsType exten
     undelegate(eventName: string, selector?: string | EventHandler, listener?: EventHandler): this;
     render(): this;
     protected setElement(el?: T): this;
+    protected getElement(): T | undefined;
     destroy(): any;
     private _bindUIElements;
     private _unbindUIElements;

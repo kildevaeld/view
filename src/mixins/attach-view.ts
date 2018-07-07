@@ -28,7 +28,6 @@ export function withAttachedViews<T extends Constructor<IView>>(Base: T): Constr
                 this._bindViews(this.views);
         }
 
-
         render() {
             super.render();
             this._renderViews(this.views);
@@ -84,4 +83,4 @@ export function withAttachedViews<T extends Constructor<IView>>(Base: T): Constr
             }
         }
     }
-}
+} 

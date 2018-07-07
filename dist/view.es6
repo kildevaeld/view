@@ -1,27 +1,4 @@
-import { Base, extend, triggerMethodOn, uniqueId, indexOf, result, debug, matches, has, callFuncCtx, Invoker, getOption, isFunction, isString, isElement } from '@viewjs/utils';
-
-var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i;
-function normalizeUIKeys(obj, uimap) {
-    var o = {},
-        k = void 0,
-        v = void 0;
-    for (k in obj) {
-        v = obj[k];
-        k = normalizeUIString(k, uimap);
-        o[k] = v;
-    }
-    return o;
-}
-function normalizeUIString(str, uimap) {
-    var ms = void 0,
-        ui = void 0,
-        sel = void 0;
-    if ((ms = kUIRegExp.exec(str)) != null) {
-        ui = ms[1], sel = uimap[ui];
-        if (sel != null) str = str.replace(ms[0], sel);
-    }
-    return str;
-}
+import { extend, has, callFuncCtx, Base, triggerMethodOn, uniqueId, indexOf, result, debug, matches, Invoker, getOption, isFunction, isString, isElement } from '@viewjs/utils';
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -111,6 +88,117 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
+function attributes(attrs) {
+    return function (target) {
+        extend(target.prototype, attrs);
+    };
+}
+function event(eventName, selector) {
+    return function (target, property, desc) {
+        if (!desc) throw new Error('no description');
+        if (typeof desc.value !== 'function') {
+            throw new TypeError('must be a function');
+        }
+        var key = eventName + ' ' + selector;
+        if (target.events && has(target.events, key)) {
+            var old = target.events[key];
+            if (!Array.isArray(old)) old = [old];
+            old.push(property);
+            target.events[key] = old;
+        } else {
+            target.events = extend(target.events || {}, defineProperty({}, key, property));
+        }
+    };
+}
+var keyEventDecorator = function keyEventDecorator(eventName, selector, keyCodes) {
+    var factory = event(eventName, selector);
+    if (keyCodes && !Array.isArray(keyCodes)) keyCodes = [keyCodes];
+    return function (target, property, desc) {
+        if (!desc) throw new Error('no description');
+        if (typeof desc.value !== 'function') {
+            throw new TypeError('must be a function');
+        }
+        if (keyCodes) {
+            var oldValue = desc.value;
+            desc.value = function (e) {
+                if (e && e instanceof KeyboardEvent) {
+                    if (~keyCodes.indexOf(e.keyCode)) return oldValue.call(this, e);
+                    return;
+                }
+                var args = Array.prototype.slice.call(arguments);
+                return callFuncCtx(oldValue, args, this);
+            };
+        }
+        return factory(target, property, desc);
+    };
+};
+(function (event) {
+    function click(selector) {
+        return event('click', selector);
+    }
+    event.click = click;
+    function change(selector) {
+        return event('change', selector);
+    }
+    event.change = change;
+    function keypress(selector, keyCodes) {
+        return keyEventDecorator("keypress", selector, keyCodes);
+    }
+    event.keypress = keypress;
+    function keydown(selector, keyCodes) {
+        return keyEventDecorator("keydown", selector, keyCodes);
+    }
+    event.keydown = keydown;
+    function keyup(selector, keyCodes) {
+        return keyEventDecorator("keyup", selector, keyCodes);
+    }
+    event.keyup = keyup;
+})(event || (event = {}));
+/**
+ * Mount a view on the target and bind matched element
+ *
+ * @export
+ * @param {string} selector
+ * @returns
+ */
+function attach(selector) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    return function (target, prop) {
+        var View = Reflect.getOwnMetadata("design:type", target, prop);
+        if (!View) throw new Error('design:type does not exists for prop \'' + prop + '\' on \'' + target + '\'');
+        if (!target.views) target.views = {};
+        target.views[prop] = {
+            selector: selector,
+            view: View,
+            optional: typeof options.optional !== 'boolean' ? false : options.optional
+        };
+    };
+}
+
+var kUIRegExp = /@(?:ui\.)?([a-zA-Z_\-\$#\d]+)/i;
+function normalizeUIKeys(obj, uimap) {
+    var o = {},
+        k = void 0,
+        v = void 0;
+    for (k in obj) {
+        v = obj[k];
+        k = normalizeUIString(k, uimap);
+        o[k] = v;
+    }
+    return o;
+}
+function normalizeUIString(str, uimap) {
+    var ms = void 0,
+        ui = void 0,
+        sel = void 0;
+    if ((ms = kUIRegExp.exec(str)) != null) {
+        ui = ms[1], sel = uimap[ui];
+        if (sel != null) str = str.replace(ms[0], sel);
+    }
+    return str;
+}
+
 var AbstractView = function (_Base) {
     inherits(AbstractView, _Base);
 
@@ -132,7 +220,7 @@ var AbstractView = function (_Base) {
     }, {
         key: 'el',
         get: function get$$1() {
-            return this._el;
+            return this.getElement();
         },
         set: function set$$1(el) {
             this.setElement(el);
@@ -304,6 +392,11 @@ var BaseView = function (_AbstractView) {
             return this;
         }
     }, {
+        key: 'getElement',
+        value: function getElement() {
+            return this._el;
+        }
+    }, {
         key: 'destroy',
         value: function destroy() {
             debug$1("%s destroy", this);
@@ -422,106 +515,6 @@ var BaseView = function (_AbstractView) {
     return BaseView;
 }(AbstractView);
 
-var View = function (_BaseView) {
-    inherits(View, _BaseView);
-
-    function View() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { attachId: true };
-        classCallCheck(this, View);
-        return possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this, options));
-    }
-
-    return View;
-}(BaseView);
-
-function attributes(attrs) {
-    return function (target) {
-        extend(target.prototype, attrs);
-    };
-}
-function event(eventName, selector) {
-    return function (target, property, desc) {
-        if (!desc) throw new Error('no description');
-        if (typeof desc.value !== 'function') {
-            throw new TypeError('must be a function');
-        }
-        var key = eventName + ' ' + selector;
-        if (target.events && has(target.events, key)) {
-            var old = target.events[key];
-            if (!Array.isArray(old)) old = [old];
-            old.push(property);
-            target.events[key] = old;
-        } else {
-            target.events = extend(target.events || {}, defineProperty({}, key, property));
-        }
-    };
-}
-var keyEventDecorator = function keyEventDecorator(eventName, selector, keyCodes) {
-    var factory = event(eventName, selector);
-    if (keyCodes && !Array.isArray(keyCodes)) keyCodes = [keyCodes];
-    return function (target, property, desc) {
-        if (!desc) throw new Error('no description');
-        if (typeof desc.value !== 'function') {
-            throw new TypeError('must be a function');
-        }
-        if (keyCodes) {
-            var oldValue = desc.value;
-            desc.value = function (e) {
-                if (e && e instanceof KeyboardEvent) {
-                    if (~keyCodes.indexOf(e.keyCode)) return oldValue.call(this, e);
-                    return;
-                }
-                var args = Array.prototype.slice.call(arguments);
-                return callFuncCtx(oldValue, args, this);
-            };
-        }
-        return factory(target, property, desc);
-    };
-};
-(function (event) {
-    function click(selector) {
-        return event('click', selector);
-    }
-    event.click = click;
-    function change(selector) {
-        return event('change', selector);
-    }
-    event.change = change;
-    function keypress(selector, keyCodes) {
-        return keyEventDecorator("keypress", selector, keyCodes);
-    }
-    event.keypress = keypress;
-    function keydown(selector, keyCodes) {
-        return keyEventDecorator("keydown", selector, keyCodes);
-    }
-    event.keydown = keydown;
-    function keyup(selector, keyCodes) {
-        return keyEventDecorator("keyup", selector, keyCodes);
-    }
-    event.keyup = keyup;
-})(event || (event = {}));
-/**
- * Mount a view on the target and bind matched element
- *
- * @export
- * @param {string} selector
- * @returns
- */
-function attach(selector) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    return function (target, prop) {
-        var View = Reflect.getOwnMetadata("design:type", target, prop);
-        if (!View) throw new Error('design:type does not exists for prop \'' + prop + '\' on \'' + target + '\'');
-        if (!target.views) target.views = {};
-        target.views[prop] = {
-            selector: selector,
-            view: View,
-            optional: typeof options.optional !== 'boolean' ? false : options.optional
-        };
-    };
-}
-
 var Controller = function (_AbstractView) {
     inherits(Controller, _AbstractView);
 
@@ -535,6 +528,11 @@ var Controller = function (_AbstractView) {
         value: function setElement(el) {
             this._el = el;
             return this;
+        }
+    }, {
+        key: 'getElement',
+        value: function getElement() {
+            return this._el;
         }
     }]);
     return Controller;
@@ -661,25 +659,25 @@ function withElement(Base$$1) {
                         el.setAttribute(key, attr[key]);
                     }
                 }
+                this.__created = true;
                 this.el = el;
             }
         }, {
             key: 'remove',
             value: function remove() {
-                if (this.el && this.el.parentNode) {
+                if (this.__created && this.el && this.el.parentNode) {
                     if (typeof this.undelegateEvents === 'function') this.undelegateEvents();
                     this.el.parentNode.removeChild(this.el);
                     this.el = void 0;
                 }
+                this.__created = false;
                 return this;
             }
         }, {
             key: 'destroy',
             value: function destroy() {
                 get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), 'destroy', this).call(this);
-                if (this.el && this.__created) {
-                    this.remove();
-                }
+                this.remove();
                 return this;
             }
         }]);
@@ -741,4 +739,6 @@ function withTemplate(Base$$1) {
     }(Base$$1);
 }
 
-export { View, attributes, event, attach, BaseView, normalizeUIKeys, normalizeUIString, AbstractView, Controller, withAttachedViews, withElement, withTemplate };
+//export * from './view';
+
+export { attributes, event, attach, BaseView, normalizeUIKeys, normalizeUIString, AbstractView, Controller, withAttachedViews, withElement, withTemplate };
