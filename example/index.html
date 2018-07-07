@@ -19,13 +19,14 @@
 
         <script>
             console.log(viewjs)
-            var View = viewjs.view.withTemplate(viewjs.view.BaseView);
-
+            var View = viewjs.view.withTemplate(viewjs.view.View);
+            
+            viewjs.view.className("TemplateView")(View);
+            
             const view = new View({
                 el: document.querySelector('.view1'),
                 attachId: true
             })
-            view.name = "View 1"
             
             view.model = {count: 0}
 

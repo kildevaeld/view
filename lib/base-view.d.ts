@@ -1,9 +1,9 @@
-import { AbstractView } from './abstract-view';
+import { Controller } from './controller';
 import { StringMap, UIMap, EventsMap } from './types';
 export interface DelegateEvent extends Event {
     delegateTarget?: Element;
 }
-export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
+export interface BaseViewConstructor<T extends View<U>, U extends Element> {
     new (...args: any[]): T;
     readonly prototype: T;
 }
@@ -14,10 +14,9 @@ export interface BaseViewOptions<T extends Element> {
     events?: EventsMap;
     [key: string]: any;
 }
-export declare class BaseView<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
+export declare class View<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends Controller<T> {
     static find<T extends Element = HTMLElement>(selector: string, context: HTMLElement): NodeListOf<T>;
     private _events;
-    private _el?;
     ui: UIMap;
     triggers: StringMap;
     private _ui;
@@ -33,8 +32,7 @@ export declare class BaseView<T extends Element = HTMLElement, OptionsType exten
     protected delegate(eventName: string, selector?: string | EventHandler, listener?: EventHandler): this;
     undelegate(eventName: string, selector?: string | EventHandler, listener?: EventHandler): this;
     render(): this;
-    protected setElement(el?: T): this;
-    protected getElement(): T | undefined;
+    setElement(el?: T): this;
     destroy(): any;
     private _bindUIElements;
     private _unbindUIElements;

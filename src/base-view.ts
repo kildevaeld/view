@@ -1,8 +1,8 @@
 import { normalizeUIKeys } from './utils';
 import { extend, triggerMethodOn, uniqueId, indexOf, result, debug as Debug, matches } from '@viewjs/utils';
-import { AbstractView } from './abstract-view'
+import { Controller } from './controller'
 import { StringMap, UIMap, EventsMap } from './types';
-const debug = Debug("BaseView");
+const debug = Debug("View");
 
 const unbubblebles = 'focus blur change'.split(' ');
 
@@ -12,7 +12,7 @@ export interface DelegateEvent extends Event {
     delegateTarget?: Element;
 }
 
-export interface BaseViewConstructor<T extends BaseView<U>, U extends Element> {
+export interface BaseViewConstructor<T extends View<U>, U extends Element> {
     new(...args: any[]): T;
     readonly prototype: T;
 }
@@ -35,7 +35,7 @@ interface DomEvent {
 }
 
 
-export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
+export class View<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends Controller<T> {
 
     static find<T extends Element = HTMLElement>(selector: string, context: HTMLElement): NodeListOf<T> {
         return context.querySelectorAll(selector) as NodeListOf<T>;
@@ -43,7 +43,6 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
 
     private _events: EventsMap | undefined;
 
-    private _el?: T;
     public ui: UIMap;
     public triggers: StringMap;
 
@@ -237,7 +236,7 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
         return this;
     }
 
-    protected setElement(el?: T) {
+    setElement(el?: T) {
 
         this.undelegateEvents();
 
@@ -246,7 +245,7 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
             this.el!.removeAttribute('data-vid');
         }
         debug("%s set element", this, el);
-        this._el = el;
+        super.setElement(el);
 
         if (this.el && this.options.attachId) {
             debug("%s set view id attribute", this);
@@ -256,17 +255,12 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
         return this;
     }
 
-    protected getElement(): T | undefined {
-        return this._el;
-    }
-
     destroy(): any {
         debug("%s destroy", this);
-        this.setElement(void 0);
         if (this.el && this.options.attachId) {
             this.el!.removeAttribute('data-vid');
-        }
-        this._el = void 0;
+        };
+        this.setElement(void 0);
         super.destroy();
         return this;
     }
@@ -351,7 +345,4 @@ export class BaseView<T extends Element = HTMLElement, OptionsType extends BaseV
         return `[${(this as any).name || this.constructor.name} ${this.vid}]`;
     }
 
-    // get [Symbol.toStringTag]() {
-    //     return (this as any).name || this.constructor.name;
-    // }
 }

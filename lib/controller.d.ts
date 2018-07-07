@@ -3,4 +3,5 @@ export declare class Controller<E extends Element = HTMLElement> extends Abstrac
     private _el;
     setElement(el?: E): this;
     getElement(): E | undefined;
+    destroy(): this;
 }

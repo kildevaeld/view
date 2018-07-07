@@ -1,4 +1,4 @@
-import { BaseView } from '../base-view';
+import { View } from '../base-view';
 import { IView } from '../types'
 import { normalizeUIString } from '../utils';
 import { Constructor, debug as Debug, Invoker } from '@viewjs/utils';
@@ -53,7 +53,7 @@ export function withAttachedViews<T extends Constructor<IView>>(Base: T): Constr
         private _unbindViews(views: ViewMap) {
             const self = this as any;
             for (const key in views) {
-                if (self[key] && self[key] instanceof BaseView) {
+                if (self[key] && self[key] instanceof View) {
                     self[key].destroy();
                     self[key] = void 0;
                 }

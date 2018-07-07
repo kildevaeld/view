@@ -88,6 +88,11 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
+function className(name) {
+    return function (target) {
+        Object.defineProperty(target, "name", { value: name });
+    };
+}
 function attributes(attrs) {
     return function (target) {
         extend(target.prototype, attrs);
@@ -229,16 +234,46 @@ var AbstractView = function (_Base) {
     return AbstractView;
 }(Base);
 
-var debug$1 = debug("BaseView");
+var Controller = function (_AbstractView) {
+    inherits(Controller, _AbstractView);
+
+    function Controller() {
+        classCallCheck(this, Controller);
+        return possibleConstructorReturn(this, (Controller.__proto__ || Object.getPrototypeOf(Controller)).apply(this, arguments));
+    }
+
+    createClass(Controller, [{
+        key: 'setElement',
+        value: function setElement(el) {
+            this._el = el;
+            return this;
+        }
+    }, {
+        key: 'getElement',
+        value: function getElement() {
+            return this._el;
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            get(Controller.prototype.__proto__ || Object.getPrototypeOf(Controller.prototype), 'destroy', this).call(this);
+            this._el = void 0;
+            return this;
+        }
+    }]);
+    return Controller;
+}(AbstractView);
+
+var debug$1 = debug("View");
 var unbubblebles = 'focus blur change'.split(' ');
 
-var BaseView = function (_AbstractView) {
-    inherits(BaseView, _AbstractView);
+var View = function (_Controller) {
+    inherits(View, _Controller);
 
-    function BaseView(options) {
-        classCallCheck(this, BaseView);
+    function View(options) {
+        classCallCheck(this, View);
 
-        var _this = possibleConstructorReturn(this, (BaseView.__proto__ || Object.getPrototypeOf(BaseView)).call(this));
+        var _this = possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this));
 
         _this._options = extend({}, options || {});
         _this._domEvents = [];
@@ -247,7 +282,7 @@ var BaseView = function (_AbstractView) {
         return _this;
     }
 
-    createClass(BaseView, [{
+    createClass(View, [{
         key: 'delegateEvents',
         value: function delegateEvents(events) {
             var _this2 = this;
@@ -384,7 +419,7 @@ var BaseView = function (_AbstractView) {
                 this.el.removeAttribute('data-vid');
             }
             debug$1("%s set element", this, el);
-            this._el = el;
+            get(View.prototype.__proto__ || Object.getPrototypeOf(View.prototype), 'setElement', this).call(this, el);
             if (this.el && this.options.attachId) {
                 debug$1("%s set view id attribute", this);
                 this.el.setAttribute('data-vid', this.vid);
@@ -392,20 +427,14 @@ var BaseView = function (_AbstractView) {
             return this;
         }
     }, {
-        key: 'getElement',
-        value: function getElement() {
-            return this._el;
-        }
-    }, {
         key: 'destroy',
         value: function destroy() {
             debug$1("%s destroy", this);
-            this.setElement(void 0);
             if (this.el && this.options.attachId) {
                 this.el.removeAttribute('data-vid');
             }
-            this._el = void 0;
-            get(BaseView.prototype.__proto__ || Object.getPrototypeOf(BaseView.prototype), 'destroy', this).call(this);
+            this.setElement(void 0);
+            get(View.prototype.__proto__ || Object.getPrototypeOf(View.prototype), 'destroy', this).call(this);
             return this;
         }
     }, {
@@ -512,31 +541,8 @@ var BaseView = function (_AbstractView) {
             return context.querySelectorAll(selector);
         }
     }]);
-    return BaseView;
-}(AbstractView);
-
-var Controller = function (_AbstractView) {
-    inherits(Controller, _AbstractView);
-
-    function Controller() {
-        classCallCheck(this, Controller);
-        return possibleConstructorReturn(this, (Controller.__proto__ || Object.getPrototypeOf(Controller)).apply(this, arguments));
-    }
-
-    createClass(Controller, [{
-        key: 'setElement',
-        value: function setElement(el) {
-            this._el = el;
-            return this;
-        }
-    }, {
-        key: 'getElement',
-        value: function getElement() {
-            return this._el;
-        }
-    }]);
-    return Controller;
-}(AbstractView);
+    return View;
+}(Controller);
 
 var debug$2 = debug("withAtachedViews");
 function withAttachedViews(Base$$1) {
@@ -588,7 +594,7 @@ function withAttachedViews(Base$$1) {
             value: function _unbindViews(views) {
                 var self = this;
                 for (var key in views) {
-                    if (self[key] && self[key] instanceof BaseView) {
+                    if (self[key] && self[key] instanceof View) {
                         self[key].destroy();
                         self[key] = void 0;
                     }
@@ -739,6 +745,4 @@ function withTemplate(Base$$1) {
     }(Base$$1);
 }
 
-//export * from './view';
-
-export { attributes, event, attach, BaseView, normalizeUIKeys, normalizeUIString, AbstractView, Controller, withAttachedViews, withElement, withTemplate };
+export { className, attributes, event, attach, View, normalizeUIKeys, normalizeUIString, AbstractView, Controller, withAttachedViews, withElement, withTemplate };

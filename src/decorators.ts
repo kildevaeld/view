@@ -1,4 +1,4 @@
-import { BaseView, BaseViewOptions } from './base-view'
+import { View, BaseViewOptions } from './base-view'
 import { extend, has, callFuncCtx, Constructor } from '@viewjs/utils';
 import { EventsMap, StringMap, TriggerMap } from './types';
 import { IViewAttachable } from './mixins'
@@ -15,15 +15,21 @@ export interface EventOptions {
     stopPropagation?: boolean;
 }
 
+export function className(name: string) {
+    return function <T extends Constructor<U>, U>(target: T) {
+        Object.defineProperty(target, "name", { value: name });
+    };
+};
+
 
 export function attributes(attrs: AttributesOptions) {
-    return function <T extends Constructor<BaseView<U, O>>, U extends Element, O extends BaseViewOptions<U>>(target: T) {
+    return function <T extends Constructor<View<U, O>>, U extends Element, O extends BaseViewOptions<U>>(target: T) {
         extend(target.prototype, attrs);
     }
 }
 
 export function event(eventName: string, selector: string) {
-    return function <T extends BaseView<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) {
+    return function <T extends View<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>, E extends Event = Event>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: E) => any> | TypedPropertyDescriptor<() => any>) {
         if (!desc) throw new Error('no description');
         if (typeof desc.value !== 'function') {
             throw new TypeError('must be a function');
@@ -48,7 +54,7 @@ export function event(eventName: string, selector: string) {
 const keyEventDecorator = function (eventName: string, selector: string, keyCodes?: number[] | number) {
     const factory = event(eventName, selector);
     if (keyCodes && !Array.isArray(keyCodes)) keyCodes = [keyCodes];
-    return function <T extends BaseView<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: KeyboardEvent) => any> | TypedPropertyDescriptor<() => any>) {
+    return function <T extends View<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>>(target: T, property: PropertyKey, desc: TypedPropertyDescriptor<(e: KeyboardEvent) => any> | TypedPropertyDescriptor<() => any>) {
         if (!desc) throw new Error('no description');
         if (typeof desc.value !== 'function') {
             throw new TypeError('must be a function');
@@ -71,7 +77,6 @@ const keyEventDecorator = function (eventName: string, selector: string, keyCode
         return factory(target, property, desc);
     }
 }
-
 
 export namespace event {
 
