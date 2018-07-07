@@ -1,8 +1,9 @@
 example/
-example-src/
 src/
+lib/example
 gulpfile.js
 tsconfig.json
 webpack.config.js
 rollup.config.js
-test-output
+test/
+.babelrx
