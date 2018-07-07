@@ -3,7 +3,7 @@ describe('WithAttachedViews', () => {
     const vn = viewjs.view;
 
     it('should instantiate attached views', () => {
-        let View = vn.withAttachedViews(vn.BaseView);
+        let View = vn.withAttachedViews(vn.View);
 
         View.prototype.views = {
             subView: {
@@ -19,7 +19,7 @@ describe('WithAttachedViews', () => {
     });
 
     it('should should set subview el to target', () => {
-        let View = vn.withAttachedViews(vn.BaseView);
+        let View = vn.withAttachedViews(vn.View);
 
         const el = document.createElement('div');
         el.innerHTML = `

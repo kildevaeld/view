@@ -4,7 +4,7 @@ describe('withTemplate', () => {
 
     it('should inject template string in to el', () => {
 
-        let view = new(vn.withTemplate(vn.BaseView))({
+        let view = new(vn.withTemplate(vn.View))({
             el: document.createElement('div')
         });
 
