@@ -19,9 +19,6 @@ module.exports = [
         }, {
             file: pkg.module,
             format: 'es',
-            // globals: {
-            //     '@viewjs/utils': 'viewjs.utils',
-            // }
         }],
         external: ["@viewjs/utils"],
         plugins: [
