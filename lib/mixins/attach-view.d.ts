@@ -13,3 +13,4 @@ export interface ViewMap {
     [key: string]: ViewMapOptions;
 }
 export declare function withAttachedViews<T extends Constructor<IView>>(Base: T): Constructor<IViewAttachable> & T;
+//# sourceMappingURL=attach-view.d.ts.map

@@ -33,3 +33,4 @@ export interface MountOptions {
  * @returns
  */
 export declare function attach(selector: string, options?: MountOptions): <T extends IViewAttachable>(target: T, prop: string) => void;
+//# sourceMappingURL=decorators.d.ts.map

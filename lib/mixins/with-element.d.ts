@@ -28,3 +28,4 @@ export interface IViewElement {
     remove(): this;
 }
 export declare function withElement<T extends Constructor<IView>>(Base: T): Constructor<IViewElement> & T;
+//# sourceMappingURL=with-element.d.ts.map

@@ -41,3 +41,4 @@ export declare class View<T extends Element = HTMLElement, OptionsType extends B
     private _buildViewTrigger;
     toString(): string;
 }
+//# sourceMappingURL=base-view.d.ts.map

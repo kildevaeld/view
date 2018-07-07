@@ -7,3 +7,4 @@ export declare abstract class AbstractView<T extends Element> extends Base imple
     protected abstract setElement(el?: T): this;
     protected abstract getElement(): T | undefined;
 }
+//# sourceMappingURL=abstract-view.d.ts.map

@@ -24,11 +24,6 @@ module.exports = [
             // }
         }],
         external: ["@viewjs/utils"],
-        treeshake: {
-            pureExternalModules: false,
-            propertyReadSideEffects: false
-        },
-
         plugins: [
             typescript({
                 exclude: ['node_modules/**'],

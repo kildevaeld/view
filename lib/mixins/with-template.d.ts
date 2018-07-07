@@ -13,3 +13,4 @@ export interface IViewTemplate<M> {
     renderTemplate(): void;
 }
 export declare function withTemplate<T extends Constructor<IView>, M = any>(Base: T): Constructor<IViewTemplate<M>> & T;
+//# sourceMappingURL=with-template.d.ts.map

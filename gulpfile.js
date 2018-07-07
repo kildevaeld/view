@@ -1,11 +1,7 @@
 const gulp = require('gulp'),
 	bump = require('gulp-bump'),
 	tsc = require('gulp-typescript'),
-	gutil = require('gulp-util'),
-	babel = require('gulp-babel'),
-	merge = require('merge2'),
 	rollup = require('rollup');
-
 
 gulp.task('bump', () => {
 	return gulp.src('./package.json')
@@ -26,21 +22,13 @@ gulp.task('typescript', () => {
 	})
 	const out = gulp.src('./src/**/*.ts')
 		.pipe(project())
-
-	// return merge([
-	// 	out.dts.pipe(gulp.dest('./lib')),
-	// 	out.js.pipe(babel({
-	// 		presets: ['env']
-	// 	})).pipe(gulp.dest('./lib'))
-	// ]);
-	return out.pipe(gulp.dest('lib'));
+		.pipe(gulp.dest('lib'));
 });
 
 gulp.task('rollup', _ => {
 	const config = require('./rollup.config.js');
 	return Promise.all(config.map(m => {
 		return rollup.rollup(m).then(bundler => {
-			//return bundler.write(m.output);
 			return Promise.all(m.output.map(m => bundler.write(m)));
 		});
 	}));

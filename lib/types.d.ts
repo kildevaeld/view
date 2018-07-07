@@ -29,3 +29,4 @@ export interface TriggerOptions {
 export interface TriggerMap {
     [key: string]: string | TriggerOptions;
 }
+//# sourceMappingURL=types.d.ts.map
