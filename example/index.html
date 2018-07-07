@@ -6,88 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <script src="../node_modules/reflect-metadata/Reflect.js"></script>
-        <script src="../node_modules/@viewjs/utils/dist/view.utils.js"></script>
-        <script src="../dist/view.js"></script>
+        <script src="example.js"></script>
     </head>
     <body>
-        
-
-        <div class="view1">
-            <button>Open</button>
-        </div>
-        <div class="view2"></div>
-
-        <script>
-            console.log(viewjs)
-            var View = viewjs.view.withTemplate(viewjs.view.View);
-            
-            viewjs.view.className("TemplateView")(View);
-            
-            const view = new View({
-                el: document.querySelector('.view1'),
-                attachId: true
-            })
-            
-            view.model = {count: 0}
-
-            view.template = (model) => {
-                return `
-                <div>Count ${model.count}</div>
-                <button>Open</button>
-                `
-            };
-
-            view.onClick = (e) => {
-                
-                e.stopPropagation();
-                view.model.count++;
-                if (view.model.count >= 3) {
-                    view.destroy();
-                    setTimeout(() => {
-                        view.el = document.querySelector('.view1')
-                        view.model.count = 0;
-                        view.render();
-                    }, 2000)
-                } else view.render();
-            }
-
-            view.onClick2 =  function (e) {
-                
-                view.undelegate('click', 'button', view.onClick2);
-               
-            }
-
-            view.events = {
-                'click @btn':  ['onClick', view.onClick2]
-            }
-            
-            view._ui = {
-                'btn': 'button'
-            };
-            
-            view.render();
-
-            console.log(view);
-            
-            /*let v = new view.MainView({
-                el: document.querySelector('.view1')
-            });
-
-            v.render();*/
-
-        
-
-            /*console.log(view)
-            let c = view.mount(document.querySelector('body'), view.TestController).render();
-
-            //console.log(c)
-
-            setTimeout(() => {
-                c.list.collection.insert({
-                    name: 'Test 3'
-                },1)
-                //c.destroy();
-            }, 2000)*/
-        </script>
     </body>
 </html>
