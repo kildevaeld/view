@@ -1,6 +1,6 @@
 {
   "name": "@viewjs/view",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "dependencies": {
     "@viewjs/utils": "^1.4.2"
   },
