@@ -102,7 +102,7 @@ export namespace event {
 }
 
 
-export interface MountOptions {
+export interface AttachOptions {
     optional?: boolean
     view?: Constructor<IView>
 }
@@ -114,7 +114,7 @@ export interface MountOptions {
  * @param {string} selector
  * @returns
  */
-export function attach(selector: string, options: MountOptions = {}) {
+export function attach(selector: string, options: AttachOptions = {}) {
     return function <T extends IViewAttachable>(target: T, prop: string) {
 
         let View: Constructor<IView> | undefined;

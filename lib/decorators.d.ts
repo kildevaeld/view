@@ -22,7 +22,7 @@ export declare namespace event {
     function keydown(selector: string, keyCodes?: number[] | number): <T extends View<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>>(target: T, property: string | number | symbol, desc: TypedPropertyDescriptor<(e: KeyboardEvent) => any> | TypedPropertyDescriptor<() => any>) => void;
     function keyup(selector: string, keyCodes?: number[] | number): <T extends View<U, O>, U extends Element = Element, O extends BaseViewOptions<U> = BaseViewOptions<U>>(target: T, property: string | number | symbol, desc: TypedPropertyDescriptor<(e: KeyboardEvent) => any> | TypedPropertyDescriptor<() => any>) => void;
 }
-export interface MountOptions {
+export interface AttachOptions {
     optional?: boolean;
     view?: Constructor<IView>;
 }
@@ -33,5 +33,5 @@ export interface MountOptions {
  * @param {string} selector
  * @returns
  */
-export declare function attach(selector: string, options?: MountOptions): <T extends IViewAttachable>(target: T, prop: string) => void;
+export declare function attach(selector: string, options?: AttachOptions): <T extends IViewAttachable>(target: T, prop: string) => void;
 //# sourceMappingURL=decorators.d.ts.map
