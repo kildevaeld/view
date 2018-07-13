@@ -222,7 +222,14 @@
     function attach(selector) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       return function (target, prop) {
-        var View = Reflect.getOwnMetadata("design:type", target, prop);
+        var View;
+
+        if (utils.isFunction(options.view)) {
+          View = options.view;
+        } else {
+          View = Reflect.getOwnMetadata("design:type", target, prop);
+        }
+
         if (!View) throw new Error("design:type does not exists for prop '".concat(prop, "' on '").concat(target, "'"));
         if (!target.views) target.views = {};
         target.views[prop] = {

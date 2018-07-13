@@ -1,6 +1,6 @@
 import { View, BaseViewOptions } from './base-view'
-import { extend, has, callFuncCtx, Constructor } from '@viewjs/utils';
-import { EventsMap, StringMap, TriggerMap } from './types';
+import { extend, has, callFuncCtx, Constructor, isFunction } from '@viewjs/utils';
+import { EventsMap, StringMap, TriggerMap, IView } from './types';
 import { IViewAttachable } from './mixins'
 
 export interface AttributesOptions {
@@ -104,6 +104,7 @@ export namespace event {
 
 export interface MountOptions {
     optional?: boolean
+    view?: Constructor<IView>
 }
 
 /**
@@ -116,7 +117,13 @@ export interface MountOptions {
 export function attach(selector: string, options: MountOptions = {}) {
     return function <T extends IViewAttachable>(target: T, prop: string) {
 
-        let View = Reflect.getOwnMetadata("design:type", target, prop);
+        let View: Constructor<IView> | undefined;
+        if (isFunction(options.view)) {
+            View = options.view;
+        } else {
+            View = Reflect.getOwnMetadata("design:type", target, prop);
+        }
+
         if (!View) throw new Error(`design:type does not exists for prop '${prop}' on '${target}'`);
         if (!target.views) target.views = {};
         target.views[prop] = {

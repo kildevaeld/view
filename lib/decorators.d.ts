@@ -1,6 +1,6 @@
 import { View, BaseViewOptions } from './base-view';
 import { Constructor } from '@viewjs/utils';
-import { EventsMap, StringMap, TriggerMap } from './types';
+import { EventsMap, StringMap, TriggerMap, IView } from './types';
 import { IViewAttachable } from './mixins';
 export interface AttributesOptions {
     events?: EventsMap;
@@ -24,6 +24,7 @@ export declare namespace event {
 }
 export interface MountOptions {
     optional?: boolean;
+    view?: Constructor<IView>;
 }
 /**
  * Mount a view on the target and bind matched element

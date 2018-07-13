@@ -1,4 +1,4 @@
-import { extend, has, callFuncCtx, Base, triggerMethodOn, uniqueId, indexOf, result, debug, matches, Invoker, getOption, isFunction, isString, isElement } from '@viewjs/utils';
+import { extend, has, callFuncCtx, isFunction, Base, triggerMethodOn, uniqueId, indexOf, result, debug, matches, Invoker, getOption, isString, isElement } from '@viewjs/utils';
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -218,7 +218,14 @@ var keyEventDecorator = function keyEventDecorator(eventName, selector, keyCodes
 function attach(selector) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return function (target, prop) {
-    var View = Reflect.getOwnMetadata("design:type", target, prop);
+    var View;
+
+    if (isFunction(options.view)) {
+      View = options.view;
+    } else {
+      View = Reflect.getOwnMetadata("design:type", target, prop);
+    }
+
     if (!View) throw new Error("design:type does not exists for prop '".concat(prop, "' on '").concat(target, "'"));
     if (!target.views) target.views = {};
     target.views[prop] = {
