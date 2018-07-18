@@ -30,6 +30,20 @@ class TodoPage extends withAttachedViews(withTemplate(withElement(View))) {
     }
 }
 
-const page = new TodoPage().render()
+const Base = TodoPage.inherit({
+    constructor() {
+        Base.__super__.constructor.call(this);
+    },
+    onclick() {
+        console.log('Hello, World');
+        Base.__super__.onclick.call(this);
+    },
+
+});
+
+
+const page = new Base().render();
 
 window.onload = () => document.body.appendChild(page.el!)
+
+
