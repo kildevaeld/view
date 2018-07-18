@@ -2,7 +2,7 @@
   "name": "@viewjs/view",
   "version": "2.6.1",
   "dependencies": {
-    "@viewjs/utils": "^1.4.2"
+    "@viewjs/utils": "^1.5.0"
   },
   "scripts": {
     "build": "node ./node_modules/.bin/gulp default"
@@ -17,6 +17,7 @@
     "gulp": "^3.9.1",
     "gulp-bump": "^3.1.1",
     "gulp-typescript": "^5.0.0-alpha.3",
+    "nyc": "^12.0.2",
     "reflect-metadata": "^0.1.12",
     "rollup": "^0.62.0",
     "rollup-plugin-babel": "^4.0.0-beta.7",
