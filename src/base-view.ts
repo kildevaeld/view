@@ -34,6 +34,8 @@ interface DomEvent {
 
 export class View<T extends Element = HTMLElement, OptionsType extends BaseViewOptions<T> = BaseViewOptions<T>> extends AbstractView<T> {
 
+
+
     private _events: EventsMap | undefined;
     private _el: T | undefined;
 
