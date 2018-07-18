@@ -18,7 +18,7 @@ describe('WithAttachedViews', () => {
 
     });
 
-    it('should should set subview el to target', () => {
+    it('should set subview el to target', () => {
         let View = vn.withAttachedViews(vn.View);
 
         const el = document.createElement('div');
@@ -42,6 +42,48 @@ describe('WithAttachedViews', () => {
         expect(view.subView.el).to.equal(attach);
 
 
+    });
+
+
+    it('should throw error if target element not found in context', () => {
+        let View = vn.withAttachedViews(vn.View);
+
+        const el = document.createElement('div');
+
+
+        View.prototype.views = {
+            subView: {
+                selector: '.attach',
+                view: vn.View
+            }
+        };
+
+        const view = new View();
+        view.el = el;
+
+        expect(() => view.render()).to.throwError()
+
+
+    });
+
+    it('should be optional', () => {
+        let View = vn.withAttachedViews(vn.View);
+
+        const el = document.createElement('div');
+
+        View.prototype.views = {
+            subView: {
+                selector: '.attach',
+                view: vn.View,
+                optional: true
+            }
+        };
+
+        const view = new View();
+        view.el = el;
+
+        view.render()
+        expect(view.subView.el).to.equal(void 0);
     });
 
 
