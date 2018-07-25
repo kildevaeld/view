@@ -14,3 +14,17 @@ export abstract class AbstractView<T extends Element> extends Base implements IV
     protected abstract getElement(): T | undefined;
 
 }
+
+export class Controller<T extends Element = HTMLElement> extends AbstractView<T> {
+    private _el: T | undefined;
+    protected setElement(el?: T | undefined): this {
+        this._el = el;
+        return this;
+
+    }
+    protected getElement(): T | undefined {
+        return this._el;
+    }
+
+
+}
