@@ -5,4 +5,5 @@ example/lib/
 test-output/
 example/*.js
 example/*.txt
-lib/example/
+lib/
+dist/
