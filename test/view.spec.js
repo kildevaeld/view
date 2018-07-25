@@ -44,7 +44,7 @@ describe('View', function () {
 
     });
 
-    it('should hook up triggers', () => {
+    it.skip('should hook up triggers', () => {
 
         const cb = sinon.fake();
 
