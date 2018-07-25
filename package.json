@@ -5,7 +5,8 @@
     "@viewjs/utils": "^1.5.0"
   },
   "scripts": {
-    "build": "node ./node_modules/.bin/gulp default"
+    "build": "node ./node_modules/.bin/gulp default",
+    "prepare": "node ./node_modules/.bin/gulp default"
   },
   "main": "./lib/index.js",
   "devDependencies": {
