@@ -6,8 +6,8 @@
   },
   "scripts": {
     "test": "node ./node_modules/.bin/gulp test",
-    "build": "node ./node_modules/.bin/gulp default",
-    "prepare": "node ./node_modules/.bin/gulp default",
+    "build": "node ./node_modules/.bin/gulp build",
+    "prepare": "node ./node_modules/.bin/gulp build",
     "prepublishOnly": "node ./node_modules/.bin/gulp test"
   },
   "main": "./lib/index.js",
