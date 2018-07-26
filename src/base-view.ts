@@ -171,7 +171,7 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
             for (; node && node != root; node = node!.parentNode) {
                 if (node && matches((node as Element), selector as string)) {
                     if (e.delegateTarget && e.delegateTarget !== node) {
-                        debug('%s delegateTarget already set and node is not same', self);
+                        debug('WARN: %s delegateTarget already set and node is not same', self);
                         continue;
                     }
                     e.delegateTarget = node as Element;
