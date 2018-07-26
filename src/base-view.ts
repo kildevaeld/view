@@ -109,7 +109,7 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
                 if (typeof method !== 'function') method = (<any>this)[method];
 
                 // Set delegates immediately and defer event on this.el
-                const boundFn = method as EventHandler; // (<any>method).bind(this); // bind(<Function>method, this);
+                const boundFn = method as EventHandler;
                 if (match[2]) {
                     this.delegate(match[1], match[2], boundFn);
                 } else {
@@ -132,7 +132,6 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
         debug('%s undelegate events', this);
 
         this._unbindUIElements();
-
 
         if (this.el) {
             for (var i = 0, len = this._domEvents.length; i < len; i++) {
