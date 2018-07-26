@@ -5,6 +5,7 @@
     "@viewjs/utils": "^1.5.0"
   },
   "scripts": {
+    "test": "node ./node_modules/.bin/gulp test",
     "build": "node ./node_modules/.bin/gulp default",
     "prepare": "node ./node_modules/.bin/gulp default",
     "prepublishOnly": "node ./node_modules/.bin/gulp test"
