@@ -26,4 +26,16 @@ describe("WithElement", () => {
         expect(view.el.getAttribute('class')).to.equal("test class");
     });
 
+    it('should remove element from dom', () => {
+        let view = new(vn.withElement(vn.View))();
+
+        var el = document.createElement('div');
+        el.appendChild(view.render().el);
+
+        view.remove();
+        expect(el.children.length).equal(0);
+
+
+    });
+
 });

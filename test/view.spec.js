@@ -116,4 +116,49 @@ describe('View', function () {
 
     });
 
+    it('should hook up events from events map and normalize ui', () => {
+
+        const cb1 = sinon.fake(),
+            cb2 = sinon.fake(),
+            cb3 = sinon.fake(),
+            cb4 = sinon.fake()
+
+        const el = document.createElement('div');
+        el.innerHTML = `
+            <button class="btn1"></button>
+            <button class="btn2"></button>
+            <button class="btn3"></button>
+        `;
+
+        const view = new viewjs.view.View({
+            el: el
+        });
+
+        view.onClick = cb2;
+        view.onClick2 = cb4;
+
+        view._ui = {
+            btn1: 'button.btn1'
+        }
+
+        view.events = {
+            'click @btn1': cb1,
+            'click button.btn1': cb1,
+            'click button.btn2': 'onClick',
+            'click button.btn3': [cb3, 'onClick2']
+        }
+
+        view.render();
+
+        $(view.el).find('.btn1').click();
+        $(view.el).find('.btn2').click();
+        $(view.el).find('.btn3').click();
+
+        expect(cb1.callCount).to.equal(2);
+        expect(cb2.calledOnce).to.equal(true);
+        expect(cb3.calledOnce).to.equal(true);
+        expect(cb4.calledOnce).to.equal(true);
+
+    });
+
 });

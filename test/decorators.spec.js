@@ -1,0 +1,7 @@
+describe('Decorators', () => {
+
+    describe('@event', () => {
+
+    });
+
+});
