@@ -36,17 +36,22 @@ export function event(eventName: string, selector: string) {
         }
 
         const key = `${eventName} ${selector}`
-        if (target.events && has(target.events, key)) {
-            let old = target.events[key]
+
+        let events = target.events;
+
+        if (has(events, key)) {
+            let old = events[key]
             if (!Array.isArray(old)) old = [old];
             old.push(property as any);
-            target.events[key] = old;
+            events[key] = old;
         } else {
-            target.events = extend(target.events || {}, {
+            events = extend(events || {}, {
                 [key]: property
             });
 
         }
+
+        target.events = events;
 
     }
 }
