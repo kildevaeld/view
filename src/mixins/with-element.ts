@@ -33,7 +33,7 @@ export interface IViewElement {
 
 export function withElement<T extends Constructor<IView>>(Base: T): Constructor<IViewElement> & T {
     return class extends Base {
-        __created: boolean;
+        private __created: boolean;
         options?: any;
         constructor(...args: any[]) {
             super(...args);
