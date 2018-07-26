@@ -167,10 +167,13 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
         const self = this;
         domEvent!.handler = selector ? function (e: DelegateEvent) {
             let node = (e.target || e.srcElement) as Node | null;
-            if (e.delegateTarget) return;
 
             for (; node && node != root; node = node!.parentNode) {
                 if (node && matches((node as Element), selector as string)) {
+                    if (e.delegateTarget && e.delegateTarget !== node) {
+                        debug('%s delegateTarget already set and node is not same', self);
+                        continue;
+                    }
                     e.delegateTarget = node as Element;
                     debug("%s trigger %i listeners for '%s'-event on selector '%s'", self, domEvent!.listeners.length, domEvent!.eventName, domEvent!.selector)
                     domEvent!.listeners.forEach(listener => listener.call(self, e));
