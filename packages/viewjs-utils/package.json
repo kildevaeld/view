@@ -9,7 +9,9 @@
   "module": "dist/viewjs.utils.es6",
   "scripts": {
     "build": "./task compile",
-    "watch": "./task watch"
+    "watch": "./task watch",
+    "clean": "./task clean",
+    "test": "./task test"
   },
   "author": "",
   "license": "ISC",

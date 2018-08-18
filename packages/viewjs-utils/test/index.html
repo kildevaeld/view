@@ -8,19 +8,14 @@
   <div id="mocha"></div>
   
   <script src="../../../node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="../../../node_modules/expect.js/index.js"></script>
+  <script src="../../../node_modules/should/should.js"></script>
   <script src="../../../node_modules/sinon/pkg/sinon.js"></script>
   <script src="../../../node_modules/mocha/mocha.js"></script>
-  <script src="../../../node_modules/@viewjs/utils/dist/viewjs.utils.js"></script>
-  <script src="../../../node_modules/@viewjs/builder/dist/viewjs.builder.js"></script>
-  <script src="../dist/viewjs.view.js"></script>
+  <script src="../dist/viewjs.utils.js"></script>
 
   <script>mocha.setup('bdd')</script>
-  <script src="view.spec.js"></script>
-  <script src="with-element.spec.js"></script>
-  <script src="with-template.spec.js"></script>
-  <script src="with-attachedviews.spec.js"></script>
-  <script src="decorators.spec.js"></script>
+  <script src="checkers.spec.js"></script>
+  <script src="equal.spec.js"></script>
   <script>
 
     mocha.checkLeaks();

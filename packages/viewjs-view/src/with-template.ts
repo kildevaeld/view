@@ -51,7 +51,7 @@ interface TemplatePrivates {
 
 var privates: WeakMap<any, TemplatePrivates>;
 
-export function withTemplate<T extends Constructor<IView>, M extends any = any>(Base: T) {
+export function withTemplate<T extends Constructor<IView>, M extends any = any>(Base: T): T & Constructor<IViewTemplate<M>> {
 
     if (!privates) {
         privates = new WeakMap();

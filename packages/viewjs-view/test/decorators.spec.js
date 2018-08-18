@@ -4,7 +4,7 @@ describe('Decorators', () => {
 
         const ns = viewjs.view;
 
-        it.skip('should modify events', () => {
+        it('should modify events', () => {
 
             const cb = sinon.fake();
 

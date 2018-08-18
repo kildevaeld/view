@@ -8,17 +8,7 @@ export interface Constructor<T> {
     //prototype: T;
 }
 
-export interface InheritableConstructor<T> {
-    new(...args: any[]): T;
-    prototype: T;
-    inherit<P extends AnyMap,
-        S extends AnyMap>(protoProps: P, staticProps?: S): Constructor<T & P> & ConstructorWithSuper<P, T>;
-}
 
-export interface ConstructorWithSuper<T, S> {
-    new(...args: any[]): T;
-    __super__: S
-}
 
 export type AnyMap<T = any> = { [key: string]: T };
 
