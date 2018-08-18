@@ -5,7 +5,7 @@
     "main": "./lib/index.js",
     "browser": "dist/viewjs.validation.js",
     "module": "dist/viewjs.validation.es6",
-    "private": true,
+    "private": false,
     "scripts": {
         "build": "./task compile",
         "watch": "./task watch",

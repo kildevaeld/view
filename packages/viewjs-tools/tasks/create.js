@@ -49,11 +49,13 @@ async function createPackage() {
         .then(buf => fs.writeFile(Path.join(packagePath, m), template(buf)({
             name: name
         })))
-    ).concat(
+    ));
+
+    await Promise.all([
         fs.writeFile(Path.join(packagePath, 'src/index.ts'), ''),
         fs.link(Path.join(__dirname, '../../../scripts/task'), Path.join(packagePath, 'task')),
         fs.link(Path.join(__dirname, '../babel-config.json'), Path.join(packagePath, '.babelrc'))
-    ));
+    ]);
 
 }
 
