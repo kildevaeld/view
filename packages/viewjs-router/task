@@ -1,0 +1,33 @@
+#!/bin/bash
+
+CMD=$1
+shift
+
+exe() { echo "$@" ; $@ ; }
+
+case $CMD in
+  clean)
+    exe "rm -fr ./lib"
+    exe "rm -fr ./dist"
+    ;;
+    
+  compile)
+    exe "../../node_modules/.bin/gulp --gulp-file $(pwd)/gulpfile.js"
+    ;;
+
+  watch)
+    exe "../../node_modules/.bin/gulp --gulp-file $(pwd)/gulpfile.js watch"
+    ;;
+
+  test)
+    exe "../../node_modules/.bin/gulp --gulp-file $(pwd)/gulpfile.js test"
+    ;;
+    
+  *)
+    if [[ -z "$CMD" ]]; then
+      echo "USAGE: ./task (clean|compile|test|lint|<node_modules_bin_command>) command_args"
+      exit 0
+    fi
+    exe "../../node_modules/.bin/$CMD $@"
+    ;;
+esac

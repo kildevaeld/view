@@ -1,0 +1,20 @@
+{
+    "name": "@viewjs/<%= name %>",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./lib/index.js",
+    "browser": "dist/viewjs.<%= name %>.js",
+    "module": "dist/viewjs.<%= name %>.es6",
+    "scripts": {
+        "build": "./task compile",
+        "watch": "./task watch",
+        "clean": "./task clean"
+    },
+    "sideEffects": false,
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+
+    },
+    "types": "./lib/index.d.ts"
+}

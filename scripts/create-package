@@ -1,0 +1,18 @@
+#!/bin/bash
+
+name=$1
+package_basepath=$PWD/packages
+package_path=$package_basepath/viewjs-$name
+
+
+if [ -d "$package_path" ]; then
+    echo "Package with the name '$name' already exists!"
+fi
+
+
+mkdir -p $package_path
+cd $package_path
+yarn init -y
+ls -s ../../scripts/task task
+echo '{\n  "extends": "../viewjs-tools/tsconfig.base.json"\n}' > tsconfig.json
+echo 'module.exports = require("viewjs-tools/gulp-tasks");\n' > gulpfile.js

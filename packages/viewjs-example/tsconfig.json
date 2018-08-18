@@ -1,0 +1,11 @@
+{
+    "extends": "../viewjs-tools/tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "./lib",
+        /* Redirect output structure to the directory. */
+        "rootDir": "./src",
+        "moduleResolution": "node",
+        "jsx": "react", /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
+        "jsxFactory": "h"
+    }
+}

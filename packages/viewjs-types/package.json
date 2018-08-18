@@ -1,0 +1,21 @@
+{
+    "name": "@viewjs/types",
+    "version": "1.0.0",
+    "description": "",
+    "sideEffects": false,
+    "main": "./lib/index.js",
+    "browser": "dist/viewjs.types.js",
+    "module": "dist/viewjs.types.es6",
+    "scripts": {
+        "build": "./task compile",
+        "watch": "./task watch",
+        "clean": "./task clean"
+    },
+    "sideEffects": false,
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+
+    },
+    "types": "./lib/index.d.ts"
+}

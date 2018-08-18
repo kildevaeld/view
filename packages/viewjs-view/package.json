@@ -1,0 +1,24 @@
+{
+  "name": "@viewjs/view",
+  "version": "2.7.3",
+  "description": "",
+  "sideEffects": false,
+  "main": "./lib/index.js",
+  "browser": "dist/viewjs.view.js",
+  "module": "dist/viewjs.view.es6",
+  "scripts": {
+    "build": "./task compile",
+    "watch": "./task watch",
+    "clean": "./task clean",
+    "test": "./task test"
+  },
+
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@viewjs/types": "^1.0.0",
+    "@viewjs/utils": "^1.8.0",
+    "reflect-metadata": "^0.1.12"
+  },
+  "types": "./lib/index.d.ts"
+}

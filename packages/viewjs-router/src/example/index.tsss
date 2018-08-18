@@ -1,0 +1,86 @@
+
+import { RouterView, Context } from '../index';
+import { withTemplate, View } from '@viewjs/view';
+
+class TemplateView extends withTemplate(View) { }
+
+function template(a: any) {
+    return new (TemplateView.inherit(a))
+}
+
+const view = new RouterView({
+    el: document.querySelector('.router') as HTMLElement
+});
+
+view
+    .registerRoute("/", () => new (TemplateView.inherit({
+        template: () => `<h1>Page One</h1><button class="two">Click</button><button class="notfound">Other</button>`,
+        events: {
+            'click button.two': () => {
+                view.router.navigate('/test');
+            },
+            'click button.notfound': () => {
+                view.router.navigate("/test/man");
+            }
+        }
+    }))).registerRoute("/test", () => new (TemplateView.inherit({
+        template: () => `<h1>Page Two</h1><button class="one">Click</button><button class="notfound">Other</button>`,
+        events: {
+            'click button.one': () => {
+                view.router.navigate('/');
+            },
+            'click button.notfound': () => {
+                view.router.navigate("/not-found");
+            }
+        }
+    }))).registerRoute("/test/:ost*", (ctx) => new (TemplateView.inherit({
+        template: () => `<h1>Page Tree</h1><pre>${JSON.stringify(ctx.params)}</pre><button class="one">Click</button><button class="notfound">Other</button>`,
+        events: {
+            'click button.one': () => {
+                view.router.navigate('/');
+            },
+            'click button.notfound': () => {
+                view.router.navigate("/not-found");
+            }
+        }
+    }))).notFound((ctx) => template({
+        template: () => `Not Found: '${ctx.path}'`
+    }))
+
+
+view.render();
+
+console.log(view)
+
+view.router.history.start();
+
+console.log(view);
+// const router = Router.create();
+
+// function delay(t: number = 0) {
+//     return new Promise((res) => {
+//         setTimeout(res, t);
+//     });
+// }
+
+
+// router
+//     .use('/', (ctx, next) => {
+//         console.log('waiting');
+//         return delay(800).then(() => next());
+//         //return await next()
+//     }, (ctx) => {
+//         console.log('Hello, From Test', ctx.path)
+//     })
+//     .use('/test/:paths*', (ctx) => {
+//         console.log('ctx', ctx);
+//     })
+//     .else((ctx) => {
+//         console.log('could not find ', ctx);
+//     })
+//     .history.start();
+
+// setTimeout(() => {
+//     router.navigate('/test/and/me', { trigger: true });
+// }, 2000);
+// console.log(router)

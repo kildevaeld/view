@@ -1,0 +1,23 @@
+{
+    "name": "@viewjs/preact",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./lib/index.js",
+    "browser": "dist/viewjs.preact.js",
+    "module": "dist/viewjs.preact.es6",
+    "scripts": {
+        "build": "./task compile",
+        "watch": "./task watch",
+        "clean": "./task clean"
+    },
+    "sideEffects": false,
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "preact": "^8.3.1",
+        "@viewjs/utils": "^1.8.0",
+        "@viewjs/view": "^2.7.3",
+        "@viewjs/types": "^1.0.0"
+    },
+    "types": "./lib/index.d.ts"
+}

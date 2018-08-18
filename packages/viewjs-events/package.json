@@ -1,0 +1,22 @@
+{
+    "name": "@viewjs/events",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./lib/index.js",
+    "browser": "dist/viewjs.events.js",
+    "module": "dist/viewjs.events.es6",
+    "scripts": {
+        "build": "./task compile",
+        "watch": "./task watch",
+        "clean": "./task clean",
+        "test": "./task test"
+    },
+    "sideEffects": false,
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@viewjs/types": "^1.0.0",
+        "@viewjs/utils": "^1.8.0"
+    },
+    "types": "./lib/index.d.ts"
+}

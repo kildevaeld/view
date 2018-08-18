@@ -1,0 +1,24 @@
+{
+    "name": "@viewjs/collection",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./lib/index.js",
+    "browser": "dist/viewjs.collection.js",
+    "module": "dist/viewjs.collection.es6",
+    "scripts": {
+        "build": "./task compile",
+        "watch": "./task watch",
+        "clean": "./task clean"
+    },
+    "sideEffects": false,
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@viewjs/types": "^1.0.0",
+        "@viewjs/utils": "^1.8.0",
+        "@viewjs/models": "^1.0.0",
+        "@viewjs/view": "^2.7.3",
+        "@viewjs/events": "^1.0.0"
+    },
+    "types": "./lib/index.d.ts"
+}

@@ -1,0 +1,22 @@
+{
+    "name": "@viewjs/models",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./lib/index.js",
+    "browser": "dist/viewjs.models.js",
+    "module": "dist/viewjs.models.es6",
+    "scripts": {
+        "build": "./task compile",
+        "watch": "./task watch",
+        "clean": "./task clean"
+    },
+    "sideEffects": false,
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@viewjs/types": "^1.0.0",
+        "@viewjs/utils": "^1.8.0",
+        "@viewjs/events": "^1.0.0"
+    },
+    "types": "./lib/index.d.ts"
+}

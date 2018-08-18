@@ -1,0 +1,11 @@
+{
+    "extends": "../viewjs-tools/tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "./lib",
+        /* Redirect output structure to the directory. */
+        "rootDir": "./src",
+        "types": [
+            "reflect-metadata"
+        ]
+    }
+}
