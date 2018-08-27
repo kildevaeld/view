@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import '@viewjs/builder';
+import { inherit } from '@viewjs/builder';
 import { TemplateView, event, DelegateEvent } from '@viewjs/view';
 import { withAttachment, attachments } from '@viewjs/attach';
 import { global } from '@viewjs/di';
@@ -34,16 +36,21 @@ class Application extends withAttachment(TemplateView) {
     @event.click('.menu li a')
     onMenuItem(e: DelegateEvent) {
         e.preventDefault()
-
         this.attachView('routerView')!.getInstance<AppRouter>().router.navigate(e.delegateTarget!.getAttribute('href')!)
     }
 
 }
 
+class UnderApp extends Application {
+    onMenuItem(e: DelegateEvent) {
+        super.onMenuItem(e);
+    }
+}
+
 window.onload = () => {
 
     try {
-        const view = global().get<Application>(Application)
+        const view = global().get<Application>(inherit(UnderApp, {}));
         view.el = document.body
         view.render();
     } catch (e) {

@@ -6,7 +6,6 @@ import { uniqueId } from '@viewjs/utils';
 import { injectProp } from './utils';
 import { AppRouter } from './routes';
 
-
 @validations({
     '[name="title"]': validations.string("title").required(),
     '[name="body"]': validations.string("body").required()
