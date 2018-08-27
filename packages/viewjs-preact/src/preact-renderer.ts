@@ -10,13 +10,12 @@ export class PreactRenderer<
     P,
     S> implements IRenderer {
 
-    constructor(private Component: ComponentType<P, S>) {
-
-    }
+    constructor(private Component: ComponentType<P, S>) { }
 
     mount(attributes: P, container: Element, prev: Element | undefined): Element {
         return render(h(this.Component, attributes), container, prev);
     }
+
     unmount(el: Element): boolean {
         let component = (el as any)._component;
         if (component) {
