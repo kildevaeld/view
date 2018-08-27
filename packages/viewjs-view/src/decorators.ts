@@ -36,6 +36,7 @@ export function event<E extends Event = Event>(eventName: string, selector: stri
         const key = selector ? `${eventName} ${selector}` : eventName;
 
         let events = target.events;
+
         if (events && has(events, key)) {
             let old = events[key]
             if (!Array.isArray(old)) old = [old];
