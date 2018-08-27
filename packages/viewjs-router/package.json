@@ -14,11 +14,11 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@viewjs/view": "^2.7.3",
-        "@viewjs/utils": "^1.8.0",
+        "@types/path-to-regexp": "^1.7.0",
         "@viewjs/events": "^1.0.0",
         "@viewjs/types": "^1.0.0",
-        "@types/path-to-regexp": "^1.7.0",
+        "@viewjs/utils": "^1.8.0",
+        "@viewjs/view": "^2.7.3",
         "path-to-regexp": "^2.2.1"
     },
     "types": "./lib/index.d.ts"

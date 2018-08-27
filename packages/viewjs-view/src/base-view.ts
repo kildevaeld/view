@@ -109,7 +109,6 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
         return this;
     }
 
-
     undelegateEvents() {
         if (!this.el) return this;
 

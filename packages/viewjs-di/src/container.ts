@@ -19,8 +19,6 @@ export interface ConstructionInfo {
 }
 
 
-
-
 export class Container implements IActivator, IContainer, IDependencyResolver {
 
     private entries: Map<any, IHandlerFunc[]>;

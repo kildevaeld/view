@@ -2,7 +2,6 @@ import { withTemplate } from '@viewjs/view';
 import { ValidationView, validations } from '@viewjs/validation';
 import { User } from './models';
 
-
 @validations({
     name: validations.string().required(),
     email: validations.string().email().required()
