@@ -17,6 +17,9 @@ test:
 example:
 	@node_modules/.bin/http-server -c-1 packages/viewjs-example/dist
 
+watch-example:
+	@node_modules/.bin/lerna run watch --stream --scope=viewjs-example
+
 create-package:
 	@yarn run create-package
 	@yarn
