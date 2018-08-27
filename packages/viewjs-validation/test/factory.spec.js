@@ -3,7 +3,7 @@ describe('Validator', () => {
     describe('Factory', () => {
 
         const ns = viewjs.validation;
-
+        console.log(viewjs)
         it('should instantiate', () => {
             const factory = new ns.ObjectValidator({
                 name: ns.string().required(),

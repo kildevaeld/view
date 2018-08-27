@@ -37,7 +37,7 @@ export class BlogFormView extends withTemplate(ValidationView) {
         global().get<AppRouter>(AppRouter).router.navigate('/');
     }
 
-    setValidationError(target: HTMLElement, errors: ValidationErrors) {
+    setValidationError(_target: HTMLElement, errors: ValidationErrors) {
         console.log(errors);
     }
 

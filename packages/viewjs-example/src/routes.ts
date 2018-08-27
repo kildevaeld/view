@@ -1,4 +1,4 @@
-import { Router, HistoryAPI, HistoryProvider, RouterView, Context, PathChangeEvent } from '@viewjs/router';
+import { Router, HistoryAPI, HistoryProvider, RouterView, Context } from '@viewjs/router';
 import { IView } from '@viewjs/view';
 import { global, singleton } from '@viewjs/di';
 import { BlogCollection } from './models';
@@ -19,7 +19,7 @@ export class AppRouter extends RouterView<Context> {
                 }),
             })
             .registerRoute("/create", {
-                view: (ctx) => import('./blog-form').then(mod => global().get<IView>(mod.BlogFormView))
+                view: (_ctx) => import('./blog-form').then(mod => global().get<IView>(mod.BlogFormView))
             })
             .registerRoute("/update/:blogId", {
                 view: ctx => {

@@ -15,8 +15,8 @@ module.exports = [
             name: 'viewjs.bind',
             globals: {
                 '@viewjs/utils': 'viewjs.utils',
-                '@viewjs/html': 'viewjs.events',
-                '@viewjs/events': 'viewjs.html',
+                '@viewjs/html': 'viewjs.html',
+                '@viewjs/events': 'viewjs.events',
             }
         }, {
             file: pkg.module,
