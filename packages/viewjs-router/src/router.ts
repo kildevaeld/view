@@ -1,6 +1,6 @@
 import { HistoryAPI, PathChangeEvent, HistoryProvider, NavigateOptions } from './history';
 import { Engine, RouterMiddleware } from './engine';
-import { TypedEventEmitter, withEventListener, IEventListener, Observer } from '@viewjs/events';
+import { TypedEventEmitter, withEventListener, IEventListener } from '@viewjs/events';
 import { Middleware } from './types';
 import { Context } from './context';
 

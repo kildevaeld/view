@@ -1,4 +1,3 @@
-import { getValue } from '@viewjs/html';
 import { IValidator, ValidationContext } from './types';
 import { equal } from '@viewjs/utils';
 
@@ -8,7 +7,6 @@ export abstract class AbstractValidator {
         if (msg) this.message = msg;
     }
 }
-
 
 export class RequiredValidator extends AbstractValidator implements IValidator {
 

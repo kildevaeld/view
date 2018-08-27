@@ -4,6 +4,7 @@ import { isEventEmitter, IEventEmitter } from '@viewjs/events';
 import { ModelCollection, ICollection, ModelConstructor, ModelEvents } from '@viewjs/models';
 import { Constructor } from '@viewjs/types';
 
+
 export interface ICollectionView<TCollection extends ICollection<TModel>, TModel, TView extends ChildViewType<TModel>> {
     collection?: TCollection;
     readonly childViews: TView[];
@@ -203,7 +204,7 @@ export function withCollection<
         }
 
         private _proxyChildViewEvents(view: IEventEmitter) {
-            const fn = (eventName: string, ...args: any[]) => {
+            const fn = (eventName: string, ..._args: any[]) => {
                 eventName = getOption<string>('eventProxyName', [this.options]) + ':' + eventName;; //this.options.eventProxyName + ':' + eventName;
                 //triggerMethodOn(this, eventName, ...[view].concat(args));
             }

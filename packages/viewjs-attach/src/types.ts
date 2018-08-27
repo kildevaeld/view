@@ -1,5 +1,5 @@
-import { IRenderer, IView } from '@viewjs/view';
-import { Constructor, Condition } from '@viewjs/types'
+import { IView } from '@viewjs/view';
+import { Condition } from '@viewjs/types'
 import { Resolvable } from './resolver';
 
 export interface IAttachmentContainer {

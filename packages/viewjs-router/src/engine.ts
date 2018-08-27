@@ -82,7 +82,7 @@ export class Engine<ContextType extends Context> {
             var path = router.options.routerPath || (ctx as any).routerPath || ctx.path;
 
             var matched = router.match(path);
-            var layerChain, layer, i;
+            var layerChain;
 
             if ((ctx as any).matched) {
                 (ctx as any).matched.push.apply((ctx as any).matched, matched.path);
@@ -166,7 +166,7 @@ export class Engine<ContextType extends Context> {
     }
 
 
-    url(name: string, params: { [key: string]: any }) {
+    url(name: string, _params: { [key: string]: any }) {
         var route = this.route(name);
 
         if (route) {

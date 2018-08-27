@@ -1,5 +1,5 @@
 import { View, BaseViewOptions } from '@viewjs/view';
-import { StringValidator, ValidatorMap, IValidatorCollection } from './validator';
+import { StringValidator, ValidatorMap } from './validator';
 import { isPlainObject } from '@viewjs/utils'
 import { Constructor } from '@viewjs/types';
 

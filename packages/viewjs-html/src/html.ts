@@ -1,4 +1,4 @@
-import { isObject, isString, isElement, slice } from '@viewjs/utils';
+import { isObject, isString, slice } from '@viewjs/utils';
 import { CSSStyleDeclarationOptions, DelegateEvent, unbubblebles } from './types';
 import { addEventListener, removeEventListener, DomEventHandler } from './events';
 import { getValue, setValue } from './utils';
@@ -68,8 +68,8 @@ export class Html implements Iterable<Element> {
 
     hasClass(str: string): boolean {
         let split = str.split(' ');
-        return this._elements.reduce<boolean>((p, c) => {
-            return split.reduce<boolean>((pp, cc) => c.classList.contains(cc), false)
+        return this._elements.reduce<boolean>((_p, c) => {
+            return split.reduce<boolean>((_pp, cc) => c.classList.contains(cc), false)
         }, false);
     }
 
@@ -230,7 +230,7 @@ export class Html implements Iterable<Element> {
         });
     }
 
-    delegate<E extends Element>(selector: string, eventName: string, listener?: (e: DelegateEvent<E>) => void, ctx?: any) {
+    delegate<E extends Element>(selector: string, eventName: string, listener?: (e: DelegateEvent<E>) => void, _ctx?: any) {
 
         return this.forEach(el => {
             let root = el;

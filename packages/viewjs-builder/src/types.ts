@@ -1,4 +1,4 @@
-import { AnyMap, Constructor } from '@viewjs/types';
+import { AnyMap } from '@viewjs/types';
 
 export interface InheritableConstructor<T> {
     new(...args: any[]): T;

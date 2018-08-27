@@ -46,7 +46,7 @@ export class Route<ContextType extends Context> {
         return this.regexp.test(path);
     }
 
-    params(path: string, captures: string[], existingParams: { [key: string]: string }) {
+    params(_path: string, captures: string[], existingParams: { [key: string]: string }) {
         var params = existingParams || {};
 
         for (var len = captures.length, i = 0; i < len; i++) {

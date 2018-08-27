@@ -3,7 +3,6 @@ import { TransientRegistration, SingletonRegistration } from './registers';
 import { FactoryActivator } from './activators';
 
 
-
 /**
  * Auto inject dependencies.
  */

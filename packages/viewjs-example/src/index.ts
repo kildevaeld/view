@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import '@viewjs/builder';
 import { inherit } from '@viewjs/builder';
-import { TemplateView, event, DelegateEvent } from '@viewjs/view';
+import { TemplateView, event, DelegateEvent, View } from '@viewjs/view';
 import { withAttachment, attachments } from '@viewjs/attach';
 import { global } from '@viewjs/di';
 import { setInvoker } from '@viewjs/utils';
@@ -40,6 +40,8 @@ class Application extends withAttachment(TemplateView) {
     }
 
 }
+
+
 
 class UnderApp extends Application {
     onMenuItem(e: DelegateEvent) {

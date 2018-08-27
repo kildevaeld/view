@@ -24,7 +24,7 @@ export class TemplateRenderer {
 
     constructor(private templ: string | ((args?: AnyMap) => string)) { }
 
-    mount(attributes: AnyMap<any>, container: Element, prev: Element | undefined): Element {
+    mount(attributes: AnyMap<any>, container: Element, _prev: Element | undefined): Element {
 
         let result: string | undefined;
         if (isFunction(this.templ)) {

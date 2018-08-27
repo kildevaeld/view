@@ -16,7 +16,6 @@ declare module '@viewjs/utils' {
 
 Base.inherit = function <
     T,
-    Proto extends AnyMap,
     P extends AnyMap,
     S extends AnyMap
     >(this: Constructor<T>, protoProps: P, staticProps?: S): InheritableConstructor<T & P> & ConstructorWithSuper<P, T> & S {

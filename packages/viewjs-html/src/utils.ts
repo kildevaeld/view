@@ -93,7 +93,7 @@ function isArrayLike<T>(item: any): item is ArrayLike<T> {
     );
 }
 
-function isIterable<T>(obj: any): obj is Iterable<T> {
+export function isIterable<T>(obj: any): obj is Iterable<T> {
     // checks for null and undefined
     if (obj == null) {
         return false;

@@ -69,7 +69,7 @@ export function withRouter<T extends Constructor<IView>, ContextType extends Con
 
         registerRoute(path: string, defintion: RouteDefinition<ContextType> | ViewFactory<ContextType>, middlewares: Middleware<ContextType>[] = []) {
             const md = middlewares.slice()
-            md.push((ctx, next) => this._onRouterChanged(ctx, defintion));
+            md.push((ctx, _next) => this._onRouterChanged(ctx, defintion));
             this.router.use(path, ...md);
             return this;
         }

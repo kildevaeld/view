@@ -1,5 +1,4 @@
-import { Call } from '@viewjs/types'
-import { isFunction } from '@viewjs/utils';
+
 
 export interface Deferred<T> {
     promise: Promise<T>;

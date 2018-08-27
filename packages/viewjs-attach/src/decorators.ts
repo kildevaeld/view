@@ -1,7 +1,7 @@
-import { IView, AbstractView } from '@viewjs/view';
+import { IView } from '@viewjs/view';
 import { Constructor, Condition } from '@viewjs/types';
 import { IComponentView, AttachOptions } from './types';
-import { Resolvable, Resolver } from './resolver';
+import { Resolvable } from './resolver';
 import { Invoker, isString, isFunction, isDestroyable } from '@viewjs/utils'
 
 const ComponentsKey = Symbol('view@attachments');
@@ -53,7 +53,6 @@ export function attach(selector: string | DecoratorAttachOptions | Resolvable<IV
         }
 
         meta.push(options);
-
 
         return {
             get: function (this: T) {

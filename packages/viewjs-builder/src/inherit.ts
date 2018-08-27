@@ -3,10 +3,8 @@ import { isObject, has } from '@viewjs/utils';
 import { InheritableConstructor, ConstructorWithSuper } from './types';
 
 
-
 export function inherit<
     T,
-    Proto extends AnyMap,
     P extends AnyMap,
     S extends AnyMap
     >(parent: Constructor<T>, protoProps: P, staticProps?: S): InheritableConstructor<T & P> & ConstructorWithSuper<P, T> & S {

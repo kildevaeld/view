@@ -61,7 +61,7 @@ export function withValidationView<
             if (!target) throw new TypeError('no target');
 
             const value = getValue(target as HTMLElement);
-            let valid = true;
+            // let valid = true;
             const ctx = this._getValidationContext();
 
             try {
@@ -73,7 +73,7 @@ export function withValidationView<
                 if (typeof this.setValidationError === 'function') {
                     this.setValidationError(target, e);
                 }
-                valid = false;
+                // valid = false;
             }
             //triggerMethodOn(this, 'valid', this.isValid());
             //triggerMethodOn(this, 'change:value', target, value, valid);
@@ -186,8 +186,8 @@ export function withValidationView<
             return new Model(val);
         }
 
-        setValidationError(target: HTMLElement, error: ValidationErrors): this { return this; }
-        clearValidationError(target: HTMLElement): this { return this; }
+        setValidationError(_target: HTMLElement, _error: ValidationErrors): this { return this; }
+        clearValidationError(_target: HTMLElement): this { return this; }
 
     }
 }

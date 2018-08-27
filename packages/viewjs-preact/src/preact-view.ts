@@ -1,6 +1,5 @@
 import { Controller } from '@viewjs/view';
-import { ComponentConstructor, Component, } from 'preact';
-import { AnyMap } from '@viewjs/types';
+import { Component, } from 'preact';
 import { PreactRenderer, ComponentType } from './preact-renderer'
 import { isFunction } from '@viewjs/utils';
 

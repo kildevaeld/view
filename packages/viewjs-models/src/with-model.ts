@@ -43,7 +43,7 @@ export function withModel<T extends Constructor<Base>, M extends IModel>(Base: T
         }
 
 
-        setModel(model?: M, trigger = true) {
+        setModel(model?: M, _trigger = true) {
             // if (trigger)
             //     //triggerMethodOn(this, 'before:set:model');
             if (this._model) {

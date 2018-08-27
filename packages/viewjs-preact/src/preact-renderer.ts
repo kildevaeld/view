@@ -1,5 +1,4 @@
 import { IRenderer } from '@viewjs/view';
-import { AnyMap } from '@viewjs/types';
 import { ComponentConstructor, FunctionalComponent, h, render } from 'preact';
 import { unmountComponent } from './utils';
 
