@@ -1,6 +1,5 @@
 import { IView } from '@viewjs/view';
-import { Condition } from '@viewjs/types'
-import { Resolvable } from './resolver';
+import { Condition, Resolvable } from '@viewjs/types'
 
 export interface IAttachmentContainer {
     getInstance<T extends IView>(): T;

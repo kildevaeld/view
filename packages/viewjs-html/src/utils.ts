@@ -36,9 +36,9 @@ export function getValue(el: HTMLElement, coerce: boolean = false) {
  * @param {HTMLElement} el 
  * @param {*} [value] 
  */
-export function setValue(el: HTMLElement, value?: any) {
+export function setValue(el: HTMLElement, value?: any, unsafe = true) {
     const tagName = el.tagName.toLocaleLowerCase(),
-        type = (<any>el).type,
+        type = (<any>el).type || '',
         isInput = tagName, isCheckbox = /checkbox/.test(type),
         isRadio = /radio/.test(type),
         isRadioOrCheckbox = isRadio || isCheckbox,
@@ -60,7 +60,10 @@ export function setValue(el: HTMLElement, value?: any) {
         if (isInput || isSelect) {
             (el as HTMLInputElement).value = value;
         } else {
-            el.innerHTML = value
+            if (unsafe)
+                el.innerHTML = value
+            else
+                el.textContent = value;
         }
     }
 

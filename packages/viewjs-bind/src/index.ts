@@ -1,1 +1,2 @@
-export * from './with-bindable';
+export * from './with-bindings';
+export * from './binding';

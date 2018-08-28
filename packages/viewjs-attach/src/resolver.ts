@@ -1,37 +1,5 @@
-import { isFunction, isObjectLike } from '@viewjs/utils';
-
-export type Resolvable<R, A = any> = R | PromiseLike<R> | ((args?: A) => R | PromiseLike<R>);
-
-export function resolve<T>(r: Resolvable<T>, args?: any): PromiseLike<T> {
-    const resolved = isFunction(r) ? r(args) : r;
-    if (isPromise<T>(resolved)) {
-        return resolved;
-    }
-    return Promise.resolve(resolved);
-}
-
-export function isPromise<T>(a: any): a is PromiseLike<T> {
-    return a &&
-        isObjectLike(a) &&
-        isFunction((a as any).then) &&
-        isFunction((a as any).catch)
-}
-
-
-export interface Deferred<T> {
-    promise: Promise<T>;
-    resolve: (r: T | PromiseLike<T> | undefined) => void;
-    reject: (e: Error) => void;
-}
-
-export function deferred<T>(): Deferred<T> {
-    let resolve, reject, promise = new Promise<T>((rs, rj) => {
-        resolve = rs;
-        reject = rj;
-    });
-
-    return { promise, resolve, reject } as any;
-}
+import { Deferred, resolve, deferred } from '@viewjs/utils';
+import { Resolvable } from '@viewjs/types';
 
 
 const enum State {

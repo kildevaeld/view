@@ -26,7 +26,7 @@ module.exports = {
     optimization: {
         splitChunks: {
             name: false,
-            chunks: 'all',
+            chunks: 'async',
         }
     },
 

@@ -5,13 +5,13 @@ import { withAttachment, attachments } from '@viewjs/attach';
 import { global } from '@viewjs/di';
 import { setInvoker } from '@viewjs/utils';
 import { AppRouter } from './routes';
-
+import { create as createHeader } from './header';
 
 setInvoker(global())
 
 @attachments({
     header: {
-        view: () => import('./header').then(m => m.create({ title: 'Blog 2' })),
+        view: () => createHeader({ title: 'Blog 2' }),
         selector: '.header',
         name: 'header'
     },

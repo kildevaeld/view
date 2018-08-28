@@ -1,4 +1,4 @@
-import { Call, Destroyable, Subscribable } from '@viewjs/types';
+import { Call, Destroyable, Subscribable, Resolvable } from '@viewjs/types';
 
 export class Base implements Destroyable {
     //static inherit = inherit;
@@ -149,4 +149,35 @@ export function noop() { }
 
 export function destroy(a: any) {
     if (isDestroyable(a)) a.destroy();
+}
+
+export function resolve<T>(r: Resolvable<T>, args?: any): PromiseLike<T> {
+    const resolved = isFunction(r) ? r(args) : r;
+    if (isPromise<T>(resolved)) {
+        return resolved;
+    }
+    return Promise.resolve(resolved);
+}
+
+export function isPromise<T>(a: any): a is PromiseLike<T> {
+    return a &&
+        isObjectLike(a) &&
+        isFunction((a as any).then) &&
+        isFunction((a as any).catch)
+}
+
+
+export interface Deferred<T> {
+    promise: Promise<T>;
+    resolve: (r: T | PromiseLike<T> | undefined) => void;
+    reject: (e: Error) => void;
+}
+
+export function deferred<T>(): Deferred<T> {
+    let resolve, reject, promise = new Promise<T>((rs, rj) => {
+        resolve = rs;
+        reject = rj;
+    });
+
+    return { promise, resolve, reject } as any;
 }
