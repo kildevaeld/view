@@ -1,10 +1,10 @@
 {
-    "name": "@viewjs/react",
+    "name": "@viewjs/preact",
     "version": "1.0.0",
     "description": "",
     "main": "./lib/index.js",
-    "browser": "dist/viewjs.react.js",
-    "module": "dist/viewjs.react.es6",
+    "browser": "dist/viewjs.preact.js",
+    "module": "dist/viewjs.preact.es6",
     "scripts": {
         "build": "./task compile",
         "watch": "./task watch",
@@ -14,11 +14,10 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@types/react": "^16.4.16",
-        "@types/react-dom": "^16.0.9",
-        "@viewjs/view": "^3.0.0",
-        "react": "^16.5.2",
-        "react-dom": "^16.5.2"
+        "preact": "^8.3.1",
+        "@viewjs/utils": "^1.8.0",
+        "@viewjs/view": "^2.7.3",
+        "@viewjs/types": "^1.0.0"
     },
     "types": "./lib/index.d.ts"
 }

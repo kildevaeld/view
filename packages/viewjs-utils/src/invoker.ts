@@ -1,4 +1,4 @@
-import { Constructor } from '@viewjs/types';
+import { Constructor } from './types';
 import { isFunction } from './utils';
 
 /**

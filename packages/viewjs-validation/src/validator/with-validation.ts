@@ -1,8 +1,7 @@
 import { ObjectValidator, ValidationOptions, ObjectValidatorErrorLireral } from './object-validator';
 import { ValidatorMap } from './types';
-import { isFunction, isPlainObject, isString } from '@viewjs/utils';
+import { isFunction, isPlainObject, isString, Constructor } from '@viewjs/utils';
 import { ValidationErrors } from './errors';
-import { Constructor } from '@viewjs/types';
 
 export interface IValidationController {
     setValidationError(prop: string, error: ValidationErrors): void;

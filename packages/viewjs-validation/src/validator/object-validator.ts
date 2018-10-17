@@ -1,7 +1,7 @@
 import { ValidatorMap, IValidatorCollection, ValueMap } from './types';
 import { StringValidator } from './validator';
 import { ValidationErrors, ValidationError } from './errors';
-import { Constructor } from '@viewjs/types';
+import { Constructor } from '@viewjs/utils';
 import { Model } from '@viewjs/models';
 
 export type ObjectValidatorErrorLireral = { [key: string]: ValidationErrors };

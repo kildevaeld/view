@@ -1,7 +1,6 @@
-import { result, isFunction, isString, debug as Debug, pick, isPromise } from '@viewjs/utils'
+import { result, isFunction, isString, debug as Debug, pick, isPromise, AnyMap, Constructor } from '@viewjs/utils'
 import { IRenderer, IView, TemplateRef } from './types';
 import { View, BaseViewOptions } from './base-view';
-import { AnyMap, Constructor } from '@viewjs/types';
 
 const debug = Debug("withTemplate");
 

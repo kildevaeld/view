@@ -16,7 +16,6 @@
     "dependencies": {
         "@types/path-to-regexp": "^1.7.0",
         "@viewjs/events": "^2.0.0",
-        "@viewjs/types": "^1.0.0",
         "@viewjs/utils": "^2.0.0",
         "@viewjs/view": "^3.0.0",
         "path-to-regexp": "^2.2.1"

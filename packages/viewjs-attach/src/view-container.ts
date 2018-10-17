@@ -1,7 +1,6 @@
 import { IView } from '@viewjs/view';
 import { IAttachmentContainer, AttachOptions } from './types';
-import { Subscribable, Subscription, Condition, Destroyable } from '@viewjs/types';
-import { isFunction, isSubscribable, isPromise } from '@viewjs/utils';
+import { isFunction, isSubscribable, isPromise, Subscribable, Subscription, Condition, Destroyable } from '@viewjs/utils';
 import { Resolver } from './resolver';
 import { EventEmitter } from '@viewjs/events';
 

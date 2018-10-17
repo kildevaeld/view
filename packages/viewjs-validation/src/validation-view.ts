@@ -3,7 +3,7 @@ import { ValidationErrors } from './validator';
 import { withValidationView, IValidationView } from './with-validation';
 import { withBindings, IBindableView } from '@viewjs/bind';
 import { withModel, IModelController, IModel } from '@viewjs/models';
-import { Constructor } from '@viewjs/types';
+import { Constructor } from '@viewjs/utils';
 
 
 export interface ValidationViewOptions extends BaseViewOptions<HTMLElement> {

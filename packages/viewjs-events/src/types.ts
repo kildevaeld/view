@@ -1,4 +1,4 @@
-import { Destroyable } from '@viewjs/types'
+import { Destroyable } from '@viewjs/utils'
 
 /**
  * An EventListener listens for events on a EventEmitter

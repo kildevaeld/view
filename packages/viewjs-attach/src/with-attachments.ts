@@ -1,7 +1,6 @@
-import { Constructor } from '@viewjs/types';
 import { IView } from '@viewjs/view';
 import { IComponentView, IAttachmentContainer, AttachOptions } from './types';
-import { isString } from '@viewjs/utils';
+import { isString, Constructor } from '@viewjs/utils';
 import { ViewContainer } from './view-container';
 import { componentFromMeta } from './decorators';
 

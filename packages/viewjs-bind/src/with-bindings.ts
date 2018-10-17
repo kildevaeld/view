@@ -1,8 +1,7 @@
 import { View, EventsMap, IView } from '@viewjs/view';
 import { IModelController, IModel } from '@viewjs/models';
 import { html } from '@viewjs/html';
-import { isString, getOption, isDestroyable, isFunction } from '@viewjs/utils';
-import { Constructor } from '@viewjs/types';
+import { isString, getOption, isDestroyable, isFunction, Constructor } from '@viewjs/utils';
 import { Binding, BindingFactory, bindings } from './binding';
 
 export interface IBindableView {

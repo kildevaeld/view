@@ -1,8 +1,7 @@
-import { isString, isFunction, Base } from '@viewjs/utils';
+import { isString, isFunction, Base, Constructor } from '@viewjs/utils';
 import { IModel } from './types';
 import { Model } from './model';
 import { isEventEmitter } from '@viewjs/events'
-import { Constructor } from '@viewjs/types';
 
 
 export interface IModelController<M extends IModel> {

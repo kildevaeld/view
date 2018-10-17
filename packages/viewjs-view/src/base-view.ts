@@ -1,7 +1,6 @@
-import { uniqueId, result, debug as Debug, isString, isFunction, isCall, callFuncCond } from '@viewjs/utils';
+import { uniqueId, result, debug as Debug, isString, isFunction, isCall, callFuncCond, Call } from '@viewjs/utils';
 import { AbstractView } from './abstract-view'
 import { EventsMap, EventHandler, EventCall } from './types';
-import { Call } from '@viewjs/types';
 
 const debug = Debug("View");
 

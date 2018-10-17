@@ -1,5 +1,4 @@
-import { isObjectLike, isFunction } from "@viewjs/utils";
-import { Destroyable, AnyMap } from '@viewjs/types';
+import { isObjectLike, isFunction, Destroyable, AnyMap } from "@viewjs/utils";
 
 export interface IView extends Destroyable {
     render(): this;

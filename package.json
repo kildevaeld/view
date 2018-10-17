@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "build": "node_modules/.bin/lerna run build",
-    "create-package": "node packages/viewjs-tools/tasks/create.js"
+    "create-package": "node packages/viewjs-tools/tasks/create.js",
+    "count": "node packages/viewjs-tools/tasks/count.js"
   },
   "repository": {
     "type": "git",

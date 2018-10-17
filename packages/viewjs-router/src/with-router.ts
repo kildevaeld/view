@@ -1,6 +1,5 @@
 import { IView, View, BaseViewOptions } from '@viewjs/view';
-import { isFunction } from '@viewjs/utils';
-import { Constructor } from '@viewjs/types';
+import { isFunction, Constructor } from '@viewjs/utils';
 import { Router } from './router';
 import { Middleware } from './types';
 import { Context } from './context';

@@ -1,7 +1,7 @@
 import { IModel } from '@viewjs/models';
 import { EventEmitterListener, isEventEmitter } from '@viewjs/events';
 import { getValue, setValue } from '@viewjs/html';
-import { Factory } from '@viewjs/types';
+import { Factory } from '@viewjs/utils';
 
 export interface Binding {
     bind(): any;

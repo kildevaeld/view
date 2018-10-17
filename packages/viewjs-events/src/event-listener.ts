@@ -2,8 +2,7 @@
 import { IEventListener, IEventEmitter, EventHandler } from './types';
 import { EventEmitter } from './event-emitter';
 import { isEventEmitter } from './helpers';
-import { uniqueId, Base } from '@viewjs/utils';
-import { Constructor } from '@viewjs/types';
+import { uniqueId, Base, Constructor } from '@viewjs/utils';
 
 export function withEventListener<T extends Constructor<{}>>(Base: T): Constructor<IEventListener> & T {
     return class extends Base {

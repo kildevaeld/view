@@ -1,6 +1,5 @@
 import { IEventEmitter, EventHandler, Event } from './types';
-import { Constructor } from '@viewjs/types'
-import { callFuncCond, Base } from '@viewjs/utils';
+import { callFuncCond, Base, Constructor } from '@viewjs/utils';
 
 function removeFromListener(listeners: Event[], fn?: EventHandler, ctx?: any) {
     for (let i = 0; i < listeners.length; i++) {

@@ -1,8 +1,7 @@
 
 import { ValidationErrors, IValidatorCollection, ValidatorMap, ObjectValidatorError, ObjectValidatorErrorLireral } from './validator';
 import { View, DelegateEvent, EventsMap } from '@viewjs/view';
-import { result, has } from '@viewjs/utils';
-import { Constructor } from '@viewjs/types';
+import { result, has, Constructor } from '@viewjs/utils';
 import { getValue } from '@viewjs/html';
 import { Model } from '@viewjs/models';
 

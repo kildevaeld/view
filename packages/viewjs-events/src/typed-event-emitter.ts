@@ -1,6 +1,6 @@
 import { IEventEmitter } from './types';
 import { EventEmitter } from './event-emitter';
-import { Constructor } from '@viewjs/types';
+import { Constructor } from '@viewjs/utils';
 
 export interface EventConstructor<T> {
     new(...args: any[]): T

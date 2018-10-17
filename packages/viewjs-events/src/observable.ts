@@ -1,8 +1,7 @@
 import { EventEmitter } from './event-emitter';
 import { EventListener } from './event-listener';
 import { EventEmitterListener } from './event-emitter-listener';
-import { Base } from '@viewjs/utils';
-import { Subscribable, Subscription } from '@viewjs/types';
+import { Base, Subscribable, Subscription } from '@viewjs/utils';
 
 
 const events = {

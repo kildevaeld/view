@@ -1,6 +1,4 @@
-import { Deferred, resolve, deferred } from '@viewjs/utils';
-import { Resolvable } from '@viewjs/types';
-
+import { Deferred, resolve, deferred, Resolvable } from '@viewjs/utils';
 
 const enum State {
     Unresolved, Resolving, Resolved, Error

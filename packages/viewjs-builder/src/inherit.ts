@@ -1,5 +1,4 @@
-import { AnyMap, Constructor } from '@viewjs/types';
-import { isObject, has } from '@viewjs/utils';
+import { isObject, has, AnyMap, Constructor } from '@viewjs/utils';
 import { InheritableConstructor, ConstructorWithSuper } from './types';
 
 

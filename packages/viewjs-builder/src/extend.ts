@@ -1,6 +1,5 @@
 import { inherit } from './inherit';
-import { Base } from '@viewjs/utils';
-import { AnyMap, Constructor } from '@viewjs/types';
+import { Base, AnyMap, Constructor } from '@viewjs/utils';
 import { InheritableConstructor, ConstructorWithSuper } from './types';
 
 declare module '@viewjs/utils' {

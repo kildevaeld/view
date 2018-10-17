@@ -1,9 +1,8 @@
 
 import { ICollection, ModelConstructor } from './types';
-import { isFunction, Base as BaseObject, isString } from '@viewjs/utils';
+import { isFunction, Base as BaseObject, isString, Constructor } from '@viewjs/utils';
 import { isEventEmitter } from '@viewjs/events';
 import { ModelCollection } from './model-collection';
-import { Constructor } from '@viewjs/types';
 
 
 export interface ICollectionController<TCollection extends ICollection<TModel>, TModel> {

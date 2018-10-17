@@ -1,7 +1,6 @@
 import { View, BaseViewOptions } from './base-view'
-import { has, isFunction, isString } from '@viewjs/utils';
+import { has, isFunction, isString, Constructor } from '@viewjs/utils';
 import { EventsMap, EventCall } from './types';
-import { Constructor } from '@viewjs/types';
 
 export interface AttributesOptions {
     events?: EventsMap;

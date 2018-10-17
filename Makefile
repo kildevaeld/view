@@ -23,3 +23,6 @@ watch-example:
 create-package:
 	@yarn run create-package
 	@yarn
+
+count:
+	@yarn run count

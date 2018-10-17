@@ -1,4 +1,4 @@
-import { Call, Destroyable, Subscribable, Resolvable } from '@viewjs/types';
+import { Call, Destroyable, Subscribable, Resolvable } from './types';
 
 export class Base implements Destroyable {
     //static inherit = inherit;

@@ -15,8 +15,5 @@
   },
   "author": "",
   "license": "ISC",
-  "typings": "./lib/index.d.ts",
-  "dependencies": {
-    "@viewjs/types": "^1.0.0"
-  }
+  "typings": "./lib/index.d.ts"
 }
