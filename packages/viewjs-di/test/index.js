@@ -1,4 +1,4 @@
-const Container = require('../lib').Container;
+const Container = viewjs.di.Container
 
 
 
