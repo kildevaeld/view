@@ -7,8 +7,8 @@ const debug = Debug("View");
 
 const unbubblebles = 'focus blur change'.split(' ');
 
-export interface DelegateEvent extends Event {
-    delegateTarget?: Element;
+export interface DelegateEvent<E extends Element = HTMLElement> extends Event {
+    delegateTarget?: E;
 }
 
 export interface BaseViewConstructor<T extends View<U>, U extends Element> {
@@ -155,7 +155,7 @@ export class View<T extends Element = HTMLElement, OptionsType extends BaseViewO
                         debug('WARN: %s delegateTarget already set and node is not same', self);
                         continue;
                     }
-                    e.delegateTarget = node as Element;
+                    e.delegateTarget = node as HTMLElement;
                     debug("%s trigger %i listeners for '%s'-event on selector '%s'", self, domEvent!.listeners.length, domEvent!.eventName, domEvent!.selector)
                     callFuncCond(domEvent!.listeners, [e]);
 
