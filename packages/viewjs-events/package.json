@@ -1,19 +1,24 @@
 {
     "name": "@viewjs/events",
     "version": "2.0.0",
+    "license": "MIT",
+    "author": {
+        "email": "rasmuskildevaed@gmail.com",
+        "name": "Rasmus Kildevæld"
+    },
     "description": "",
-    "main": "./lib/index.js",
+    "main": "./index.js",
     "browser": "dist/viewjs.events.js",
     "module": "dist/viewjs.events.es6",
     "scripts": {
         "build": "./task compile",
         "watch": "./task watch",
         "clean": "./task clean",
-        "test": "./task test"
+        "test": "./task test",
+        "prepare": "./task compile",
+        "prepublishOnly": "./task test"
     },
     "sideEffects": false,
-    "author": "",
-    "license": "ISC",
     "dependencies": {
         "@viewjs/utils": "^2.0.0"
     },
