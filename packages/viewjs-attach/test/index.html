@@ -1,0 +1,28 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link href="../../../node_modules/mocha/mocha.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="mocha"></div>
+  
+  <script src="../../../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../../../node_modules/expect.js/index.js"></script>
+  <script src="../../../node_modules/sinon/pkg/sinon.js"></script>
+  <script src="../../../node_modules/mocha/mocha.js"></script>
+  <script src="../../../node_modules/@viewjs/utils/dist/viewjs.utils.js"></script>
+  <script src="../../../node_modules/@viewjs/view/dist/viewjs.view.js"></script>
+  <script src="../../../node_modules/@viewjs/events/dist/viewjs.events.js"></script>
+  <script src="../dist/viewjs.attach.js"></script>
+
+  <script>mocha.setup('bdd')</script>
+  <script src="with-attachedview.spec.js"></script>
+  <script>
+
+    mocha.checkLeaks();
+    mocha.globals(['jQuery', 'viewjs', 'sinon']);
+    mocha.run();
+  </script>
+</body>
+</html>
