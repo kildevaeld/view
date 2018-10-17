@@ -15,8 +15,7 @@
         "watch": "./task watch",
         "clean": "./task clean",
         "test": "echo 'Ok!'",
-        "prepare": "./task compile",
-        "prepublishOnly": "./task test"
+        "prepare": "./task compile"
     },
     "sideEffects": false,
     "dependencies": {
