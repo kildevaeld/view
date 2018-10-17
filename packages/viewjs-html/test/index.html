@@ -7,11 +7,14 @@
 <body>
   <div id="mocha"></div>
 
-  <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
-  <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
-  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
-  <script src="../node_modules/@viewjs/utils/dist/view.utils.js"></script>
-  <script src="../dist/view.html.js"></script>
+  <script src="../../../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../../../node_modules/expect.js/index.js"></script>
+  <script src="../../../node_modules/sinon/pkg/sinon.js"></script>
+  <script src="../../../node_modules/mocha/mocha.js"></script>
+  <script src="../../../node_modules/@viewjs/utils/dist/viewjs.utils.js"></script>
+  <script src="../../../node_modules/@viewjs/view/dist/viewjs.view.js"></script>
+
+  <script src="../dist/viewjs.html.js"></script>
 
   <script>mocha.setup('bdd')</script>
   <script src="query.spec.js"></script>
