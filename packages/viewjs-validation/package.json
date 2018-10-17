@@ -1,8 +1,13 @@
 {
     "name": "@viewjs/validation",
     "version": "2.0.0",
+    "license": "MIT",
+    "author": {
+        "email": "rasmuskildevaed@gmail.com",
+        "name": "Rasmus Kildevæld"
+    },
     "description": "",
-    "main": "./lib/index.js",
+    "main": "./index.js",
     "browser": "dist/viewjs.validation.js",
     "module": "dist/viewjs.validation.es6",
     "private": false,
@@ -10,11 +15,11 @@
         "build": "./task compile",
         "watch": "./task watch",
         "clean": "./task clean",
-        "test": "./task test"
+        "test": "./task test",
+        "prepare": "./task compile",
+        "prepublishOnly": "./task test"
     },
     "sideEffects": false,
-    "author": "",
-    "license": "ISC",
     "dependencies": {
         "@viewjs/utils": "^2.0.0",
         "@viewjs/models": "^2.0.0",
