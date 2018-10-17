@@ -1,23 +1,28 @@
 {
   "name": "@viewjs/view",
   "version": "3.0.0",
+  "license": "MIT",
+  "author": {
+    "email": "rasmuskildevaed@gmail.com",
+    "name": "Rasmus Kildevæld"
+  },
   "description": "",
   "sideEffects": false,
-  "main": "./lib/index.js",
+  "main": "./index.js",
   "browser": "dist/viewjs.view.js",
   "module": "dist/viewjs.view.es6",
   "scripts": {
     "build": "./task compile",
     "watch": "./task watch",
     "clean": "./task clean",
-    "test": "./task test"
+    "test": "./task test",
+    "prepare": "./task compile",
+    "prepublishOnly": "./task test"
   },
-
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@viewjs/utils": "^2.0.0",
     "reflect-metadata": "^0.1.12"
   },
+
   "types": "./lib/index.d.ts"
 }
