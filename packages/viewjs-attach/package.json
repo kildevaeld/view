@@ -1,18 +1,23 @@
 {
     "name": "@viewjs/attach",
     "version": "1.0.0",
+    "license": "MIT",
+    "author": {
+        "email": "rasmuskildevaed@gmail.com",
+        "name": "Rasmus Kildevæld"
+    },
     "description": "",
-    "main": "./lib/index.js",
+    "main": "./index.js",
     "browser": "dist/viewjs.attach.js",
     "module": "dist/viewjs.attach.es6",
     "scripts": {
         "build": "./task compile",
         "watch": "./task watch",
-        "clean": "./task clean"
+        "clean": "./task clean",
+        "prepare": "./task compile",
+        "prepublishOnly": "./task test"
     },
     "sideEffects": false,
-    "author": "",
-    "license": "ISC",
     "dependencies": {
         "@viewjs/utils": "^2.0.0",
         "@viewjs/view": "^3.0.0",

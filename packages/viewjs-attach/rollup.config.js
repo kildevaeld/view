@@ -15,13 +15,14 @@ module.exports = [
             name: 'viewjs.attach',
             globals: {
                 '@viewjs/utils': 'viewjs.utils',
-                '@viewjs/view': 'viewjs.view'
+                '@viewjs/view': 'viewjs.view',
+                '@viewjs/events': 'viewjs.events'
             }
         }, {
             file: pkg.module,
             format: 'es',
         }],
-        external: ["@viewjs/utils", '@viewjs/view'],
+        external: ["@viewjs/utils", '@viewjs/view', '@viewjs/events'],
         plugins: [
             typescript({
                 exclude: ['node_modules/**'],
