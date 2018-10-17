@@ -1,6 +1,6 @@
 {
     "name": "@viewjs/models",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "",
     "main": "./lib/index.js",
     "browser": "dist/viewjs.models.js",
@@ -15,8 +15,8 @@
     "license": "ISC",
     "dependencies": {
         "@viewjs/types": "^1.0.0",
-        "@viewjs/utils": "^1.8.0",
-        "@viewjs/events": "^1.0.0"
+        "@viewjs/utils": "^2.0.0",
+        "@viewjs/events": "^2.0.0"
     },
     "types": "./lib/index.d.ts"
 }

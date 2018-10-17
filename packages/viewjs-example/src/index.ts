@@ -6,6 +6,8 @@ import { global } from '@viewjs/di';
 import { setInvoker } from '@viewjs/utils';
 import { AppRouter } from './routes';
 import { create as createHeader } from './header';
+import { create as createFooter } from './footer';
+import { PreactView } from '@viewjs/preact';
 
 setInvoker(global())
 
@@ -14,6 +16,10 @@ setInvoker(global())
         view: () => createHeader({ title: 'Blog 2' }),
         selector: '.header',
         name: 'header'
+    },
+    footer: {
+        view: createFooter,
+        selector: '.footer',
     },
     routerView: {
         view: () => {
@@ -29,7 +35,11 @@ class Application extends withAttachment(TemplateView) {
     template = `<div>
         <header class="header"></header>
     </div>
-    <div class="container"></div>`;
+    <div class="container"></div>
+    <div>
+        <section class="footer"></footer>
+    </div>
+    `;
 
 
     @event.click('.menu li a')
@@ -37,6 +47,18 @@ class Application extends withAttachment(TemplateView) {
         e.preventDefault()
         this.attachView('routerView')!.getInstance<AppRouter>().router.navigate(e.delegateTarget!.getAttribute('href')!)
     }
+
+    viewDidAttach(name: string, view: any) {
+        if (name == 'footer') {
+            (view as PreactView<any, any>).model = { title: 'test' }
+            setTimeout(() => {
+                (view as PreactView<any, any>).model = { title: 'test 2' }
+                view.render();
+            }, 1000);
+        }
+    }
+
+
 
 }
 

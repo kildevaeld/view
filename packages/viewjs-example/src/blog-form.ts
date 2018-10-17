@@ -15,7 +15,7 @@ export class BlogFormView extends withTemplate(ValidationView) {
     template = `<form>
         <div class="form-field">
             <label for="title">Title</label>
-            <input type="text" name="title" required />
+            <input type="text" name="title" bind="title" required />
         </div>
         <div class="form-field">
             <label for="body">Body</label>
@@ -29,11 +29,14 @@ export class BlogFormView extends withTemplate(ValidationView) {
     collection!: BlogCollection;
 
     @event.click('button.save', function (this: BlogFormView, e: [MouseEvent]) {
+
+        console.log('condition', this.isValid());
         return this.isValid();
     })
     onSave() {
         this.collection.push(this.model);
         this.collection.save()
+        console.log(this.collection)
         global().get<AppRouter>(AppRouter).router.navigate('/');
     }
 

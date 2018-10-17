@@ -1,6 +1,6 @@
 {
     "name": "@viewjs/validation",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "",
     "main": "./lib/index.js",
     "browser": "dist/viewjs.validation.js",
@@ -17,12 +17,12 @@
     "license": "ISC",
     "dependencies": {
         "@viewjs/types": "^1.0.0",
-        "@viewjs/utils": "^1.8.0",
-        "@viewjs/models": "^1.0.0",
-        "@viewjs/view": "^2.7.3",
-        "@viewjs/events": "^1.0.0",
+        "@viewjs/utils": "^2.0.0",
+        "@viewjs/models": "^2.0.0",
+        "@viewjs/view": "^3.0.0",
+        "@viewjs/events": "^2.0.0",
         "@viewjs/bind": "^1.0.0",
-        "@viewjs/html": "^1.0.0"
+        "@viewjs/html": "^2.0.0"
     },
     "types": "./lib/index.d.ts"
 }

@@ -3,14 +3,16 @@ import { IAttachmentContainer, AttachOptions } from './types';
 import { Subscribable, Subscription, Condition, Destroyable } from '@viewjs/types';
 import { isFunction, isSubscribable, isPromise } from '@viewjs/utils';
 import { Resolver } from './resolver';
+import { EventEmitter } from '@viewjs/events';
 
-export class ViewContainer implements IAttachmentContainer, Destroyable {
+export class ViewContainer extends EventEmitter implements IAttachmentContainer, Destroyable {
 
     private _subscription: Subscription | undefined;
     private _shouldRender: boolean = true;
     private _view: IView | undefined;
     private _resolver: Resolver<IView> | undefined;
     private _condition: Condition<IView> | undefined;
+
 
     set condition(condition: Condition<IView> | undefined) {
         if (this._subscription) {
@@ -33,6 +35,7 @@ export class ViewContainer implements IAttachmentContainer, Destroyable {
     }
 
     constructor(public parent: IView, public options: AttachOptions) {
+        super();
         if (options.condition)
             this.condition = options.condition;
     }
@@ -66,6 +69,7 @@ export class ViewContainer implements IAttachmentContainer, Destroyable {
         }
 
         this._view.render();
+        this.trigger('render', this.options.name, this._view);
 
         return this;
 
@@ -73,8 +77,10 @@ export class ViewContainer implements IAttachmentContainer, Destroyable {
 
     unmount() {
         if (!this._view || !this._view.el) return this;
+        this.trigger('unmount', this.options.name, this._view);
         this._view.destroy()
         this._view = void 0;
+
         //this._view.el = void 0;
         return this;
     }
@@ -129,6 +135,7 @@ export class ViewContainer implements IAttachmentContainer, Destroyable {
         return this._resolver!.resolve()
             .then(view => {
                 this._view = view;
+                this.trigger('attach', this.options.name, view);
                 return view;
             });
     }

@@ -1,6 +1,6 @@
 {
   "name": "@viewjs/view",
-  "version": "2.7.3",
+  "version": "3.0.0",
   "description": "",
   "sideEffects": false,
   "main": "./lib/index.js",
@@ -17,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@viewjs/types": "^1.0.0",
-    "@viewjs/utils": "^1.8.0",
+    "@viewjs/utils": "^2.0.0",
     "reflect-metadata": "^0.1.12"
   },
   "types": "./lib/index.d.ts"

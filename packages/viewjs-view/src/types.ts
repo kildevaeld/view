@@ -16,9 +16,11 @@ export interface EventCall {
 
 export interface EventsMap { [key: string]: (EventHandler<Event> | string | EventCall)[] | EventHandler<Event> | string | EventCall }
 
+export type TemplateRef = any;
+
 export interface IRenderer {
-    mount(attributes: AnyMap<any>, container: Element, prev: Element | undefined): Element;
-    unmount(el: Element): boolean;
+    mount(attributes: AnyMap<any>, container: Element, prev: Element | undefined): TemplateRef | Promise<TemplateRef>;
+    unmount(el: TemplateRef): boolean;
 }
 
 

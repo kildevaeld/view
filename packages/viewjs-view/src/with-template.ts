@@ -1,5 +1,5 @@
-import { result, isFunction, isString, debug as Debug, pick } from '@viewjs/utils'
-import { IRenderer, IView } from './types';
+import { result, isFunction, isString, debug as Debug, pick, isPromise } from '@viewjs/utils'
+import { IRenderer, IView, TemplateRef } from './types';
 import { View, BaseViewOptions } from './base-view';
 import { AnyMap, Constructor } from '@viewjs/types';
 
@@ -17,7 +17,7 @@ export interface IViewTemplate<M> {
      */
     template?: TemplateType;
     getTemplateData(): any;
-    renderTemplate(): void
+    //renderTemplate(): void
 }
 
 export class TemplateRenderer {
@@ -62,7 +62,7 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
         //static inherit = inherit;
 
         _renderer: IRenderer | undefined;
-        _templateEl: Element | undefined;
+        _templateEl: TemplateRef | undefined;
 
         model?: M | (() => M);
         template?: TemplateType;
@@ -79,8 +79,8 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
             if (!this.el) return this;
             if (isFunction((this as any).undelegateEvents))
                 (this as any).undelegateEvents();
-            this.renderTemplate();
-            return super.render();
+            this.renderTemplate(() => super.render());
+            return this
         }
 
         destroy() {
@@ -93,14 +93,26 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
             return super.destroy();
         }
 
-        renderTemplate() {
+        renderTemplate(done?: () => any) {
 
             const template = this.resolveTemplate(),
                 container = this.resolveContainer();
 
             if (!template || !container) return;
 
-            this._templateEl = template.mount(this.getTemplateData(), container, this._templateEl)
+            const result = template.mount(this.getTemplateData(), container, this._templateEl)
+
+            if (isPromise(result)) {
+                result.then(m => {
+                    this._templateEl = m;
+                    done && done();
+                })
+                return;
+            }
+
+            this._templateEl = result;
+            done && done();
+
 
         }
 
@@ -118,6 +130,8 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
         resolveContainer() {
             return this.el;
         }
+
+
 
 
     }

@@ -1,7 +1,7 @@
 import { IView } from '@viewjs/view';
-import { Constructor, Condition } from '@viewjs/types';
+import { Constructor, Condition, Resolvable } from '@viewjs/types';
 import { IComponentView, AttachOptions } from './types';
-import { Resolvable } from './resolver';
+// import { Resolvable } from './resolver';
 import { Invoker, isString, isFunction, isDestroyable } from '@viewjs/utils'
 
 const ComponentsKey = Symbol('view@attachments');

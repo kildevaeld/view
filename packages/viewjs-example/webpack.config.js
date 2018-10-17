@@ -60,7 +60,10 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin(),
-        new WebpackBundleSizeAnalyzerPlugin('plain-report2.txt')
+        new WebpackBundleSizeAnalyzerPlugin('plain-report2.txt'),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
     ],
     node: {
         console: false,

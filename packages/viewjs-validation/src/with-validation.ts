@@ -165,11 +165,8 @@ export function withValidationView<
         }
 
         private _getValidations(): ValidatorMap {
-            // const ui = (<any>this)._ui || this.ui,
-            //     validations = result(this, 'validations') || {},
-            //     v: any = normalizeUIKeys(validations, ui);
-
-            return {}//void 0 //v;
+            const validations = result<ValidatorMap>(this, 'validations') || {}
+            return validations;
         }
 
         private _getValidationContext(map?: ValidatorMap, ignore: string[] = []): Model {

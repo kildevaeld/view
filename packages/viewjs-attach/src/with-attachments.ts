@@ -30,6 +30,10 @@ export function withAttachment<T extends Constructor<IView>>(Base: T): T & Const
 
 
             const container = new ViewContainer(this, options);
+            container
+                .on('attach', this.viewDidAttach, this)
+                .on('render', this.viewDidRender, this)
+                .on('unmount', this.viewDidUnmount, this);
 
             this._attachments.push(container);
 
@@ -37,6 +41,15 @@ export function withAttachment<T extends Constructor<IView>>(Base: T): T & Const
                 container.render();
             }
 
+            return this;
+        }
+
+        unAttachView(name: string) {
+            const found = this._attachments.findIndex(m => m.options.name === name);
+            if (found != -1) {
+                this._attachments[found].destroy();
+                this._attachments.splice(found, 1);
+            }
             return this;
         }
 
@@ -48,12 +61,24 @@ export function withAttachment<T extends Constructor<IView>>(Base: T): T & Const
             return this;
         }
 
+        viewDidAttach(_name: string, _view: IView) { }
+
+        viewDidRender(_name: string, _view: IView) { }
+
+        viewDidUnmount(_name: string, _view: IView) { }
 
         protected renderAttachments() {
             for (let i = 0, ii = this._attachments.length; i < ii; i++) {
                 this._attachments[i].render();
             }
         }
+
+        destroy() {
+            this._attachments.forEach(m => m.destroy());
+            this._attachments.length = 0;
+            return super.destroy();
+        }
+
 
     };
 }

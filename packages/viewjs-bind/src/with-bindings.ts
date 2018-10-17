@@ -47,9 +47,11 @@ export function withBindings<T extends Constructor<View & IModelController<M>>, 
             return super.undelegateEvents();
         }
 
-        bindElement(name: string): Binding;
+        bindElement(selector: string): Binding;
         bindElement(options: BindingOptions): this
-        bindElement(options: string | BindingOptions): any { }
+        bindElement(_options: string | BindingOptions): any {
+
+        }
 
         private _unbindModelDom() {
             if (!this.el || !this.model || !this._bindings) return;
@@ -80,22 +82,30 @@ export function withBindings<T extends Constructor<View & IModelController<M>>, 
                 }
                 if (!b) throw new TypeError(`invalid binding type: ${m.binding}`);
                 return (b as BindingFactory)(el, this.model!, m.prop);
+            }).map(m => {
+                m.bind();
+                return m;
             });
+
+
         }
 
         private _parse() {
             let out: BindingDescription[] = []
             const attr = getOption<string>('bindingAttribute', [this, this.options]) || 'bind'
+
             for (let key in bindings) {
-                let a = attr + '-' + key;
+                //let a = attr + '-' + key;
+                let a = `${attr}`
                 html(this.el!).find(`[${a}]`).forEach(m => {
                     out.push({
                         selector: m,
-                        prop: m.getAttribute(a)!,
+                        prop: m.getAttribute(`${a}`)!,
                         binding: key
                     });
                 });
             }
+
             return out;
         }
 

@@ -1,6 +1,6 @@
 {
     "name": "@viewjs/html",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "",
     "main": "./lib/index.js",
     "browser": "dist/viewjs.html.js",
@@ -14,7 +14,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@viewjs/utils": "^1.8.0"
+        "@viewjs/utils": "^2.0.0"
     },
     "types": "./lib/index.d.ts"
 }

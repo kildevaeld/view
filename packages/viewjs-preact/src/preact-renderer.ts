@@ -4,7 +4,6 @@ import { unmountComponent } from './utils';
 
 export type ComponentType<P, S> = ComponentConstructor<P, S> | FunctionalComponent<P>
 
-
 export class PreactRenderer<
     P,
     S> implements IRenderer {

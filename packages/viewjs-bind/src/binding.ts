@@ -1,4 +1,4 @@
-import { Model, IModel } from '@viewjs/models';
+import { IModel } from '@viewjs/models';
 import { EventEmitterListener, isEventEmitter } from '@viewjs/events';
 import { getValue, setValue } from '@viewjs/html';
 import { Factory } from '@viewjs/types';
@@ -43,7 +43,13 @@ export class ValueBinding extends AbstractBinding {
 
     private _domEventType: string | undefined;
 
+    constructor(public el: Element, public model: IModel, public prop: string) {
+        super(el, model, prop);
+        this.onElementChanged = this.onElementChanged.bind(this);
+    }
+
     bind() {
+
         super.bind()
         let tagName = this.el.tagName.toLowerCase();
         if (~twoWay.indexOf(tagName)) {
@@ -54,6 +60,8 @@ export class ValueBinding extends AbstractBinding {
             } else
                 this.el.addEventListener('change', this.onElementChanged);
         }
+
+        this.onModelChange();
     }
 
     unbind() {
