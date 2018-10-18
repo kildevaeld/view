@@ -44,3 +44,12 @@ const emptyParameters = Object.freeze([]);
 export function autoinject(target: any) {
     target.inject = Reflect.getOwnMetadata('design:paramtypes', target) || emptyParameters;
 }
+
+/**
+ * Auto inject dependencies.
+ */
+export function inject(deps: any[]) {
+    return function (target: any) {
+        target.inject = deps
+    }
+}
