@@ -1,7 +1,8 @@
 export * from './html';
 export * from './types';
 export * from './events';
-export * from './utils'
+export * from './utils';
+export * from './ui-view';
 
 import { Html } from './html';
 import { normalize } from './utils';
