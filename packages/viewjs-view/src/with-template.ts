@@ -4,7 +4,7 @@ import { View, BaseViewOptions } from './base-view';
 
 const debug = Debug("withTemplate");
 
-export type TemplateType = IRenderer | string | ((args?: AnyMap) => string);
+export type TemplateType<T = AnyMap> = IRenderer | string | ((args?: T) => string);
 
 export interface IViewTemplate<M> {
     model?: M | (() => M);
@@ -14,16 +14,16 @@ export interface IViewTemplate<M> {
      * 
      * @memberof IViewTemplate
      */
-    template?: TemplateType;
+    template?: TemplateType<M>;
     getTemplateData(): any;
     //renderTemplate(): void
 }
 
-export class TemplateRenderer {
+export class TemplateRenderer<M> {
 
-    constructor(private templ: string | ((args?: AnyMap) => string)) { }
+    constructor(private templ: string | ((args?: M) => string)) { }
 
-    mount(attributes: AnyMap<any>, container: Element, _prev: Element | undefined): Element {
+    mount(attributes: M, container: Element, _prev: Element | undefined): Element {
 
         let result: string | undefined;
         if (isFunction(this.templ)) {
@@ -64,7 +64,7 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
         _templateEl: TemplateRef | undefined;
 
         model?: M | (() => M);
-        template?: TemplateType;
+        template?: TemplateType<M>;
 
         getTemplateData() {
             let data: any = result(this, 'model') || {};
@@ -137,12 +137,12 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
 }
 
 export interface TemplateViewOptions<ModelType = any> extends BaseViewOptions<HTMLElement> {
-    template?: TemplateType;
+    template?: TemplateType<ModelType>;
     model?: ModelType;
 }
 
 export class TemplateView<ModelType = any> extends withTemplate<Constructor<View<HTMLElement>>>(View) {
-    template?: TemplateType;
+    template?: TemplateType<ModelType>;
     model?: ModelType;
     readonly options!: TemplateViewOptions<ModelType>;
 
