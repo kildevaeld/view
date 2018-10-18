@@ -97,4 +97,3 @@ export namespace collection {
     export const add = collection(ModelEvents.Add);
     export const remove = collection(ModelEvents.Remove);
 }
-
