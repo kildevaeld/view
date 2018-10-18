@@ -1,12 +1,13 @@
 import { ArrayCollection, ArrayCollectionPushOptions, ArrayCollectionResetOptions } from './array-collection';
 import { ModelConstructor } from './types';
 import { Model } from './model';
-import { Invoker, isPlainObject } from '@viewjs/utils';
+import { Invoker, isPlainObject, inject } from '@viewjs/utils';
 
 export interface ModelCollectionOptions<M extends Model> {
     Model?: ModelConstructor<M>
 }
 
+@inject([])
 export class ModelCollection<M extends Model> extends ArrayCollection<M> {
     private _Model: ModelConstructor<M> | undefined;
 
