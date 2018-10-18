@@ -1,6 +1,6 @@
 import { ICollection, ModelEvents, MetaKeys, Options } from './types';
 import { EventEmitter } from '@viewjs/events';
-import { isString, isObject, isFunction, isDestroyable } from '@viewjs/utils';
+import { isString, isObject, isFunction, isDestroyable, inject } from '@viewjs/utils';
 import { isModel } from './model';
 
 
@@ -37,6 +37,7 @@ export interface ArrayCollectionPushOptions extends Options { }
 
 export interface ArrayCollectionPopOptions extends Options { }
 
+@inject([])
 export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
     constructor(array: Array<T> = []) {
         super();
