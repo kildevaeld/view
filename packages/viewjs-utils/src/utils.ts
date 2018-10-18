@@ -181,3 +181,32 @@ export function deferred<T>(): Deferred<T> {
 
     return { promise, resolve, reject } as any;
 }
+
+/**
+ * Trigger an event on an object, if it's an eventemitter.
+ * Will also call an method "on<EventName>" if it's exists
+ * 
+ * @export
+ * @template T 
+ * @param {T} self 
+ * @param {string} eventName 
+ * @param {...any[]} args 
+ */
+export function triggerMethodOn<T extends any>(self: T, eventName: string, ...args: any[]) {
+    const ev = camelcase("on-" + eventName.replace(':', '-'))
+
+    if ((<any>self)[ev] && typeof (<any>self)[ev] === 'function') {
+        callFuncCond([{
+            handler: (<any>self)[ev],
+            ctx: self
+        } as any], args);
+    }
+
+    if (isFunction((<any>self).trigger)) {
+        args = [eventName].concat(args)
+        callFuncCond([{
+            handler: (<any>self).trigger,
+            ctx: self
+        }], args);
+    }
+}
