@@ -34,3 +34,13 @@ export function setInvoker(i?: IInvoker) {
     if (!i) i = defaultInvoker;
     Invoker = i;
 }
+
+
+const emptyParameters = Object.freeze([]);
+
+/**
+ * Auto inject dependencies.
+ */
+export function autoinject(target: any) {
+    target.inject = Reflect.getOwnMetadata('design:paramtypes', target) || emptyParameters;
+}
