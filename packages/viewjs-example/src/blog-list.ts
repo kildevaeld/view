@@ -1,19 +1,18 @@
-import { TemplateView, event, DelegateEvent } from '@viewjs/view';
+import { TemplateView, event, DelegateEvent, withElement, attributes } from '@viewjs/view';
 import { withCollection } from '@viewjs/collection';
 import { BlogEntry, BlogCollection } from './models';
 import { autoinject, global } from '@viewjs/di';
 import { AppRouter } from './routes';
+import { Constructor } from '@viewjs/utils';
 
-
-class BlogListItemView extends TemplateView<BlogEntry> {
+@attributes({
+    tagName: 'section'
+})
+class BlogListItemView extends withElement<Constructor<TemplateView<BlogEntry>>>(TemplateView) {
     template = () => `<div data-id="${this.model!.id}">
         <h2>${this.model!.title}</h2>
         <p>${this.model!.body}</p>
     </div>`
-    constructor() {
-        super();
-        this.el = document.createElement('section')
-    }
 }
 
 @autoinject

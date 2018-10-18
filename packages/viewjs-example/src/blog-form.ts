@@ -5,12 +5,17 @@ import { global } from '@viewjs/di';
 import { uniqueId } from '@viewjs/utils';
 import { injectProp } from './utils';
 import { AppRouter } from './routes';
+import { ui, withUIMap } from '@viewjs/html';
+
 
 @validations({
     '[name="title"]': validations.string("title").required(),
     '[name="body"]': validations.string("body").required()
 })
-export class BlogFormView extends withTemplate(ValidationView) {
+@ui({
+    form: 'form'
+})
+export class BlogFormView extends withUIMap(withTemplate(ValidationView)) {
     model = new BlogEntry({ id: uniqueId() })
     template = `<form>
         <div class="form-field">
@@ -29,11 +34,10 @@ export class BlogFormView extends withTemplate(ValidationView) {
     collection!: BlogCollection;
 
     @event.click('button.save', function (this: BlogFormView, e: [MouseEvent]) {
-
-        console.log('condition', this.isValid());
         return this.isValid();
     })
     onSave() {
+
         this.collection.push(this.model);
         this.collection.save()
         console.log(this.collection)
