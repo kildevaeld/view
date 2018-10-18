@@ -10,7 +10,7 @@ export interface Constructor<T> {
 
 export type Resolvable<R, A = any> = R | PromiseLike<R> | ((args?: A) => R | PromiseLike<R>);
 
-export type Factory<T, U extends any[]> = (...args: U[]) => T;
+export type Factory<T, U extends any[]> = (...args: U) => T;
 
 export type AnyMap<T = any> = { [key: string]: T };
 
