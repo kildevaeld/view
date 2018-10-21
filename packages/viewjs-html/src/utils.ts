@@ -108,7 +108,6 @@ export function isIterable<T>(obj: any): obj is Iterable<T> {
     return typeof obj[Symbol.iterator] === 'function';
 }
 
-
 export function normalize(query: string | HTMLElement | Element | Html | Node | ArrayLike<Html> | ArrayLike<Node> | ArrayLike<Element>, context?: string | Element, out: Element[] = []): Array<HTMLElement> {
     if (isString(context)) {
         let q = document.querySelector(context);
@@ -122,13 +121,13 @@ export function normalize(query: string | HTMLElement | Element | Html | Node | 
             out.push(...parseHTML(query));
         } else {
             const o = (context ? context : document).querySelectorAll(query)
-            out.push(...o);
+            out.push(...slice(o));
         }
 
     } else if (isElement(query)) {
         out.push(query);
     } else if (query && query instanceof Html) {
-        out.push(...query);
+        out.push(...(query as any)._elements);
     } else if (isArrayLike(query)) {
         for (let i = 0, ii = query.length; i < ii; i++) {
             normalize(query[i], context, out);
