@@ -16,7 +16,8 @@ describe('Query', () => {
 
     it('should create element', () => {
         let el = viewjs.html.normalize('<div class="test"></div>');
-        console.log(el);
+        expect(el).to.have.length(1);
+        expect(el[0]).to.be.an(HTMLElement);
     });
 
     it('should be a ierator', () => {
@@ -50,7 +51,9 @@ describe('Query', () => {
         let e1 = viewjs.html.html('.btn1', context),
             e2 = viewjs.html.html('.btn2', context);
 
-        console.log(e1, e2, viewjs.html.html([e1, e2]));
+        let e3 = viewjs.html.html([e1, e2]);
+        expect(e1.get(0)).to.be(e3.get(0));
+        expect(e2.get(0)).to.be(e3.get(1));
 
     });
 
