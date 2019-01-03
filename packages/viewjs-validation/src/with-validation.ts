@@ -2,7 +2,7 @@
 import { ValidationErrors, IValidatorCollection, ValidatorMap, ObjectValidatorError, ObjectValidatorErrorLireral } from './validator';
 import { View, DelegateEvent, EventsMap } from '@viewjs/view';
 import { result, has, Constructor } from '@viewjs/utils';
-import { getValue } from '@viewjs/html';
+import { getValue, getUIMap, normalizeUIKeys, normalizeUIString } from '@viewjs/html';
 import { Model } from '@viewjs/models';
 
 
@@ -106,6 +106,10 @@ export function withValidationView<
 
             }
 
+
+            const uiMap = getUIMap(this);
+            events = normalizeUIKeys(events, uiMap);
+
             super.delegateEvents(events);
 
             return this;
@@ -169,13 +173,15 @@ export function withValidationView<
         }
 
         private _getValidationContext(map?: ValidatorMap, ignore: string[] = []): Model {
+            const uiMap = getUIMap(this);
+
             map = map || this._getValidations();
             let val: any = {}, el: HTMLElement | null, k: string;
             for (let key in map) {
                 k = map[key].key() || key;
                 if (~ignore.indexOf(k))
                     continue;
-                el = this.el!.querySelector(key);
+                el = this.el!.querySelector(normalizeUIString(key, uiMap));
 
                 val[k] = getValue(el!);
             }

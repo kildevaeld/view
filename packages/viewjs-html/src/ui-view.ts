@@ -28,6 +28,10 @@ export function ui(ui: UIStringMap) {
     }
 }
 
+export function getUIMap(target: any): UIStringMap {
+    return Reflect.getMetadata(UiMapMetaKey, target) || {};
+}
+
 
 export function withUIMap<T extends Constructor<View>>(Base: T): T & Constructor<UIView> {
 

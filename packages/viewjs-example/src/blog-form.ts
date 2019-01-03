@@ -8,12 +8,16 @@ import { AppRouter } from './routes';
 import { ui, withUIMap } from '@viewjs/html';
 
 
+
 @validations({
-    '[name="title"]': validations.string("title").required(),
-    '[name="body"]': validations.string("body").required()
+    '@titleInput': validations.string("title").required(),
+    '@bodyInput': validations.string("body").required()
 })
 @ui({
-    form: 'form'
+    form: 'form',
+    saveBtn: 'button.save',
+    titleInput: '[name="title"]',
+    bodyInput: '[name="body"]'
 })
 export class BlogFormView extends withUIMap(withTemplate(ValidationView)) {
     model = new BlogEntry({ id: uniqueId() })
@@ -33,7 +37,7 @@ export class BlogFormView extends withUIMap(withTemplate(ValidationView)) {
     @injectProp
     collection!: BlogCollection;
 
-    @event.click('button.save', function (this: BlogFormView, e: [MouseEvent]) {
+    @event.click('@saveBtn', function (this: BlogFormView, e: [MouseEvent]) {
         return this.isValid();
     })
     onSave() {
