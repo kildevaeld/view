@@ -10,9 +10,12 @@
         "watch": "./task watch",
         "clean": "./task clean"
     },
+    "license": "MIT",
+    "author": {
+        "email": "rasmuskildevaed@gmail.com",
+        "name": "Rasmus Kildevæld"
+    },
     "sideEffects": false,
-    "author": "",
-    "license": "ISC",
     "dependencies": {
         "@types/react": "^16.4.16",
         "@types/react-dom": "^16.0.9",
