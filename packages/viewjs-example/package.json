@@ -16,7 +16,6 @@
     "@viewjs/utils": "^2.0.0",
     "@viewjs/events": "^2.0.0",
     "@viewjs/builder": "^1.0.0",
-    "@viewjs/types": "^1.0.0",
     "@viewjs/router": "^1.0.0",
     "@viewjs/di": "^2.0.0",
     "@viewjs/models": "^2.0.0",
