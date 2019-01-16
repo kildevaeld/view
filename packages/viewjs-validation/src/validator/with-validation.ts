@@ -1,4 +1,4 @@
-import { ObjectValidator, ValidationOptions, ObjectValidatorErrorLireral } from './object-validator';
+import { ObjectValidator, ValidationOptions, ObjectValidatorErrorLiteral } from './object-validator';
 import { ValidatorMap } from './types';
 import { isFunction, isPlainObject, isString, Constructor } from '@viewjs/utils';
 import { ValidationErrors } from './errors';
@@ -28,7 +28,7 @@ export function withValidation(input?: ((model: Serializable) => ObjectValidator
         return class extends Base {
 
             private _validator!: ObjectValidator;
-            private _errors: ObjectValidatorErrorLireral | undefined = void 0;
+            private _errors: ObjectValidatorErrorLiteral | undefined = void 0;
 
             get validator() {
                 if (!this._validator) {
