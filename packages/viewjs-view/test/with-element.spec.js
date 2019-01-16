@@ -1,6 +1,6 @@
 const vn = viewjs.view;
 
-describe.skip("WithElement", () => {
+describe("WithElement", () => {
 
     it('should create element', () => {
         let view = new(vn.withElement(vn.View));
