@@ -18,6 +18,10 @@ export class Header extends React.Component<HeaderProps, any> {
     }
 
 
+    componentWillUnmount() {
+        console.log('will unmount');
+    }
+
 }
 
 
