@@ -129,10 +129,6 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
         resolveContainer() {
             return this.el;
         }
-
-
-
-
     }
 }
 
