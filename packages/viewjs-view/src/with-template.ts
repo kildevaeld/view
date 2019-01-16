@@ -1,5 +1,5 @@
 import { result, isFunction, isString, debug as Debug, pick, isPromise, AnyMap, Constructor } from '@viewjs/utils'
-import { IRenderer, IView, TemplateRef } from './types';
+import { IRenderer, IView, TemplateRef, isRenderer } from './types';
 import { View, BaseViewOptions } from './base-view';
 
 const debug = Debug("withTemplate");
@@ -120,10 +120,13 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
             if (this._renderer) return this._renderer;
             if (isString(this.template) || isFunction(this.template)) {
                 this._renderer = new TemplateRenderer(this.template);
-                return this._renderer;
+            } else if (isRenderer(this.template)) {
+                this._renderer = this.template;
+            } else if (this.template) {
+                console.error("template should be a string, a function returning a string, or a renderer or a renderer");
             }
 
-            return this.template
+            return this._renderer;
         }
 
         resolveContainer() {
