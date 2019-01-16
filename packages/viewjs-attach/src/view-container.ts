@@ -52,6 +52,8 @@ export class ViewContainer extends EventEmitter implements IAttachmentContainer,
 
         if (!el && !this.options.optional) {
             throw new ReferenceError(`element with selector '${this.options.selector}' not found in the dom`);
+        } else if (!el) {
+            return this;
         }
 
         if (this._view && this._view.el === el) return this;
