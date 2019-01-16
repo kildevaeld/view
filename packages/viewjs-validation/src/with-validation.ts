@@ -1,5 +1,5 @@
 
-import { ValidationErrors, IValidatorCollection, ValidatorMap, ObjectValidatorError, ObjectValidatorErrorLireral } from './validator';
+import { ValidationErrors, IValidatorCollection, ValidatorMap, ObjectValidatorError, ObjectValidatorErrorLiteral } from './validator';
 import { View, DelegateEvent, EventsMap } from '@viewjs/view';
 import { result, has, Constructor } from '@viewjs/utils';
 import { getValue, getUIMap, normalizeUIKeys, normalizeUIString } from '@viewjs/html';
@@ -119,7 +119,7 @@ export function withValidationView<
         validate(silent: boolean = false): void {
 
             const v = this._getValidations(),
-                errors = {} as ObjectValidatorErrorLireral,
+                errors = {} as ObjectValidatorErrorLiteral,
                 ctx = this._getValidationContext(v);
 
             for (let key in v) {

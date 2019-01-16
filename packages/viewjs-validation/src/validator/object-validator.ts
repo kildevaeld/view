@@ -4,10 +4,10 @@ import { ValidationErrors, ValidationError } from './errors';
 import { Constructor } from '@viewjs/utils';
 import { Model } from '@viewjs/models';
 
-export type ObjectValidatorErrorLireral = { [key: string]: ValidationErrors };
+export type ObjectValidatorErrorLiteral = { [key: string]: ValidationErrors };
 
 export class ObjectValidatorError extends Error {
-    constructor(public errors: ObjectValidatorErrorLireral) {
+    constructor(public errors: ObjectValidatorErrorLiteral) {
         super();
         Object.setPrototypeOf(this, new.target.prototype);
     }
@@ -38,7 +38,7 @@ export class ObjectValidator {
     validate(values: ValueMap, options: ValidationOptions = {}) {
 
         let properties = Object.keys(this.validations);
-        let errors: ObjectValidatorErrorLireral = {};
+        let errors: ObjectValidatorErrorLiteral = {};
 
         const ctx = new Model(values)
 
