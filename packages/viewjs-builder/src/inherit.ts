@@ -6,7 +6,7 @@ export function inherit<
     T,
     P extends AnyMap,
     S extends AnyMap
-    >(parent: Constructor<T>, protoProps: P, staticProps?: S): InheritableConstructor<T & P> & ConstructorWithSuper<P, T> & S {
+>(parent: Constructor<T>, protoProps: P, staticProps?: S): InheritableConstructor<T & P> & ConstructorWithSuper<P, T> & S {
 
     var child;
 
@@ -16,7 +16,7 @@ export function inherit<
     if (protoProps && has(protoProps, 'constructor')) {
         child = protoProps.constructor;
     } else {
-        child = function (this: {}) { return parent.apply(this, arguments); };
+        child = function (this: {}) { return parent.apply(this, arguments as any); };
     }
 
     // Add static properties to the constructor function, if supplied.

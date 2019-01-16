@@ -30,7 +30,7 @@ export function addEventListener(target: EventTarget, event: string, callback: (
         }
         :
         (...args: any[]) => {
-            callback.apply(ctx, args);
+            callback.apply(ctx, args as any);
             if (once) removeEventListener(target, event, bound, ctx);
         }
     target.addEventListener(event, bound || callback, useCap);
@@ -44,7 +44,7 @@ export function addEventListener(target: EventTarget, event: string, callback: (
     });
 }
 
-export function removeEventListener(target: EventTarget, event?: string, callback?: (event:Event) => void, ctx?: any) {
+export function removeEventListener(target: EventTarget, event?: string, callback?: (event: Event) => void, ctx?: any) {
     let entries = domEvents.get(target) || [];
 
     entries = entries.filter(m => {

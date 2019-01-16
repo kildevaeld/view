@@ -39,6 +39,7 @@ class Application extends withAttachment(TemplateView) {
     <div>
         <section class="footer"></footer>
     </div>
+    <button class="reset">RESET</button>
     `;
 
 
@@ -46,6 +47,12 @@ class Application extends withAttachment(TemplateView) {
     onMenuItem(e: DelegateEvent) {
         e.preventDefault()
         this.attachView('routerView')!.getInstance<AppRouter>().router.navigate(e.delegateTarget!.getAttribute('href')!)
+    }
+
+    @event.click('button.reset')
+    onreset(e: DelegateEvent) {
+        e.preventDefault();
+        this.destroy();
     }
 
     viewDidAttach(name: string, view: any) {

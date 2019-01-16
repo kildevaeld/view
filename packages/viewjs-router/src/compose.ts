@@ -15,7 +15,7 @@ export function compose<ContextType extends Context>(middleware: ((ctx: ContextT
         // last called middleware #
         let index = -1
         return dispatch(0)
-        function dispatch(i: number) {
+        function dispatch(i: number): Promise<any> {
             if (i <= index) return Promise.reject(new Error('next() called multiple times'))
             index = i
             let fn = middleware[i]

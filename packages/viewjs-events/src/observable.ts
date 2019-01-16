@@ -64,7 +64,7 @@ export class Observable<T> extends Base implements Subscribable<T> {
 
         if (error) sub.listenToOnce(this._e, events.error, error, this);
         if (completed) sub.listenToOnce(this._e, events.complete, completed, this);
-        if (typeof this.value !== 'undefined') Promise.resolve(() => next.call(this, this.value));
+        if (typeof this.value !== 'undefined') Promise.resolve(() => next.call(this, this.value as any) as any);
         return sub;
     }
 

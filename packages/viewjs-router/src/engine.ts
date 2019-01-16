@@ -171,7 +171,7 @@ export class Engine<ContextType extends Context> {
 
         if (route) {
             var args = Array.prototype.slice.call(arguments, 1);
-            return route.url.apply(route, args);
+            return route.url.apply(route, args as any);
         }
 
         return new Error("No route found for name: " + name);
