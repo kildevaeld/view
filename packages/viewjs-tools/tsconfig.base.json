@@ -1,10 +1,12 @@
 {
     "compilerOptions": {
         "types": [
-            "reflect-metadata"
+            "reflect-metadata",
+            "jest"
         ],
         "typeRoots": [
-            "../../node_modules"
+            "../../node_modules",
+            "../../node_modules/@types"
         ],
         /* Basic Options */
         "target": "es2015",

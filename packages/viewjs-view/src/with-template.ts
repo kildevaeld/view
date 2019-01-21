@@ -176,6 +176,8 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
                 console.error("template should be a string, a function returning a string, or a renderer or a renderer");
             }
 
+
+
             return this._renderer;
         }
 

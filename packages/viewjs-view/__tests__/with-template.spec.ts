@@ -1,69 +1,73 @@
+import {
+    View,
+    withTemplate
+} from '../src';
+
 describe('withTemplate', () => {
 
-    const vn = viewjs.view;
 
     it('should inject template string into el', () => {
 
-        let view = new(vn.withTemplate(vn.View))({
+        let view = new (withTemplate(View))({
             el: document.createElement('div')
         });
 
         view.template = 'Hello, World!';
         view.render();
-        expect(view.el.innerText).to.equal("Hello, World!");
+        expect(view.el!.innerHTML).toEqual("Hello, World!");
     });
 
     it('should inject template function into el', () => {
 
-        let view = new(vn.withTemplate(vn.View))({
+        let view = new (withTemplate(View))({
             el: document.createElement('div')
         });
         view.model = {
             who: 'world'
         };
-        view.template = (model) => `Hello, ${model.who}!`;
+        view.template = (model: any) => `Hello, ${model.who}!`;
         view.render();
-        expect(view.el.innerText).to.equal("Hello, world!");
+        expect(view.el!.innerHTML).toEqual("Hello, world!");
     });
 
     it('should mount renderer', () => {
 
-        let view = new(vn.withTemplate(vn.View))({
+        let view = new (withTemplate(View))({
             el: document.createElement('div')
         });
 
         view.template = {
-            mount: (model, container) => container.innerText = `Hello, ${model.who}!`,
-            unmount: () => {}
-        };
+            mount: (model: any, container: any) => container.innerText = `Hello, ${model.who}!`,
+            unmount: () => { }
+        } as any;
         view.model = {
             who: 'World'
         }
         view.render();
-        expect(view.el.innerText).to.equal("Hello, World!");
+        expect(view.el!.innerText).toEqual("Hello, World!");
     });
 
     it('should unmount render on destroy', () => {
-        let view = new(vn.withTemplate(vn.View))({
+        let view = new (withTemplate(View))({
             el: document.createElement('div')
         });
 
-        let cb = sinon.spy();
+        let cb = jest.fn(() => { });
 
         var templateRef = 1234;
         view.template = {
-            mount: (model, container) => {
+            mount: (_model: any, container: any) => {
                 container.innerText = `Hello, World!`
                 return templateRef;
             },
-            unmount: (ref) => {
-                expect(ref === templateRef).to.equal(true);
+            unmount: (ref: any) => {
+                expect(ref === templateRef).toEqual(true);
                 cb();
             }
-        };
+        } as any;
         view.render().destroy();
 
-        expect(cb.calledOnce === true).to.equal(true);
+        expect(cb.mock.calls.length).toEqual(1);
     });
 
 });

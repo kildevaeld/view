@@ -1,0 +1,38 @@
+// import { View, event } from '../src';
+
+// describe('Decorators', () => {
+
+//     describe('@event', () => {
+
+
+//         it('should modify events', () => {
+
+//             const cb = jest.fn();
+
+//             var View2 = View.inherit({
+//                 events: {
+//                     'click button': 'onClick'
+//                 },
+//                 onClick: cb
+//             });
+
+//             ns.event('click', 'button')(View.prototype, 'onClick', Object.getOwnPropertyDescriptor(View.prototype, 'onClick'));
+
+
+//             const el = document.createElement('div');
+//             el.innerHTML = '<button></button>'
+//             const view = new View({
+//                 el: el
+//             });
+//             view.render();
+
+//             $(view.el).find('button').click();
+
+//             expect(cb.callCount).equal(2);
+
+//         });
+
+
+//     });
+
+// });

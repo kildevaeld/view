@@ -29,7 +29,8 @@ const gulp = require('gulp'),
     tsc = require('gulp-typescript'),
     rollup = require('rollup'),
     mochaChrome = require('gulp-mocha-chrome'),
-    Path = require('path');
+    Path = require('path'),
+    jest = require('gulp-jest').default;
 
 gulp.task('bump', () => {
     return gulp.src('./package.json')
@@ -69,10 +70,23 @@ gulp.task('rollup', () => {
 //         .pipe(mochaChrome())
 // })
 
-gulp.task('test', gulp.series('rollup', () => {
-    return gulp.src('test/index.html')
-        .pipe(mochaChrome())
-}));
+// gulp.task('test', gulp.series('rollup', () => {
+//     return gulp.src('test/index.html')
+//         .pipe(mochaChrome())
+// }));
+
+gulp.task('test', () => {
+    process.env.NODE_ENV = 'test';
+    var config;
+    try {
+        config = require(Path.join(process.cwd(), './jest.config.js'));
+    } catch (e) {
+        console.log('No tests for this package');
+        return Promise.resolve();
+    }
+
+    return gulp.src('./__tests__').pipe(jest(config));
+});
 
 
 

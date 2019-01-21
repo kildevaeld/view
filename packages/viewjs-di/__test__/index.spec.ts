@@ -1,14 +1,13 @@
-const Container = viewjs.di.Container
+import 'reflect-metadata';
+import { Container } from '../src';
 
 
 
 class Test {
-    constructor() {
-        this.id = ++Test.count;
-    }
+    id = ++Test.count;
+    static count = 0;
 };
 
-Test.count = 0;
 
 describe('container', () => {
 
@@ -17,21 +16,20 @@ describe('container', () => {
         const container = new Container();
 
         container.registerHandler('handler', (x) => {
-            return x.invoke(function () {
-                this.name = "Test mig";
-            })
+            return x.invoke(class HandlerClass {
+                name = "Test mig";
+            });
         });
 
-        should.equal("Test mig", container.get('handler').name);
+        expect(container.get<any>('handler').name).toEqual("Test mig");
 
     });
 
     it('should register instance', () => {
         const container = new Container();
-
         let o = new Object();
         container.registerInstance("instance", o);
-        should.equal(o, container.get('instance'));
+        expect(container.get('instance')).toEqual(o);
     });
 
     it('should register transient', () => {
@@ -40,11 +38,12 @@ describe('container', () => {
 
         container.registerTransient("transient", Test);
 
-        const test = container.get("transient");
-        test.should.be.instanceOf(Test);
-        should.equal(1, test.id);
-        should.equal(2, container.get('transient').id);
-        should.equal(3, container.get('transient').id);
+        const test = container.get<any>("transient");
+        expect(test).toBeInstanceOf(Test);
+        expect(test.id).toEqual(1);
+        expect(container.get<any>('transient').id).toEqual(2);
+        expect(container.get<any>('transient').id).toEqual(3);
+
     });
 
     it('should register singleton', () => {
@@ -53,14 +52,15 @@ describe('container', () => {
 
         container.registerSingleton("singleton", Test);
 
-        const test = container.get("singleton");
+        const test = container.get<any>("singleton");
 
+        expect(test).toBeInstanceOf(Test);
+        expect(test).toStrictEqual(container.get("singleton"));
+        expect(test.id).toEqual(1);
 
-        test.should.be.instanceOf(Test);
-        test.should.equal(test, container.get("singleton"));
-        should.equal(1, test.id);
-        should.equal(1, container.get('singleton').id);
-        should.equal(1, container.get('singleton').id);
+        expect(container.get<any>('singleton').id).toEqual(1);
+        expect(container.get<any>('singleton').id).toEqual(1);
+
     });
 
     it('should register factory', () => {
@@ -73,7 +73,8 @@ describe('container', () => {
 
         const test = container.get("factory");
 
-        test.should.equal("Hello, World");
+        expect(test).toEqual('Hello, World');
+
 
     });
 
