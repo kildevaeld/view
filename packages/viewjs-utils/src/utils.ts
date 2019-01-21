@@ -159,7 +159,7 @@ export function resolve<T>(r: Resolvable<T>, args?: any): PromiseLike<T> {
     return Promise.resolve(resolved);
 }
 
-export function isPromise<T>(a: any): a is PromiseLike<T> {
+export function isPromise<T = any>(a: any): a is PromiseLike<T> {
     return a &&
         isObjectLike(a) &&
         isFunction((a as any).then) &&
@@ -180,6 +180,10 @@ export function deferred<T>(): Deferred<T> {
     });
 
     return { promise, resolve, reject } as any;
+}
+
+export function delay(timeout = 0) {
+    return new Promise(res => setTimeout(res, timeout));
 }
 
 /**
