@@ -18,6 +18,8 @@ export interface IViewElement {
     className?: string;
     attributes?: { [key: string]: string };
 
+    ensureElement(): this;
+
     /**
      * Remove element from dom
      * 
@@ -37,6 +39,11 @@ export function withElement<T extends Constructor<IView>>(Base: T): Constructor<
             super(...args);
             this.__created = false;
             if (!this.el) this._ensureElement();
+        }
+
+        ensureElement() {
+            this._ensureElement();
+            return this;
         }
 
         protected _ensureElement() {
@@ -60,6 +67,7 @@ export function withElement<T extends Constructor<IView>>(Base: T): Constructor<
             this.__created = true;
             this.el = el;
         }
+
 
         remove() {
             if (this.__created && this.el && this.el!.parentNode) {

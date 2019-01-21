@@ -29,4 +29,3 @@ export function isRenderer(a: any): a is IRenderer {
         isFunction((a as any).mount) &&
         isFunction((a as any).unmount)
 }
-
