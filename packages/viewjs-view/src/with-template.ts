@@ -1,6 +1,7 @@
-import { result, isFunction, isString, debug as Debug, pick, isPromise, AnyMap, Constructor } from '@viewjs/utils'
+import { result, isFunction, isString, debug as Debug, pick, isPromise, AnyMap, Constructor, Destroyable } from '@viewjs/utils'
 import { IRenderer, IView, TemplateRef, isRenderer } from './types';
 import { View, BaseViewOptions } from './base-view';
+import { isViewLike } from './utils';
 
 const debug = Debug("withTemplate");
 
@@ -19,11 +20,11 @@ export interface IViewTemplate<M> {
     //renderTemplate(): void
 }
 
-export class TemplateRenderer<M> {
+export class TemplateRenderer<M> implements IRenderer {
 
     constructor(private templ: string | ((args?: M) => string)) { }
 
-    mount(attributes: M, container: Element, _prev: Element | undefined): Element {
+    mount(attributes: M, container: Element, _prev: Element | undefined): TemplateRef | PromiseLike<TemplateRef> {
 
         let result: string | undefined;
         if (isFunction(this.templ)) {
@@ -42,6 +43,53 @@ export class TemplateRenderer<M> {
         return ok;
     }
 }
+
+
+export class ViewRenderer<V extends IView, M = AnyMap> implements IRenderer, Destroyable {
+
+    private created = false;
+
+    constructor(private view: V) { }
+
+
+    mount(attributes: M, container: Element, _prev: Element | undefined): TemplateRef | PromiseLike<TemplateRef> {
+        if (isFunction((this.view as any).ensureElement)) {
+            (this.view as any).ensureElement();
+        }
+
+        if (!this.view.el) {
+            this.created = true;
+            this.view.el = document.createElement('div');
+        }
+
+        (this.view as any).model = attributes;
+
+        this.view.render();
+        if (this.view.el.parentElement != container) {
+            container.appendChild(this.view.el!);
+        }
+
+        return this.view;
+
+    }
+
+    unmount(el: TemplateRef): boolean {
+        if (el !== this.view) {
+            return false;
+        }
+        if (this.created && this.view.el)
+            this.view.el!.remove();
+        return true;
+    }
+
+    destroy() {
+        if (this.view) this.view.destroy();
+        return this;
+    }
+
+}
+
+
 
 interface TemplatePrivates {
     renderer: IRenderer | undefined;
@@ -120,6 +168,8 @@ export function withTemplate<T extends Constructor<IView>, M extends any = any>(
             if (this._renderer) return this._renderer;
             if (isString(this.template) || isFunction(this.template)) {
                 this._renderer = new TemplateRenderer(this.template);
+            } else if (isViewLike(this.template)) {
+                this._renderer = new ViewRenderer(this.template);
             } else if (isRenderer(this.template)) {
                 this._renderer = this.template;
             } else if (this.template) {
