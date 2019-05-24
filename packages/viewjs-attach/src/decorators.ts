@@ -62,7 +62,7 @@ export function attach(selector: string | DecoratorAttachOptions | Resolvable<IV
 }
 
 export interface AttachmentsAttachOptions {
-    view: Resolvable<IView>
+    view: Resolvable<IView, IView>
     optional?: boolean;
     selector: string;
     name?: string;

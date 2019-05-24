@@ -133,7 +133,7 @@ export class ViewContainer extends EventEmitter implements IAttachmentContainer,
         if (!this._resolver)
             this._resolver = new Resolver(this.options.view);
 
-        return this._resolver!.resolve()
+        return this._resolver!.resolve(this.parent)
             .then(view => {
                 this._view = view;
                 this.trigger('attach', this.options.name, view);
