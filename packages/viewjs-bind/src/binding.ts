@@ -56,9 +56,12 @@ export class ValueBinding extends AbstractBinding {
             this._domEventType = 'change';
             if ((tagName == 'input' && ~keyupTypes.indexOf(this.el.getAttribute('type')!)) || tagName == 'textarea') {
                 this.el.addEventListener('keyup', this.onElementChanged);
+                // Firefox autocomplete
+                this.el.addEventListener('DOMAutoComplete', this.onElementChanged);
                 this._domEventType = 'keyup';
-            } else
+            } else {
                 this.el.addEventListener('change', this.onElementChanged);
+            }
         }
 
         this.onModelChange();
