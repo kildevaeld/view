@@ -35,7 +35,14 @@ export class AppRouter extends RouterView<Context> {
                         });
 
                 }
-            });
+            })
+            .registerRoute('/user', {
+                view: () => import('./user-form').then(mod => {
+                    const form = global().get<any>(mod.UserFormView);
+
+                    return form;
+                })
+            })
     }
 }
 
