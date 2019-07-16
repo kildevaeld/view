@@ -5,8 +5,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "build": "./task webpack --config $(PWD)/webpack.config.js",
-    "watch": "./task webpack --watch --config $(PWD)/webpack.config.js",
+    "build": "./task webpack --config ./webpack.config.js",
+    "watch": "./task webpack --watch --config ./webpack.config.js",
     "clean": "./task clean"
   },
   "author": "",
