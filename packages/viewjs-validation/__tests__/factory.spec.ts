@@ -5,7 +5,7 @@ describe('Validator', () => {
     describe('Factory', () => {
 
         it('should instantiate', () => {
-            const factory = new ObjectValidator({
+            new ObjectValidator({
                 name: string().required(),
                 email: string().email()
             });
