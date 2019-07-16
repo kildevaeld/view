@@ -98,6 +98,9 @@ export function withValidationView<
                 eventsAdd(events, `${options.event} ${key}`, wrapper);
                 if (options.event != 'change')
                     eventsAdd(events, `change ${key}`, wrapper);
+
+
+
                 eventsAdd(events, `blur ${key}`, (e: DelegateEvent) => {
                     let target = e.delegateTarget as HTMLElement,
                         value = getValue(target);
@@ -105,6 +108,14 @@ export function withValidationView<
                 });
 
             }
+
+            // Firefox autocomplete
+            eventsAdd(events, `DOMAutoComplete`, () => {
+                try {
+                    this.validate()
+                } catch { }
+            });
+
 
 
             const uiMap = getUIMap(this);
