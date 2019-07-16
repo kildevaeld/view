@@ -1,33 +1,33 @@
+import { ObjectValidator, ObjectValidatorError, string } from '../src';
+
 describe('Validator', () => {
 
     describe('Factory', () => {
 
-        const ns = viewjs.validation;
-        console.log(viewjs)
         it('should instantiate', () => {
-            const factory = new ns.ObjectValidator({
-                name: ns.string().required(),
-                email: ns.string().email()
+            const factory = new ObjectValidator({
+                name: string().required(),
+                email: string().email()
             });
-
 
         });
 
 
         it('should validate single property', () => {
-            const factory = new ns.ObjectValidator({
-                name: ns.string().required(),
-                email: ns.string().email()
+            const factory = new ObjectValidator({
+                name: string().required(),
+                email: string().email()
             });
 
             try {
                 factory.validate({
                     name: ''
                 }, {
-                    ignoreMissing: true
-                });
+                        ignoreMissing: true
+                    });
             } catch (e) {
-                e.should.instanceOf(ns.ObjectValidatorError);
+                expect(e).toBeInstanceOf(ObjectValidatorError);
+
                 //e.errors.should.have.property('rapper').instanceOf(ns.ValidationsErrors);
                 //e.errors.should.not.have.property('email');
 
