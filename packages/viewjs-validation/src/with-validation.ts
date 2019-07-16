@@ -122,15 +122,20 @@ export function withValidationView<
                 errors = {} as ObjectValidatorErrorLiteral,
                 ctx = this._getValidationContext(v);
 
-            for (let key in v) {
+
+
+            const uiMap = getUIMap(this);
+            let vv = normalizeUIKeys(v, uiMap);
+
+            for (let key in vv) {
                 let el = this.el!.querySelector(key) as HTMLElement;
 
                 try {
-                    v[key].validate(getValue(el as HTMLElement), ctx);
+                    vv[key].validate(getValue(el as HTMLElement), ctx);
                     if (!silent)
                         this.clearValidationError(el!);
                 } catch (e) {
-                    let k = v[key].key() || key;
+                    let k = vv[key].key() || key;
                     if (!silent)
                         this.setValidationError(el!, e);
                     errors[k] = e;
