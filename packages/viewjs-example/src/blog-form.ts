@@ -38,7 +38,7 @@ export class BlogFormView extends withUIMap(withTemplate(ValidationView)) {
     collection!: BlogCollection;
 
     @event.click('@saveBtn', function (this: BlogFormView, e: [MouseEvent]) {
-        this.validate()
+
         console.log('should save', this.isValid(), this.model)
         return this.isValid();
     })
