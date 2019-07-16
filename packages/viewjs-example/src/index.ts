@@ -18,7 +18,7 @@ setInvoker(global())
         name: 'header'
     },
     footer: {
-        view: createFooter,
+        view: () => createFooter(),
         selector: '.footer',
     },
     routerView: {

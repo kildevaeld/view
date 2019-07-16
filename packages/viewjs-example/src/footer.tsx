@@ -21,6 +21,6 @@ export class Footer extends Preact.Component<FooterProps, any> {
 }
 
 
-export function create(model: FooterProps) {
+export function create(model?: FooterProps) {
     return new PreactView(Footer, model);
 }

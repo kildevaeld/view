@@ -12,7 +12,7 @@ export class Header extends React.Component<HeaderProps, any> {
             <h2>{this.props.title}</h2>
             <ul className="menu">
                 <li><a href="">Blog</a></li>
-                <li><a href="/create">Create</a>e</li>
+                <li><a href="/create">Create</a></li>
             </ul>
         </div>
     }
