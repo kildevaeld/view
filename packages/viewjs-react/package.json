@@ -17,10 +17,11 @@
     },
     "sideEffects": false,
     "dependencies": {
+        "@viewjs/view": "^3.0.0"
+    },
+    "peerDependencies": {
         "@types/react": "^16.4.16",
         "@types/react-dom": "^16.0.9",
-        "@viewjs/view": "^3.0.0",
-        "lerna": "^3.0.4",
         "react": "^16.5.2",
         "react-dom": "^16.5.2"
     },
