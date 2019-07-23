@@ -12,18 +12,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@viewjs/view": "^3.0.0",
-    "@viewjs/utils": "^2.0.0",
-    "@viewjs/events": "^2.0.0",
-    "@viewjs/builder": "^1.0.0",
-    "@viewjs/router": "^1.0.0",
-    "@viewjs/di": "^2.0.0",
-    "@viewjs/models": "^2.0.0",
-    "@viewjs/collection": "^1.0.0",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
     "@viewjs/attach": "^1.0.0",
+    "@viewjs/builder": "^1.0.0",
+    "@viewjs/collection": "^1.0.0",
+    "@viewjs/di": "^2.0.0",
+    "@viewjs/events": "^2.0.0",
     "@viewjs/html": "^2.0.0",
-    "@viewjs/validation": "^2.0.0",
+    "@viewjs/models": "^2.0.0",
+    "@viewjs/preact": "^1.0.0",
     "@viewjs/react": "^1.0.0",
-    "@viewjs/preact": "^1.0.0"
+    "@viewjs/router": "^1.0.0",
+    "@viewjs/utils": "^2.0.0",
+    "@viewjs/validation": "^2.0.0",
+    "@viewjs/view": "^3.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   }
 }
