@@ -1,0 +1,23 @@
+{
+    "name": "@viewjs/modals",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./lib/index.js",
+    "browser": "dist/viewjs.modals.js",
+    "module": "dist/viewjs.modals.es6",
+    "scripts": {
+        "build": "./task compile",
+        "watch": "./task watch",
+        "clean": "./task clean"
+    },
+    "sideEffects": false,
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@viewjs/utils": "^2.0.0",
+        "@viewjs/view": "^3.1.1",
+        "@viewjs/attach": "^1.2.0",
+        "@viewjs/events": "^2.0.0"
+    },
+    "types": "./lib/index.d.ts"
+}
