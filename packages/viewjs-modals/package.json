@@ -10,9 +10,12 @@
         "watch": "./task watch",
         "clean": "./task clean"
     },
+    "license": "MIT",
+    "author": {
+        "email": "rasmuskildevaed@gmail.com",
+        "name": "Rasmus Kildevæld"
+    },
     "sideEffects": false,
-    "author": "",
-    "license": "ISC",
     "dependencies": {
         "@viewjs/utils": "^2.0.0",
         "@viewjs/view": "^3.1.1",
