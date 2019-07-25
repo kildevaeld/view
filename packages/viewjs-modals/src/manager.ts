@@ -57,8 +57,8 @@ export class ModalManager {
 
         return Modal.create(modal, Object.assign({
             requestClose: () => this.close(id, false),
-            requestAccept: () => this.close(id, true)
-        })).then(view => {
+            requestAccept: () => this.close(id, true),
+        }, options)).then(view => {
 
             view.el!.style.zIndex = MODAL_Z_INDEX + this.stack.length + '';
             view.el!.setAttribute('data-modal-id', id);
