@@ -5,6 +5,7 @@ import { transitionEnd } from './support';
 
 export interface ModalOptions {
     closeOnEscape?: boolean;
+    className?: string;
 }
 
 export interface ModalTriggerOptions {
@@ -97,10 +98,15 @@ export class Modal extends withElement(TemplateView) {
                 throw TypeError("argument must be renderable");
             }
         }).then((templ) => {
-            return new Modal({
+            const view = new Modal({
                 template: new ViewRenderer(templ),
                 model: model
             });
+
+            if (options.className)
+                view.el!.classList.add(options.className);
+
+            return view;
         })
     }
 
